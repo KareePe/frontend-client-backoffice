@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <div>About Page</div>
+  <div>About</div>
 </template>
 <script setup>
 definePageMeta({
