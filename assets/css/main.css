@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face{
+    font-family: "SFThonburi";
+    src: local("SFThonburi"),url(/fonts/SF-Thonburi/SFThonburi-Regular.ttf) format("ttf");
+    font-weight: normal;
+}
+@font-face {
+    font-family: "SFThonburi";
+    src: local("SFThonburi"),
+        url(/fonts/LineSeed/SFThonburi-Semibold.ttf) format("ttf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "SFThonburi";
+    src: local("SFThonburi"),
+        url(/fonts/LineSeed/SFThonburi-Bold.ttf) format("ttf");
+    font-weight: bolder;
+}
+
+html,
+body {
+  font-family: "SFThonburi", sans-serif !important;
+}
+
+#app {
+  font-family: "SFThonburi", sans-serif;
+}
+p,h1,h2,h3,h4,h5,h6{
+  font-family: "SFThonburi", sans-serif !important;
+}
