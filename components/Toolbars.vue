@@ -145,7 +145,7 @@ const menu_list = [
     haveSubMenu: false,
     subMenu: [],
     icon: "mdi-package-up",
-    path: "/",
+    path: "/details",
   },
   {
     title: "การเงิน",
