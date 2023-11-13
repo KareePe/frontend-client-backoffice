@@ -22,6 +22,7 @@
           >
         </div>
         <v-data-table
+          v-if="items.length > 0"
           v-model:page="page"
           :custom-filter="filterOnlyCapsText"
           :headers="headers"
@@ -85,6 +86,9 @@
             </tr>
           </template>
         </v-data-table>
+        <div v-else class="h-[260px] flex justify-center items-center">
+          <p>ยังไม่มีรายการ</p>
+        </div>
       </v-card>
       <div class="text-center pt-2">
         <v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -327,8 +331,8 @@ const fn_detailUser = (item) => {
 };
 
 const fn_clearNav = () => {
-    detailData.value = []
-}
+  detailData.value = [];
+};
 </script>
 
 <style>

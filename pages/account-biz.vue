@@ -2,7 +2,7 @@
   <Toolbars />
   <Navbar text="Business info,Business account" v-if="detailData.length <= 0" />
 
-  <!-- <div class="p-4 sm:ml-64">
+  <div class="p-4 sm:ml-64">
     <v-text-field
       v-model="search"
       variant="outlined"
@@ -20,6 +20,7 @@
         >
       </div>
       <v-data-table
+        v-if="items.length > 0"
         v-model:page="page"
         :custom-filter="filterOnlyCapsText"
         :headers="headers"
@@ -79,8 +80,12 @@
           </tr>
         </template>
       </v-data-table>
+
+      <div v-else class="h-[260px] flex justify-center items-center">
+        <p>ยังไม่มีรายการ</p>
+      </div>
     </v-card>
-  </div> -->
+  </div>
 </template>
 
 <script setup>
@@ -135,7 +140,7 @@ const headers = [
   },
 ];
 
-let items = []
+let items = [];
 </script>
 
 <style></style>
