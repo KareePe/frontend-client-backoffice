@@ -123,7 +123,7 @@ const menu_list = [
       },
       {
         subtitle: "บัญชีธุรกิจ",
-        path: "/",
+        path: "/account-biz",
         disable: false,
       },
       {

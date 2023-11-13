@@ -128,7 +128,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 const props = defineProps({
-  text: Object,
+  text: String,
 });
 
 let bread = ref([]);
