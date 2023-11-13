@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between p-4 sm:ml-64 pt-[15px] items-center">
-    <h1 class="text-[16px] font-bold text-[#084F93]">Dashboard</h1>
+    <h1 class="text-[16px] font-bold text-[#084F93]">{{ title }}</h1>
     <div>
       <div class="flex items-center ms-3">
         <div>
@@ -73,6 +73,11 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const props = defineProps({
+  title: String
+})
+const { title } = props
+</script>
 
 <style></style>

@@ -209,7 +209,7 @@ const menu_list = [
     subMenu: [
       {
         subtitle: "กระเป๋าเงิน",
-        path: "/",
+        path: "/wallet",
         disable: false,
       },
       {
