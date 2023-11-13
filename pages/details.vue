@@ -3,7 +3,7 @@
   <Navbar text="Order info" />
   <div class="container">
     <div
-      class="bg-[#f4f3f7] p-2 rounded-t-md border-x border-t border-[#E9E7EB]"
+      class="bg-[#E9E7EB] p-2 rounded-t-md border-x border-t border-[#E9E7EB]"
     >
       <v-text-field
         placeholder="เพิ่มตัวกรอง"
@@ -20,7 +20,7 @@
         >
       </div>
     </div>
-    <div class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#f4f3f7]">
+    <div class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB]">
       ข้อมูลคำสั่งซื้อทั้งหมด 20000 รายการ
     </div>
     <v-card
@@ -29,23 +29,30 @@
     >
       <v-data-table
         :headers="headersTable"
+        :expanded="expanded"
         :items="tableItem"
+        item-value="name"
+        show-expand
         no-data-text="ไม่มีข้อมูล"
-        hide-default-footer
-        items-per-page="5"
-        page="1"
-
+        item-key="id"
       >
-        <template v-slot:item="{ item }">
+        <template v-slot:expanded-row="{ columns, item }">
           <tr>
-            <td>{{ item.id }}</td>
-            <td>{{ item.market }}</td>
-            <td>{{ item.apps }}</td>
-            <td>{{ item.totals }}</td>
-            <td>{{ item.billing }}</td>
-            <td>{{ item.status }}</td>
-            <td>{{ item.create_date }}</td>
+            <td :colspan="columns.length">More info about {{ item.market }}</td>
           </tr>
+        </template>
+      </v-data-table>
+      <v-data-table
+        :items="items"
+        :headers="headers"
+        :item-key="itemKey"
+        :expanded.sync="expandedItems"
+        show-expand
+      >
+        <template v-slot:expanded-row="{ item }">
+          <div class="w-full bg-red-500">
+            <div>Expanded content for {{ item.name }}</div>
+          </div>
         </template>
       </v-data-table>
     </v-card>
@@ -56,6 +63,8 @@
 definePageMeta({
   middleware: "auth-middleware"
 })
+
+const expanded = []
 
 const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"]
 
@@ -99,8 +108,8 @@ const headersTable = [
 
 const tableItem = [
   {
-    id: "1",
-    market: "ตู้แปลง",
+    id: 1,
+    market: "ตู้แปลง1",
     apps: "line",
     totals: "$20,543.98",
     billing: "COD",
@@ -108,8 +117,8 @@ const tableItem = [
     create_date: "20/06/2021"
   },
   {
-    id: "1",
-    market: "ตู้แปลง",
+    id: 2,
+    market: "ตู้แปลง2",
     apps: "line",
     totals: "$20,543.98",
     billing: "COD",
@@ -117,35 +126,8 @@ const tableItem = [
     create_date: "20/06/2021"
   },
   {
-    id: "1",
-    market: "ตู้แปลง",
-    apps: "line",
-    totals: "$20,543.98",
-    billing: "COD",
-    status: "กำลังจัดส่ง",
-    create_date: "20/06/2021"
-  },
-  {
-    id: "1",
-    market: "ตู้แปลง",
-    apps: "line",
-    totals: "$20,543.98",
-    billing: "COD",
-    status: "กำลังจัดส่ง",
-    create_date: "20/06/2021"
-  },
-  {
-    id: "1",
-    market: "ตู้แปลง",
-    apps: "line",
-    totals: "$20,543.98",
-    billing: "COD",
-    status: "กำลังจัดส่ง",
-    create_date: "20/06/2021"
-  },
-  {
-    id: "1",
-    market: "ตู้แปลง",
+    id: 3,
+    market: "ตู้แปลง3",
     apps: "line",
     totals: "$20,543.98",
     billing: "COD",
@@ -155,14 +137,28 @@ const tableItem = [
 ]
 </script>
 
+<script>
+export default {
+  data() {
+    return {
+      expandedItems: [],
+      headers: [
+        { text: "Name", value: "name" },
+        { text: "Age", value: "age" },
+        { text: "Country", value: "country" }
+      ],
+      items: [
+        { id: 1, name: "John Doe", age: 30, country: "USA" },
+        { id: 2, name: "Jane Doe", age: 25, country: "Canada" },
+        { id: 3, name: "Bob Smith", age: 40, country: "UK" }
+      ]
+    }
+  }
+}
+</script>
+
 <style scoped>
 .container {
   @apply p-4 sm:ml-64;
-}
-.flexContainer {
-  @apply flex;
-}
-.header {
-  @apply bg-[#E9E7EB];
 }
 </style>
