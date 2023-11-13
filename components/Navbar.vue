@@ -126,7 +126,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 const props = defineProps({
   text: String,
 });
@@ -139,6 +139,10 @@ onMounted(() => {
 
   console.log(bread.value);
 });
+
+watch((props.text), () => {
+    
+})
 </script>
 
 <style></style>
