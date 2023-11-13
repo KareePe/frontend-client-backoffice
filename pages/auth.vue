@@ -5,6 +5,7 @@
       v-if="step === 1"
     >
       <div class="text-center mb-[15px]">
+        <img src="/images/SALESX_TECHNOLOGIES_LOGO_FINAL_PRIMARY_VERSION-01.png" class="max-w-[100px] mb-[15px] ml-[50%] -translate-x-[50%]" alt="">
         <p class="font-bold text-[22px]">ลงชื่อเข้าใช้</p>
         <p class="text-[16px]">เข้าสู่ระบบด้วยอีเมล</p>
       </div>
@@ -42,6 +43,7 @@
       v-else
     >
       <div class="text-center mb-[15px]">
+        <img src="/images/SALESX_TECHNOLOGIES_LOGO_FINAL_PRIMARY_VERSION-01.png" class="max-w-[100px] mb-[15px] ml-[50%] -translate-x-[50%]" alt="">
         <p class="font-bold text-[22px]">ยินดีต้อนรับ</p>
         <div
           class="mt-[15px] border border-[#C4C6CF] flex gap-2 ml-[50%] -translate-x-[50%] rounded-[16px] py-[4px] px-[8px] w-[fit-content]"
