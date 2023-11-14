@@ -89,39 +89,49 @@
           <p class="text-[20px] font-bold">Starbuck</p>
           <div class="border border-[#EEEDF1] !h-[55px] rounded-[8px] p-[8px]">
             <v-tabs v-model="tab" align-tabs="center">
-              <v-tab value="option-1" @click="fn_changeNav('')">ข้อมูลธุรกิจ</v-tab>
-              <v-tab value="option-2" @click="fn_changeNav('รายงานภาพรวม')">รายงานภาพรวม</v-tab>
-              <v-tab value="option-3" @click="fn_changeNav('แพ็คเกจ')">แพ็คเกจ</v-tab>
-              <v-tab value="option-4" @click="fn_changeNav('กระเป๋าเงิน')">กระเป๋าเงิน</v-tab>
-              <v-tab value="option-5" @click="fn_changeNav('เงิน COD')">เงิน COD</v-tab>
-              <v-tab value="option-6" @click="fn_changeNav('ผู้ใช้งานธุรกิจ')">ผู้ใช้งานธุรกิจ</v-tab>
+              <v-tab value="option-1" @click="fn_changeNav('')"
+                >ข้อมูลธุรกิจ</v-tab
+              >
+              <v-tab value="option-2" @click="fn_changeNav('รายงานภาพรวม')"
+                >รายงานภาพรวม</v-tab
+              >
+              <v-tab value="option-3" @click="fn_changeNav('แพ็คเกจ')"
+                >แพ็คเกจ</v-tab
+              >
+              <v-tab value="option-4" @click="fn_changeNav('กระเป๋าเงิน')"
+                >กระเป๋าเงิน</v-tab
+              >
+              <v-tab value="option-5" @click="fn_changeNav('เงิน COD')"
+                >เงิน COD</v-tab
+              >
+              <v-tab value="option-6" @click="fn_changeNav('ผู้ใช้งานธุรกิจ')"
+                >ผู้ใช้งานธุรกิจ</v-tab
+              >
             </v-tabs>
           </div>
         </div>
       </div>
-      <v-window v-model="tab">
+      <v-window v-model="tab" class="mt-[15px]">
         <v-window-item value="option-1">
-          <v-card flat>
-            <v-card-text>
-              <p>
-                Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi
-                ac felis. Etiam feugiat lorem non metus. Sed a libero.
+          <div class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[15px]">
+            <b class="text-[#000] text-[14px]">ข้อมูลทั่วไป</b>
+            <div class="mt-[10px]">
+              <p class="text-[14px] mb-[5px]">
+                ชื่อ-นามสกุล:
+                <span class="text-slate-700">ปองพล วิเชียรวิทย์</span>
               </p>
-
-              <p>
-                Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel,
-                lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis
-                non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non
-                nisl sit amet velit hendrerit rutrum.
+              <p class="text-[14px] mb-[5px]">
+                เบอร์โทรติดต่อ :
+                <span class="text-slate-700">088-573-8576</span>
               </p>
-
-              <p class="mb-0">
-                Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu.
-                Pellentesque libero tortor, tincidunt et, tincidunt eget, semper
-                nec, quam. Phasellus blandit leo ut odio.
+              <p class="text-[14px] mb-[5px]">
+                ที่อยู่ :
+                <span class="text-slate-700"
+                  >13/271 ต.ยาวานา อ.เมือง จ.กรุงเทพ 10160</span
+                >
               </p>
-            </v-card-text>
-          </v-card>
+            </div>
+          </div>
         </v-window-item>
         <v-window-item value="option-2">
           <v-card flat>
@@ -282,8 +292,8 @@ const fn_navDetail = (item) => {
 };
 
 const fn_changeNav = (text) => {
-    console.log(navbar.value)
-}
+  console.log(navbar.value);
+};
 </script>
 
 <style>
