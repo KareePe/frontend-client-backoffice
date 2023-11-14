@@ -227,9 +227,6 @@ const tableItem = [
 </script>
 
 <style>
-* {
-  font-family: "SFThonburi";
-}
 thead tr {
   background-color: #e9e7eb;
 }
