@@ -58,12 +58,14 @@
       </div>
       <!-- this chart  -->
       <div class="w-full">
-        <apexchart
-          type="area"
-          height="350"
-          :options="options"
-          :series="series"
-        ></apexchart>
+        <client-only placeholder="Loading..." fallback="Loading comments...">
+          <apexchart
+            type="area"
+            height="350"
+            :options="options"
+            :series="series"
+          ></apexchart>
+        </client-only>
       </div>
     </div>
 
@@ -203,8 +205,11 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from "vue";
+const ApexCharts = defineAsyncComponent(() => import("vue3-apexcharts"));
+
 definePageMeta({
   middleware: "auth-middleware",
 });
@@ -320,9 +325,7 @@ const fnChangeSelect = (e: any) => {
 const fnChangeTab = (value: tabType) => {
   tab.value = value;
 };
-</script>
 
-<script lang="ts">
 const options = ref({
   chart: {
     type: "area",
@@ -331,7 +334,6 @@ const options = ref({
       enabled: false,
     },
   },
-
   dataLabels: {
     enabled: false,
   },
