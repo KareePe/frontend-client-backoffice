@@ -128,7 +128,7 @@ const menu_list = [
       },
       {
         subtitle: "ยืนยันตัวตน",
-        path: "/",
+        path: "/kyc",
         disable: false,
       },
       {
@@ -218,7 +218,7 @@ const menu_list = [
     haveSubMenu: false,
     subMenu: [],
     icon: "mdi-newspaper-variant-multiple",
-    path: "/",
+    path: "/article",
   },
   {
     title: "แพ็คเกจสมาชิก",

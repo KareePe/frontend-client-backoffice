@@ -16,18 +16,15 @@ export default {
         {
           hid: "description",
           name: "description",
-          content:
-            "SALESX TECHNOLOGIES",
+          content: "SALESX TECHNOLOGIES",
         },
         {
           name: "description",
-          content:
-            "SALESX TECHNOLOGIES",
+          content: "SALESX TECHNOLOGIES",
         },
         {
           name: "keywords",
-          content:
-            "SALESX TECHNOLOGIES",
+          content: "SALESX TECHNOLOGIES",
         },
       ],
     },
@@ -36,7 +33,6 @@ export default {
     "~/assets/css/main.css",
     "vuetify/styles/main.sass",
     "@mdi/font/css/materialdesignicons.css",
-    
   ],
   build: {
     transpile: ["vuetify"],
@@ -47,5 +43,5 @@ export default {
       autoprefixer: {},
     },
   },
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "nuxt-pdfmake"],
 };
