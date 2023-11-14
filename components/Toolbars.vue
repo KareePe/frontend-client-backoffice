@@ -164,7 +164,7 @@ const menu_list = [
       },
       {
         subtitle: "บิลจัดส่ง",
-        path: "/",
+        path: "/billing",
         disable: false,
       },
       {

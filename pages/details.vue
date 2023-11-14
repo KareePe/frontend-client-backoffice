@@ -20,7 +20,9 @@
         >
       </div>
     </div>
-    <div class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5">
+    <div
+      class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5"
+    >
       ข้อมูลคำสั่งซื้อทั้งหมด 20000 รายการ
     </div>
     <v-card
@@ -34,8 +36,8 @@
         :expanded.sync="expanded"
         show-expand
         no-data-text="ไม่มีข้อมูล"
+        items-per-page-text="จำนวนแสดงผล"
       >
-
         <template
           v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
         >
@@ -58,15 +60,27 @@
                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="user photo"
               />
-              <div class="whitespace-nowrap ml-2 text-[16px] leading-[22px] tracking-[-0.31%]">
+              <div
+                class="whitespace-nowrap ml-2 text-[16px] leading-[22px] tracking-[-0.31%]"
+              >
                 {{ item.market }}
               </div>
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">{{ item.apps }}</td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">{{ item.totals }}</td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">{{ item.billing }}</td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">{{ item.status }}</td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">{{ item.create_date }}</td>
+            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+              {{ item.apps }}
+            </td>
+            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+              {{ item.totals }}
+            </td>
+            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+              {{ item.billing }}
+            </td>
+            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+              {{ item.status }}
+            </td>
+            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+              {{ item.create_date }}
+            </td>
           </tr>
         </template>
         <template v-slot:expanded-row="{ columns, item }">
@@ -129,55 +143,55 @@
 
 <script setup>
 definePageMeta({
-  middleware: "auth-middleware",
-});
+  middleware: "auth-middleware"
+})
 
-const expanded = [];
+const expanded = []
 
-const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"];
+const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"]
 
 const headersTable = [
   {
     title: "",
     key: "",
-    sortable: false,
+    sortable: false
   },
   {
     title: "เลขที่คำสั่งซื้อ",
     align: "start",
-    key: "id",
+    key: "id"
   },
   {
     title: "ร้านค้า",
     align: "start",
-    key: "market",
+    key: "market"
   },
   {
     title: "ช่องทาง",
     align: "start",
-    key: "apps",
+    key: "apps"
   },
   {
     title: "ยอดทั้งหมด",
     align: "start",
-    key: "totals",
+    key: "totals"
   },
   {
     title: "การเก็บเงิน",
     align: "start",
-    key: "billing",
+    key: "billing"
   },
   {
     title: "สถานะ",
     align: "start",
-    key: "status",
+    key: "status"
   },
   {
     title: "วันที่สร้าง",
     align: "start",
-    key: "create_date",
-  },
-];
+    key: "create_date"
+  }
+]
 
 const tableItem = [
   {
@@ -188,7 +202,7 @@ const tableItem = [
     billing: "COD",
     status: "สำเร็จ",
     create_date: "20/06/2021",
-    buyer: "Alice",
+    buyer: "Alice"
   },
   {
     id: 2454564545,
@@ -198,7 +212,7 @@ const tableItem = [
     billing: "COD",
     status: "กำลังจัดส่ง",
     create_date: "20/06/2021",
-    buyer: "Fonnumnum",
+    buyer: "Fonnumnum"
   },
   {
     id: 3456456456,
@@ -208,19 +222,21 @@ const tableItem = [
     billing: "COD",
     status: "กำลังจัดส่ง",
     create_date: "20/06/2021",
-    buyer: "Peter",
-  },
-];
+    buyer: "Peter"
+  }
+]
 </script>
 
-<style scoped>
+<style>
 * {
   font-family: "SFThonburi";
 }
 thead tr {
   background-color: #e9e7eb;
 }
+</style>
 
+<style scoped>
 .itemList {
   @apply flex justify-between w-full;
 }
