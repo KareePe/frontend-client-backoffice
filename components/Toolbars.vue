@@ -169,7 +169,7 @@ const menu_list = [
       },
       {
         subtitle: "การสมัครแพ็คเกจ",
-        path: "/",
+        path: "/subscribe",
         disable: false,
       },
       {

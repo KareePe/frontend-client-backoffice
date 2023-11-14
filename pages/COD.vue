@@ -376,7 +376,7 @@
         <v-select
           label="จำนวนแสดงผล"
           variant="outlined"
-          :items="[10, 15, 20, 25, 30]"
+          :items="[5, 10, 15, 20, 25, 30]"
           :item-title="(item) => item + ' รายการ'"
           :item-value="(item) => item"
           :model-value="itemsPerPage"
@@ -618,7 +618,7 @@ type tableHeaderType<T> = {
 
 let tab = ref<tapType>("Payment");
 let page = ref(1);
-let itemsPerPage = ref(10);
+let itemsPerPage = ref(5);
 
 const expanded: any = [];
 const headersTableOrder: tableHeaderType<tableItemTypeOrder> = [
