@@ -135,6 +135,7 @@
             </div>
           </td>
         </template>
+        <template #bottom></template>
       </v-data-table>
     </v-card>
   </div>
