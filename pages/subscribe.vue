@@ -56,7 +56,15 @@
           </div>
         </div>
       </div>
-      <div class="h-[100px] bg-fuchsia-500 w-full">asdasd</div>
+      <!-- this chart  -->
+      <div class="w-full">
+        <apexchart
+          type="area"
+          height="350"
+          :options="options"
+          :series="series"
+        ></apexchart>
+      </div>
     </div>
 
     <!-- Dashboard Card  -->
@@ -160,7 +168,9 @@
               </td>
               <td class="text-table">
                 <div>{{ item.price }} บาท</div>
-                <div class="text-[12px] opacity-[0.6]">({{ item.vat }} บาท)</div>
+                <div class="text-[12px] opacity-[0.6]">
+                  ({{ item.vat }} บาท)
+                </div>
               </td>
             </tr>
           </template>
@@ -308,6 +318,74 @@ const fnChangeSelect = (e: any) => {
 const fnChangeTab = (value: tabType) => {
   tab.value = value;
 };
+</script>
+
+<script lang="ts">
+const options = ref({
+  chart: {
+    type: "area",
+    height: 350,
+    zoom: {
+      enabled: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+  },
+  xaxis: {
+    type: "datetime",
+    // categories: [
+    //   "Jan",
+    //   "Feb",
+    //   "Mar",
+    //   "Apr",
+    //   "May",
+    //   "Jun",
+    //   "Jul",
+    //   "Aug",
+    //   "Sep",
+    //   "Oct",
+    //   "Nov",
+    //   "Dec",
+    // ],
+  },
+  yaxis: {
+    opposite: true,
+  },
+  legend: {
+    horizontalAlign: "left",
+  },
+});
+
+const series = ref([
+  {
+    data: [
+      {
+        x: new Date("2023-11-11").getTime(),
+        y: 76,
+      },
+      {
+        x: new Date("2023-11-12").getTime(),
+        y: 50,
+      },
+      {
+        x: new Date("2023-11-13").getTime(),
+        y: 60,
+      },
+      {
+        x: new Date("2023-11-14").getTime(),
+        y: 20,
+      },
+      {
+        x: new Date("2023-11-15").getTime(),
+        y: 80,
+      },
+    ],
+  },
+]);
 </script>
 
 <style scoped>
