@@ -122,11 +122,13 @@
         variant="outlined"
         placeholder="ชื่อผู้ใช้ หรือ เบอร์โทร"
         class="max-w-[600px]"
+        density="compact"
       ></v-text-field>
       <v-text-field
         class="max-w-[400px]"
         prepend-inner-icon="mdi-calendar-month"
         variant="outlined"
+        density="compact"
         label="วันที่"
       ></v-text-field>
     </div>
@@ -329,6 +331,7 @@ const options = ref({
       enabled: false,
     },
   },
+
   dataLabels: {
     enabled: false,
   },
@@ -337,23 +340,17 @@ const options = ref({
   },
   xaxis: {
     type: "datetime",
-    // categories: [
-    //   "Jan",
-    //   "Feb",
-    //   "Mar",
-    //   "Apr",
-    //   "May",
-    //   "Jun",
-    //   "Jul",
-    //   "Aug",
-    //   "Sep",
-    //   "Oct",
-    //   "Nov",
-    //   "Dec",
-    // ],
+    labels: {
+      format: "MMM",
+      showDuplicates: false,
+    },
+  },
+  tooltip: {
+    enable: "false",
   },
   yaxis: {
     opposite: true,
+    show: false,
   },
   legend: {
     horizontalAlign: "left",
@@ -362,21 +359,22 @@ const options = ref({
 
 const series = ref([
   {
+    name: "จำนวนเงิน",
     data: [
       {
-        x: new Date("2023-11-11").getTime(),
+        x: new Date("2023-07-11").getTime(),
         y: 76,
       },
       {
-        x: new Date("2023-11-12").getTime(),
+        x: new Date("2023-08-12").getTime(),
         y: 50,
       },
       {
-        x: new Date("2023-11-13").getTime(),
+        x: new Date("2023-09-13").getTime(),
         y: 60,
       },
       {
-        x: new Date("2023-11-14").getTime(),
+        x: new Date("2023-10-14").getTime(),
         y: 20,
       },
       {
