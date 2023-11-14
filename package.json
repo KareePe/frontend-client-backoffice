@@ -30,10 +30,7 @@
     "flowbite": "^2.1.1",
     "pinia": "^2.1.7",
     "sass": "^1.69.5",
-<<<<<<< HEAD
-    "vue3-apexcharts": "^1.4.4"
-=======
+    "vue3-apexcharts": "^1.4.4",
     "vue3-html2pdf": "^1.1.2"
->>>>>>> b62c118c62e7a2ce8aac0f8d6c184c14648228c0
   }
 }
