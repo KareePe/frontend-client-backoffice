@@ -23,13 +23,14 @@
     <div
       class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5"
     >
-      ข้อมูลคำสั่งซื้อทั้งหมด 20000 รายการ
+      ข้อมูลคำสั่งซื้อทั้งหมด {{ tableItem.length }} รายการ
     </div>
     <v-card
       variant="flat"
       class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
     >
       <v-data-table
+        v-if="tableItem.length > 0"
         :items="tableItem"
         :headers="headersTable"
         item-key="id"
@@ -137,6 +138,9 @@
         </template>
         <template #bottom></template>
       </v-data-table>
+      <div v-else class="h-[260px] flex justify-center items-center">
+          <p>ยังไม่มีรายการ</p>
+        </div>
     </v-card>
   </div>
 </template>

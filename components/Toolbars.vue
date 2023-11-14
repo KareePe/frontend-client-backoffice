@@ -174,7 +174,7 @@ const menu_list = [
       },
       {
         subtitle: "กระทบยอด COD",
-        path: "/",
+        path: "/COD",
         disable: false,
       },
     ],

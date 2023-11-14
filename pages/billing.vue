@@ -234,6 +234,7 @@
             </td>
           </tr>
         </template>
+        <template v-slot:bottom></template>
       </v-data-table>
     </v-card>
 
@@ -280,6 +281,7 @@
             </td>
           </tr>
         </template>
+        <template v-slot:bottom></template>
       </v-data-table>
     </v-card>
   </div>
