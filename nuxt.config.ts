@@ -37,6 +37,9 @@ export default {
   build: {
     transpile: ["vuetify"],
   },
+  plugins: [
+    { src: '~/plugins/apexcharts.ts', mode: 'client' }
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
