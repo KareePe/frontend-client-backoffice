@@ -53,7 +53,7 @@
                       alt=""
                     />
                   </div>
-                  <div>
+                  <div style="margin-left: -15px;">
                     <v-btn
                       icon="mdi-plus"
                       density="compact"
