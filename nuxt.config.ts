@@ -35,7 +35,7 @@ export default {
     "@mdi/font/css/materialdesignicons.css",
   ],
   build: {
-    transpile: ["vuetify"],
+    transpile: ["vuetify",'@vuepic/vue-datepicker'],
   },
   postcss: {
     plugins: {

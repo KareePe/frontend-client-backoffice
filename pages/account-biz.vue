@@ -587,6 +587,9 @@
             </v-card>
           </v-window-item>
           <v-window-item value="option-5">
+
+            <VueDatePicker v-model="date" class="max-w-[225px] my-[15px]" range></VueDatePicker>
+
             <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
               <div
                 class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[15px]"
@@ -893,6 +896,12 @@ definePageMeta({
   middleware: "auth-middleware",
 });
 import { ref, onMounted, watch } from "vue";
+
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
+const date = ref();
+
 let page = ref(1);
 let pageWareHouse = ref(1);
 let pagePackage = ref(1);
@@ -1291,6 +1300,12 @@ watch(navbar, () => {
 const publishedBooksMessage = computed(() => {
   return "Business info,Users account,dfsdf,235235";
 });
+
+onMounted(() => {
+  const startDate = new Date();
+  const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+  date.value = [startDate, endDate];
+})
 </script>
 
 <style>
