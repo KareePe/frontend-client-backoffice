@@ -3,28 +3,97 @@
   <Navbar text="User wallet" />
   <div class="p-4 sm:ml-64">
       <v-card variant="flat" class="border border-[#EEEDF1] rounded-[8px]">
+  <div
+      class="border border-[#EEEDF1] rounded-md flex flex-col space-y-2 px-4 pb-4"
+    >
+  <div class="flex flex-row justify-between items-center">
+  <div class="py-4">
+          <div class="text-[16px]">รายการการเงิน</div>
+          <div class="flex">
+            <div class="text-[20px] font-bold">฿</div>
+            <div class="text-[40px] font-bold">40,206</div>
+            <div>
+              <div class="flex justify-center text-center">
+                <v-icon aria-hidden="false" class="text-[#067647] !text-[20px]">
+                  mdi-trending-up
+                </v-icon>
+                <div class="text-[#067647] text-[20px]">7.4%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div>
-    <!-- <apexchart type="area" :options="chartOptions" :series="chartSeries" ></apexchart> -->
-  </div>
+          <div class="card">
+            <v-btn
+              v-bind:color="tab === 1 ? '#084F93' : '#fff'"
+              variant="flat"
+              @click="fnChangeTab(1)"
+              rounded="md"
+              size="small"
+              >24 ชม</v-btn
+            >
+            <v-btn
+              v-bind:color="tab === 7 ? '#084F93' : '#fff'"
+              variant="flat"
+              @click="fnChangeTab(7)"
+              rounded="md"
+              >7 วัน</v-btn
+            >
+            <v-btn
+              v-bind:color="tab === 30 ? '#084F93' : '#fff'"
+              @click="fnChangeTab(30)"
+              variant="flat"
+              size="small"
+              >30 วัน</v-btn
+            >
+            <v-btn
+              v-bind:color="tab === 365 ? '#084F93' : '#fff'"
+              variant="flat"
+              @click="fnChangeTab(365)"
+              size="small"
+              >12 เดือน</v-btn
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-full">
+        <client-only placeholder="Loading..." fallback="Loading comments...">
+          <apexchart
+            type="area"
+            height="350"
+            :options="options"
+            :series="series"
+          ></apexchart>
+        </client-only>
+      </div>
+        
       </v-card>
   </div>
-  <div class="p-4 sm:ml-64">
-    <!-- <apexchart
-      width="500" 
-      type="area"
-      :options="chartOptions"
-      :series="chartSeries"
-    /> -->
+  <div class="p-4 sm:ml-64 ">
+    <div class="flex flex-row justify-between">
     <v-text-field
         v-model="search"
         variant="outlined"
         label="ค้นหาบัญชีผู้ใช้ เบอร์โทร"
         prepend-inner-icon="mdi-magnify"
-        class="!max-w-[480px] min-h-[56px] rounded-[8px] mb-[15px]"
+        class="!max-w-[480px] min-h-[56px] rounded-[8px] mb-[12px]"
         single-line
         hide-details
         @click:prepend-inner="onClick"
       ></v-text-field>
+
+      <v-text-field
+        variant="outlined"
+        label="วันที่"
+        prepend-inner-icon="mdi-calendar-month"
+        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
+        single-line
+        hide-details
+      />
+      </div>
       <v-card variant="flat" class="border border-[#EEEDF1] rounded-[8px]">
         <div class="bg-[#E9E7EB] p-[20px]">
           <b class="text-[14px] text-[#084F93]"
@@ -151,6 +220,67 @@ let chartSeries = ref([
   },
 ]);
 
+const options = ref({
+  chart: {
+    type: "area",
+    height: 350,
+    zoom: {
+      enabled: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+  },
+  xaxis: {
+    type: "datetime",
+    labels: {
+      format: "MMM",
+      showDuplicates: false,
+    },
+  },
+  tooltip: {
+    enable: "false",
+  },
+  yaxis: {
+    opposite: true,
+    show: false,
+  },
+  legend: {
+    horizontalAlign: "left",
+  },
+});
+
+const series = ref([
+  {
+    name: "จำนวนเงิน",
+    data: [
+      {
+        x: new Date("2023-07-11").getTime(),
+        y: 76,
+      },
+      {
+        x: new Date("2023-08-12").getTime(),
+        y: 50,
+      },
+      {
+        x: new Date("2023-09-13").getTime(),
+        y: 60,
+      },
+      {
+        x: new Date("2023-10-14").getTime(),
+        y: 20,
+      },
+      {
+        x: new Date("2023-11-15").getTime(),
+        y: 80,
+      },
+    ],
+  },
+]);
+
 </script>
 
 <style scoped>
@@ -178,5 +308,13 @@ thead tr {
 .text-normal {
   line-height: 16px;
   font-size: 12px;
+}
+
+.dashboardCard {
+  @apply border border-[#EEEDF1] rounded-md w-full box-border p-5 flex flex-col justify-between;
+}
+
+.text-table {
+  @apply text-[14px] leading-5 tracking-[-0.23%] text-center !pr-10;
 }
 </style>
