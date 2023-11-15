@@ -73,3 +73,8 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+# Setup PDFMake
+Look at the [PDFMake documentation](https://nuxt-pdfmake.behonbaker.com/introduction/setup) to learn more.
+
+And set Thai Support (https://pdfmake.github.io/docs/0.1/fonts/custom-fonts-client-side/vfs/#2-assign-pdfmakefonts-in-your-javascript) to learn more.
