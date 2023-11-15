@@ -9,6 +9,7 @@
         placeholder="เพิ่มตัวกรอง"
         variant="outlined"
         hide-details="auto"
+        density="compact"
       ></v-text-field>
       <div class="pt-2">
         <v-chip
@@ -153,7 +154,6 @@ definePageMeta({
 const expanded = []
 
 const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"]
-
 const headersTable = [
   {
     title: "",

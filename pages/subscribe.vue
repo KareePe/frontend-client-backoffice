@@ -125,14 +125,20 @@
         placeholder="ชื่อผู้ใช้ หรือ เบอร์โทร"
         class="max-w-[600px]"
         density="compact"
+        v-model="search"
       ></v-text-field>
-      <v-text-field
+      <!-- <v-text-field
         class="max-w-[400px]"
         prepend-inner-icon="mdi-calendar-month"
         variant="outlined"
         density="compact"
         label="วันที่"
-      ></v-text-field>
+      ></v-text-field> -->
+      <VueDatePicker
+        v-model="dateRange"
+        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
+        range
+      ></VueDatePicker>
     </div>
 
     <!-- table -->
@@ -155,6 +161,7 @@
           items-per-page-text="จำนวนแสดงผล"
           :items-per-page="itemsPerPage"
           :page="page"
+          :search="search"
         >
           <template
             v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
@@ -206,70 +213,60 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { ref } from "vue";
+<script setup>
+import { ref } from "vue"
+import VueDatePicker from "@vuepic/vue-datepicker"
+import "@vuepic/vue-datepicker/dist/main.css"
 
 definePageMeta({
-  middleware: "auth-middleware",
-});
+  middleware: "auth-middleware"
+})
 
-type tabType = 1 | 7 | 30 | 365;
-type tableHeaderType<T> = {
-  title: string;
-  key: keyof T | "";
-  align?: "start" | "center" | "end";
-  sortable?: boolean;
-}[];
+const tab = ReferenceError(1)
+let page = ref(1)
+let itemsPerPage = ref(10)
+const dateRange = ref([
+  new Date(),
+  new Date(new Date().setDate(new Date().getDate() + 7))
+])
+let search = ref("")
 
-type tableDataType = {
-  id: string;
-  business: string;
-  package: "Standard" | "Business" | "Business +";
-  date: string;
-  price: string;
-  vat: string;
-};
-
-const tab = ref<tabType>(1);
-let page = ref(1);
-let itemsPerPage = ref(10);
-
-const headersTable: tableHeaderType<tableDataType> = [
+const headersTable = [
   {
     title: "Transection ID",
     align: "center",
-    key: "id",
+    key: "id"
   },
   {
     title: "ธุรกิจ",
     align: "center",
-    key: "business",
+    key: "business"
   },
   {
     title: "แพ็คเกจ",
     align: "center",
-    key: "package",
+    key: "package"
   },
   {
     title: "ระยะเวลา",
     align: "center",
-    key: "date",
+    key: "date"
   },
   {
     title: "ค่าใช้จ่าย",
     align: "center",
-    key: "price",
-  },
-];
+    key: "price"
+  }
+]
 
-const tableItem: tableDataType[] = [
+const tableItem = [
   {
     id: "1453453234",
     business: "KFC",
     date: "10/09/2023 - 14/10/2023",
     package: "Standard",
     price: "1500.00",
-    vat: "VAT 105.15",
+    vat: "VAT 105.15"
   },
   {
     id: "asdasdasda",
@@ -277,7 +274,7 @@ const tableItem: tableDataType[] = [
     date: "10/09/2023 - 14/10/2023",
     package: "Business +",
     price: "2500.00",
-    vat: "VAT 105.15",
+    vat: "VAT 105.15"
   },
   {
     id: "asd12w321",
@@ -285,7 +282,7 @@ const tableItem: tableDataType[] = [
     date: "10/09/2023 - 14/10/2023",
     package: "Standard",
     price: "500.00",
-    vat: "VAT 105.15",
+    vat: "VAT 105.15"
   },
   {
     id: "fasdasdasd",
@@ -293,7 +290,7 @@ const tableItem: tableDataType[] = [
     date: "10/09/2023 - 14/10/2023",
     package: "Standard",
     price: "2500.00",
-    vat: "VAT 105.15",
+    vat: "VAT 105.15"
   },
   {
     id: "1231dafa",
@@ -301,7 +298,7 @@ const tableItem: tableDataType[] = [
     date: "10/09/2023 - 14/10/2023",
     package: "Business",
     price: "1500.00",
-    vat: "VAT 105.15",
+    vat: "VAT 105.15"
   },
   {
     id: Math.floor(Math.random() * 100000000).toString(),
@@ -309,54 +306,54 @@ const tableItem: tableDataType[] = [
     date: "10/09/2023 - 14/10/2023",
     package: "Business",
     price: "1500.00",
-    vat: "VAT 105.15",
-  },
-];
+    vat: "VAT 105.15"
+  }
+]
 
 const pageCount = computed(() => {
-  return Math.ceil(tableItem.length / itemsPerPage.value);
-});
+  return Math.ceil(tableItem.length / itemsPerPage.value)
+})
 
-const fnChangeSelect = (e: any) => {
-  itemsPerPage.value = e;
-};
+const fnChangeSelect = (e) => {
+  itemsPerPage.value = e
+}
 
-const fnChangeTab = (value: tabType) => {
-  tab.value = value;
-};
+const fnChangeTab = (value) => {
+  tab.value = value
+}
 
 const options = ref({
   chart: {
     type: "area",
     height: 350,
     zoom: {
-      enabled: false,
-    },
+      enabled: false
+    }
   },
   dataLabels: {
-    enabled: false,
+    enabled: false
   },
   stroke: {
-    curve: "smooth",
+    curve: "smooth"
   },
   xaxis: {
     type: "datetime",
     labels: {
       format: "MMM",
-      showDuplicates: false,
-    },
+      showDuplicates: false
+    }
   },
   tooltip: {
-    enable: "false",
+    enable: "false"
   },
   yaxis: {
     opposite: true,
-    show: false,
+    show: false
   },
   legend: {
-    horizontalAlign: "left",
-  },
-});
+    horizontalAlign: "left"
+  }
+})
 
 const series = ref([
   {
@@ -364,27 +361,27 @@ const series = ref([
     data: [
       {
         x: new Date("2023-07-11").getTime(),
-        y: 76,
+        y: 76
       },
       {
         x: new Date("2023-08-12").getTime(),
-        y: 50,
+        y: 50
       },
       {
         x: new Date("2023-09-13").getTime(),
-        y: 60,
+        y: 60
       },
       {
         x: new Date("2023-10-14").getTime(),
-        y: 20,
+        y: 20
       },
       {
         x: new Date("2023-11-15").getTime(),
-        y: 80,
-      },
-    ],
-  },
-]);
+        y: 80
+      }
+    ]
+  }
+])
 </script>
 
 <style scoped>
