@@ -58,7 +58,7 @@
       </div>
       <!-- this chart  -->
       <div class="w-full">
-        <client-only placeholder="Loading..." fallback="Loading comments...">
+        <client-only placeholder="Loading..." fallback="Loading Chart...">
           <apexchart
             type="area"
             height="350"
@@ -208,7 +208,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-const ApexCharts = defineAsyncComponent(() => import("vue3-apexcharts"));
 
 definePageMeta({
   middleware: "auth-middleware",
