@@ -24,9 +24,14 @@
           + เพิ่มบทความ
         </v-btn>
       </v-row>
+      <div
+        class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5 mt-[30px]"
+      >
+        ข้อมูลคำสั่งซื้อทั้งหมด {{ items.length }} รายการ
+      </div>
       <v-card
         variant="flat"
-        class="border border-[#EEEDF1] rounded-[8px] pb-[15px] mt-[30px]"
+        class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
       >
         <v-data-table
           v-model:page="page"
@@ -47,7 +52,6 @@
         <v-pagination v-model="page" :length="pageCount"></v-pagination>
       </div>
     </v-col>
-
   </div>
 </template>
 
@@ -113,7 +117,7 @@ const pageCount = computed(() => {
 });
 
 const addArticle = () => {
-  useRouter().push('/article/addArticle');
+  useRouter().push("/article/addArticle");
 };
 </script>
 
