@@ -3,107 +3,212 @@
   <Navbar text="Customer mng,KYC" />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <div class="p-4 sm:ml-64">
-    {{ pdfLink }}
+    <!-- {{ pdfLink }} -->
+    <div v-if="items.length > 0">
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        no-data-text="ไม่มีข้อมูล"
+        hide-default-footer
+        class="mb-[15px] border !rounded-[8px]"
+      >
+        <template v-slot:item="{ item }">
+          <tr>
+            <td>
+              <img
+                :src="`/images/${item.logo}`"
+                class="w-[40px] h-[40px]"
+                alt=""
+              />
+            </td>
+            <td class="truncate">{{ item.bizId }}</td>
+            <td class="truncate">{{ item.bizName }}</td>
+            <td class="truncate">
+              <div
+                class="flex flex-nowrap gap-[15px] border border-[#EEEDF1] rounded-[8px] py-[8px] px-[16px]"
+              >
+                <v-icon icon="mdi-file-outline" color="#1A1C1E"></v-icon>
+                {{ item.proveBook }}
+              </div>
+            </td>
+            <td class="truncate">
+              <div
+                class="flex flex-nowrap gap-[15px] border border-[#EEEDF1] rounded-[8px] py-[8px] px-[16px]"
+              >
+                <v-icon
+                  icon="mdi-card-account-details-outline"
+                  color="#1A1C1E"
+                ></v-icon>
+                {{ item.idCard }}
+              </div>
+            </td>
+            <td class="truncate">
+              <div
+                :class="`flex flex-nowrap gap-[15px] py-[8px] px-[16px] rounded-[8px] ${
+                  item.status === 'รอตรวจสอบ'
+                    ? 'bg-[#FFFAEB] text-[#DC6803]'
+                    : item.status === 'ยืนยันแล้ว'
+                    ? 'bg-[#ECFDF3] text-[#039855]'
+                    : 'bg-[#FFDAD6] text-[#BA1A1A]'
+                }`"
+              >
+                <v-icon
+                  :icon="
+                    item.status === 'รอตรวจสอบ'
+                      ? 'mdi-clock-outline'
+                      : item.status === 'ยืนยันแล้ว'
+                      ? 'mdi-check-decagram-outline'
+                      : 'mdi-information-outline'
+                  "
+                  :color="
+                    item.status === 'รอตรวจสอบ'
+                      ? '#DC6803'
+                      : item.status === 'ยืนยันแล้ว'
+                      ? '#039855'
+                      : '#BA1A1A'
+                  "
+                ></v-icon>
+                {{ item.status }}
+              </div>
+            </td>
+            <td>
+              <v-btn
+                flat
+                @click="dialog = true"
+                :disabled="item.status !== 'รอตรวจสอบ'"
+                class="!bg-[#084F93] text-white !w-[100px] rounded-[8px] py-[8px] px-[16px] text-center"
+                >เปลี่ยน</v-btn
+              >
+            </td>
+          </tr>
+        </template>
+        <template v-slot:bottom></template>
+      </v-data-table>
+    </div>
+    <div v-else class="h-[260px] flex justify-center items-center">
+      <p>ยังไม่มีรายการ</p>
+    </div>
   </div>
+
+  <v-dialog v-model="dialog" width="386px" class="rounded-[8px]">
+    <v-card class="!p-[5px] rounded-[8px]">
+      <v-card-text class="relative !p-[10px]">
+        <p class="text-[16px] font-bold text-[#000]/[0.6] text-center">
+          เปลี่ยนสถานะ
+        </p>
+        <v-icon
+          @click="dialog = false"
+          icon="mdi-close"
+          class="text-[#000]/[0.6] !absolute right-[5px] top-[15px]"
+        ></v-icon>
+
+        <div
+          class="mt-[15px] !w-full justify-between flex-row-reverse flex flex-nowrap gap-[15px] border border-[#EEEDF1] rounded-[8px] py-[8px] px-[16px]"
+        >
+          <v-radio-group
+            v-model="radios"
+            :hide-details="true"
+            class="justify-between flex"
+          >
+            <v-radio
+              value="Google"
+              density="compact"
+              :hide-details="true"
+              class="flex justify-between flex-row-reverse"
+            >
+              <template v-slot:label>
+                <p>ยื่นเอกสารใหม่</p>
+              </template>
+            </v-radio>
+          </v-radio-group>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          flat
+          class="!bg-[#084F93] text-white !rounded-[8px] !w-full !h-[48px] pb-[8px] px-[16px] text-center"
+          @click="dialog = false"
+          >ยืนยัน</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 definePageMeta({
   middleware: "auth-middleware",
 });
-import { ref, onMounted, watch } from "vue";
-// import pdfFonts from '/assets/custom-fonts'
-import pdfMake from "pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import { ref, onMounted, computed } from "vue";
 
-let pdfLink = ref("");
+const headers = [
+  {
+    title: "รูป",
+    align: "start",
+    key: "logo",
+  },
+  {
+    title: "รหัส",
+    align: "center",
+    key: "bizId",
+  },
+  {
+    title: "ชื่อธุรกิจ",
+    align: "center",
+    key: "bizName",
+  },
+  {
+    title: "หนังสือรับรอง",
+    align: "center",
+    key: "proveBook",
+  },
+  {
+    title: "บัตรประชาชน",
+    align: "center",
+    key: "idCard",
+  },
+  {
+    title: "สถานะ",
+    align: "center",
+    key: "status",
+  },
+  {
+    title: "เปลี่ยนสถานะ",
+    align: "center",
+    key: "changeStatus",
+  },
+];
 
-const loadPdf = () => {
-    const { $pdfMake } = useNuxtApp();
+let items = [
+  {
+    logo: "pizza-logo.png",
+    bizId: "SX-0001",
+    bizName: "This is company co., ltd.",
+    proveBook: "หนังสือรับรอง.pdf",
+    idCard: "บัตรประชาชน.pdf",
+    status: "รอตรวจสอบ",
+  },
+  {
+    logo: "pizza-logo.png",
+    bizId: "SX-0001",
+    bizName: "This is company co., ltd.",
+    proveBook: "หนังสือรับรอง.pdf",
+    idCard: "บัตรประชาชน.pdf",
+    status: "ยืนยันแล้ว",
+  },
+  {
+    logo: "pizza-logo.png",
+    bizId: "SX-0001",
+    bizName: "This is company co., ltd.",
+    proveBook: "หนังสือรับรอง.pdf",
+    idCard: "บัตรประชาชน.pdf",
+    status: "ยื่นเอกสารใหม่",
+  },
+];
 
-  $pdfMake.tableLayouts = {
-    custom: {
-      fillColor: function (rowIndex) {
-        return rowIndex % 2 !== 0 ? "#000" : null;
-      },
-      hLineColor: "#50d71e",
-      vLineColor: "#50d71e",
-      paddingLeft: function () {
-        return 10;
-      },
-      paddingRight: function () {
-        return 10;
-      },
-    },
-  };
-  $pdfMake.vfs = pdfFonts.pdfMake.vfs;
-  $pdfMake.fonts = {
-    // download default Roboto font from cdnjs.com
-    Roboto: {
-      normal: "Roboto-Regular.ttf",
-      bold: "Roboto-Medium.ttf",
-      italics: "Roboto-Italic.ttf",
-      bolditalics: "Roboto-MediumItalic.ttf",
-    },
-    Kanit: {
-      normal: "Kanit-Regular.ttf",
-      bold: "Kanit-Medium.ttf",
-      italics: "Kanit-Italic.ttf",
-      bolditalics: "Kanit-MediumItalic.ttf",
-    },
-  };
-  $pdfMake
-    .createPdf({
-      content: [
-        {
-          text: "ไทยจ้า อิอิ",
-          style: { fontSize: 20, bold: true },
-          margin: [0, 0, 0, 5],
-        },
-        { text: "This is a sample pdf", margin: [0, 0, 0, 5] },
-        {
-          text: `Date: ${new Date().toDateString()}`,
-          margin: [0, 0, 0, 15],
-        },
-        {
-          layout: "custom",
-          table: {
-            heights: 20,
-            widths: "*",
-            body: [
-              ["Id", "Name", "Phone", "Email"],
-              ["1", "ทดอบ Doe", "1234567890", "johndoe@test.com"],
-              ["2", "ทดอบ Doe", "1234567890", "janedoe@test.com"],
-              ["1", "John Doe", "1234567890", "johndoe@test.com"],
-              ["2", "Jane Doe", "1234567890", "janedoe@test.com"],
-              ["1", "John Doe", "1234567890", "johndoe@test.com"],
-              ["2", "Jane Doe", "1234567890", "janedoe@test.com"],
-              ["1", "John Doe", "1234567890", "johndoe@test.com"],
-              ["2", "Jane Doe", "1234567890", "janedoe@test.com"],
-              ["1", "John Doe", "1234567890", "johndoe@test.com"],
-              ["2", "Jane Doe", "1234567890", "janedoe@test.com"],
-              ["1", "John Doe", "1234567890", "johndoe@test.com"],
-              ["2", "Jane Doe", "1234567890", "janedoe@test.com"],
-            ],
-          },
-        },
-      ],
-      defaultStyle: {
-        font: "Kanit",
-      },
-    })
-    .getDataUrl((dataUrl) => {
-      pdfLink.value = dataUrl;
-    });
-
-  console.log(pdfLink, "pdf");
-};
-
-onMounted(() => {
-  loadPdf();
-});
+let dialog = ref(false);
+let radios = ref("");
 </script>
-
 <style>
 .v-pagination__next .v-btn,
 .v-pagination__prev .v-btn {

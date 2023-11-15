@@ -4,7 +4,7 @@
     data-drawer-toggle="default-sidebar"
     aria-controls="default-sidebar"
     type="button"
-    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+    class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
   >
     <span class="sr-only">Open sidebar</span>
     <svg
@@ -24,7 +24,7 @@
 
   <aside
     id="default-sidebar"
-    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full md:translate-x-0"
     aria-label="Sidenav"
   >
     <div
@@ -55,9 +55,10 @@
               class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             >
               <v-icon :icon="item.icon" class="w-6 h-6 text-[#43474E]"></v-icon>
-              <span class="flex-1 ml-3 text-[#43474E] text-left whitespace-nowrap">{{
-                item.title
-              }}</span>
+              <span
+                class="flex-1 ml-3 text-[#43474E] text-left whitespace-nowrap"
+                >{{ item.title }}</span
+              >
               <svg
                 aria-hidden="true"
                 class="w-6 h-6"
@@ -133,7 +134,7 @@ const menu_list = [
       },
       {
         subtitle: "สนับสนุนการขาย",
-        path: "/",
+        path: "/account-support",
         disable: false,
       },
     ],
@@ -145,7 +146,7 @@ const menu_list = [
     haveSubMenu: false,
     subMenu: [],
     icon: "mdi-package-up",
-    path: "/details",
+    path: "/order-info",
   },
   {
     title: "การเงิน",
@@ -278,4 +279,13 @@ const menu_list = [
 ];
 </script>
 
-<style></style>
+<style>
+.router-link-active,
+.router-link-exact-active,
+.router-link-active span,
+.router-link-exact-active span,
+.router-link-active i,
+.router-link-exact-active i {
+  color: #084f93;
+}
+</style>

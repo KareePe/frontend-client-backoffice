@@ -9,20 +9,20 @@
           v-bind:color="tab === 'Order' ? '#084F93' : '#fff'"
           variant="flat"
           @click="() => fnChangeTabs('Order')"
-          rounded="lg"
+          class="!rounded-[8px] text-[14px]"
           >คำสั่งซื้อ (926)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
           variant="flat"
-          rounded="lg"
+          class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('Payment')"
           >ทำจ่าย</v-btn
         >
         <v-btn
           v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
-          rounded="lg"
+          class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('History')"
           >ประวัติ (310)</v-btn
         >
@@ -839,7 +839,7 @@ const fnChangeSelect = (e) => {
 
 <style scoped>
 .card {
-  @apply border border-[#EEEDF1] rounded-md p-2 flex space-x-2 justify-center items-center;
+  @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-2 justify-center items-center;
 }
 .text-table {
   @apply text-[14px] leading-5 text-center !pr-10;

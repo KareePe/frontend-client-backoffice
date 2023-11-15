@@ -32,29 +32,28 @@
                 v-bind:color="tab === 1 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(1)"
-                rounded="md"
-                size="small"
+                class="!rounded-[4px] !h-[36px] text-[14px]"
                 >24 ชม</v-btn
               >
               <v-btn
                 v-bind:color="tab === 7 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(7)"
-                rounded="md"
+                class="!rounded-[4px] !h-[36px] text-[14px]"
                 >7 วัน</v-btn
               >
               <v-btn
                 v-bind:color="tab === 30 ? '#084F93' : '#fff'"
                 @click="fnChangeTab(30)"
                 variant="flat"
-                size="small"
+                class="!rounded-[4px] !h-[36px] text-[14px]"
                 >30 วัน</v-btn
               >
               <v-btn
                 v-bind:color="tab === 365 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(365)"
-                size="small"
+                class="!rounded-[4px] !h-[36px] text-[14px]"
                 >12 เดือน</v-btn
               >
             </div>
@@ -77,8 +76,8 @@
           </div>
 
           <div>
-            <div class="py-4">
-              <div class="text-[14px] opacity-[0.6] whitespace-nowrap">
+            <div class="pb-4">
+              <div class="text-[14px] text-[#000000]/[0.6] whitespace-nowrap">
                 จำนวนที่ลูกค้าเติมเงินเข้า
               </div>
               <div class="flex">
@@ -91,14 +90,14 @@
                     >
                       mdi-trending-up
                     </v-icon>
-                    <div class="text-[#067647] text-[14x]">9.2%</div>
+                    <div class="text-[#067647] text-[14x] mt-[8px]">9.2%</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="py-4">
-              <div class="text-[14px] opacity-[0.6] whitespace-nowrap">
+            <div class="pb-4">
+              <div class="text-[14px] text-[#000000]/[0.6] whitespace-nowrap">
                 จำนวนที่เงินที่ลูกค้าใช้
               </div>
               <div class="flex">
@@ -111,14 +110,14 @@
                     >
                       mdi-trending-up
                     </v-icon>
-                    <div class="text-[#067647] text-[14x]">9.2%</div>
+                    <div class="text-[#067647] text-[14x] mt-[8px]">9.2%</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="py-4">
-              <div class="text-[14px] opacity-[0.6] whitespace-nowrap">
+            <div class="pb-4">
+              <div class="text-[14px] text-[#000000]/[0.6] whitespace-nowrap">
                 จำนวนเงินยอดสุทธิ
               </div>
               <div class="flex">
@@ -131,7 +130,7 @@
                     >
                       mdi-trending-up
                     </v-icon>
-                    <div class="text-[#067647] text-[14x]">9.2%</div>
+                    <div class="text-[#067647] text-[14x] mt-[8px]">9.2%</div>
                   </div>
                 </div>
               </div>
@@ -164,7 +163,7 @@
       /> -->
       <VueDatePicker
         v-model="dateRange"
-        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
+        class="!max-w-[280px] !min-h-[56px] !rounded-[8px] mb-[15px]"
         range
       ></VueDatePicker>
     </div>
@@ -195,6 +194,7 @@
             <td class="text-center">{{ item.amount }}</td>
           </tr>
         </template>
+        <template v-slot:bottom></template>
       </v-data-table>
       <div v-else class="h-[260px] flex justify-center items-center">
         <p>ยังไม่มีรายการ</p>
@@ -387,6 +387,13 @@ thead tr {
   @apply text-[14px] leading-5 tracking-[-0.23%] text-center !pr-10;
 }
 .card {
-  @apply border border-[#EEEDF1] rounded-md p-2 flex space-x-2 justify-center items-center;
+  @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-2 justify-center items-center;
+}
+
+.dp__input_wrap{
+  height : 56px !important;
+}
+.dp__input_wrap input{
+  height : 56px !important;
 }
 </style>
