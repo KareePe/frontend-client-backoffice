@@ -188,7 +188,7 @@ const menu_list = [
     subMenu: [
       {
         subtitle: "ประเภทสินค้า",
-        path: "/",
+        path: "/product-category",
         disable: false,
       },
       {
