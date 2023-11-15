@@ -33,29 +33,30 @@
                       for="fileInput"
                       class="h-[324px] w-full flex justify-center items-center flex-col space-y-4"
                     >
-                      <v-icon
-                        class="bg-[#EEEDF1] !w-[60px] !h-[60px] rounded-full"
-                        size="40"
-                        color="#74777F"
-                        v-if="!fileValue"
-                        >mdi-file-upload-outline</v-icon
-                      >
-                      <v-icon
-                        class="bg-[#084F93] !w-[60px] !h-[60px] rounded-full"
-                        size="40"
-                        color="#FFF"
-                        v-else
-                        >mdi-file-check-outline</v-icon
-                      >
-
-                      <div class="text-[14px] flex flex-col items-center">
-                        <div>
-                          ลากและวาง หรือ
-                          <span class="text-[#0BA5EC]">เลือก</span> เพื่ออัปโหลด
+                      <div v-if="!fileValue">
+                        <div class="text-[14px] flex flex-col items-center">
+                          <v-icon
+                            class="bg-[#EEEDF1] !w-[60px] !h-[60px] rounded-full mb-[12px]"
+                            size="40"
+                            color="#74777F"
+                            >mdi-file-upload-outline</v-icon
+                          >
+                          <div>
+                            ลากและวาง หรือ
+                            <span class="text-[#0BA5EC]">เลือก</span>
+                            เพื่ออัปโหลด
+                          </div>
+                          <div class="text-[#00000061] mt-[12px]">
+                            .JPG or .JPEG
+                          </div>
                         </div>
-                        <div class="text-[#00000061] mt-[12px]">
-                          .JPG or .JPEG
-                        </div>
+                      </div>
+                      <div v-else>
+                        <img
+                          :src="previewImageUrl"
+                          height="200"
+                        />
+                        รูปจะขึ้นตรงนี้
                       </div>
                     </label>
                   </div>
@@ -140,10 +141,7 @@ import { ref } from "vue";
 
 const fileValue = ref(null);
 const summarizeUpload = ref(false);
-
-const fnOnFileDrop = (event) => {
-  // Handle dropped files
-};
+const previewImageUrl = ref(null);
 
 const fnOnClickUpload = () => {
   const input = document.getElementById("fileInput");
@@ -152,6 +150,10 @@ const fnOnClickUpload = () => {
   if (files.length > 0) {
     fileValue.value = files[0];
   }
+};
+
+const fnOnFileDrop = (event) => {
+  // Handle fnOnFileDrop event
 };
 
 const dragover = (event) => {
