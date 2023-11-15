@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default {
   devtools: { enabled: true },
+  ssr: false,
   app: {
     head: {
       title: "SALESX TECHNOLOGIES",
@@ -35,10 +36,10 @@ export default {
     "@mdi/font/css/materialdesignicons.css",
   ],
   build: {
-    transpile: ["vuetify",'@vuepic/vue-datepicker'],
+    transpile: ["vuetify", "@vuepic/vue-datepicker"],
   },
   plugins: [
-    { src: '~/plugins/apexcharts.ts', mode: 'client' }
+    { src: "~/plugins/apexcharts.ts", mode: "client" },
   ],
   postcss: {
     plugins: {
@@ -47,4 +48,26 @@ export default {
     },
   },
   modules: ["@pinia/nuxt", "nuxt-pdfmake"],
+  pdfmake: {
+    /**
+     * Enable the module
+     * @default true
+     */
+    enabled: true,
+    /**
+     * Enable the plugin injection
+     * @default true
+     */
+    enablePlugin: true,
+    /**
+     * Enable the composable injection. This adds both the `usePDFMake` & `useFontPresets` composables
+     * @default true
+     */
+    enableComposable: true,
+    /**
+     * Enable the devtools tab
+     * @default true
+     */
+    enableDevtools: true,
+  },
 };

@@ -3,20 +3,20 @@
   <Navbar text="Order info" />
   <div class="p-4 sm:ml-64">
     <div
-      class="bg-[#E9E7EB] p-2 rounded-t-md border-x border-t border-[#E9E7EB]"
+      class="bg-[#E9E7EB] p-2 !rounded-t-[8px] border-x border-t border-[#E9E7EB]"
     >
       <v-text-field
         placeholder="เพิ่มตัวกรอง"
         variant="outlined"
-        hide-details="auto"
+        hide-details
         density="compact"
+        class="!rounded-[8px]"
       ></v-text-field>
       <div class="pt-2">
         <v-chip
           v-for="(item, index) in chipData"
-          color="#0BA5EC"
           :key="index"
-          class="mr-2 text-[14px]"
+          class="mr-2 text-[14px] !text-[#0BA5EC] !bg-[#EEEDF1]"
           >{{ item }}</v-chip
         >
       </div>
@@ -28,17 +28,17 @@
     </div>
     <v-card
       variant="flat"
-      class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
+      class="border border-[#EEEDF1] !rounded-b-[8px] pb-[15px]"
     >
       <v-data-table
         v-if="tableItem.length > 0"
         :items="tableItem"
         :headers="headersTable"
         item-key="id"
-        :expanded.sync="expanded"
         show-expand
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
+        class="!rounded-[0]"
       >
         <template
           v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"

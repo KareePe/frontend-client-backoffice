@@ -8,12 +8,14 @@
         <v-btn
           v-bind:color="tab === 'transportation' ? '#084F93' : '#fff'"
           variant="flat"
+          class="!rounded-[8px]"
           @click="() => fnChangeTabs('transportation')"
           >ยอดเรียกเก็บจากขนส่ง</v-btn
         >
         <v-btn
           v-bind:color="tab === 'status' ? '#084F93' : '#fff'"
           variant="flat"
+          class="!rounded-[8px]"
           @click="() => fnChangeTabs('status')"
           >สถานะเรียกเก็บ</v-btn
         >
@@ -22,8 +24,8 @@
         color="#084F93"
         variant="flat"
         size="large"
-        rounded="lg"
-        prepend-icon="mdi-download"
+        class="!rounded-[8px]"
+        prepend-icon="mdi-tray-arrow-down"
         v-if="tab === 'status'"
       >
         ดาวน์โหลดบิลจัดส่ง
@@ -32,8 +34,8 @@
         color="#084F93"
         variant="flat"
         size="large"
-        rounded="lg"
-        prepend-icon="mdi-upload"
+        class="!rounded-[8px]"
+        prepend-icon="mdi-tray-arrow-up"
         v-if="tab === 'transportation'"
       >
         อัปโหลดบิลจัดส่ง
@@ -43,7 +45,7 @@
     <div class="flex w-full mt-4 space-x-4" v-if="tab === 'status'">
       <v-btn
         variant="outlined"
-        class="text-none"
+        class="text-none !rounded-[8px]"
         v-bind:style="[
           active === 'flash'
             ? { border: '1px solid #084F93', color: '#084F93' }
@@ -55,7 +57,7 @@
       </v-btn>
       <v-btn
         variant="outlined"
-        class="text-none"
+        class="text-none !rounded-[8px]"
         v-bind:style="[
           active === 'kerry'
             ? { border: '1px solid #084F93', color: '#084F93' }
@@ -67,7 +69,7 @@
       </v-btn>
       <v-btn
         variant="outlined"
-        class="text-none"
+        class="text-none !rounded-[8px]"
         v-bind:style="[
           active === 'jandt'
             ? { border: '1px solid #084F93', color: '#084F93' }
@@ -79,7 +81,7 @@
       </v-btn>
       <v-btn
         variant="outlined"
-        class="text-none"
+        class="text-none !rounded-[8px]"
         v-bind:style="[
           active === 'thai'
             ? { border: '1px solid #084F93', color: '#084F93' }
@@ -186,13 +188,14 @@
     </div>
 
     <!-- table status-->
-    <v-card class="mt-4" v-if="tab === 'status'">
+    <v-card class="mt-4 !rounded-[8px]" variant="flat" v-if="tab === 'status'">
       <v-data-table
         :items="dataTable"
         :headers="headersTable"
         item-key="id"
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
+        class="border"
       >
         <template v-slot:item="{ item }">
           <tr>
@@ -225,10 +228,10 @@
               {{ item.import_data }}
             </td>
             <td class="flex justify-between items-center cursor-pointer">
-              <v-icon @click="() => console.log('download')" size="large">
-                mdi-download-outline
+              <v-icon @click="() => console.log('download')" color="#1A1C1E" size="small">
+                mdi-tray-arrow-down
               </v-icon>
-              <v-icon @click="() => console.log('eye')" size="large">
+              <v-icon @click="() => console.log('eye')" color="#1A1C1E" size="small">
                 mdi-eye-outline
               </v-icon>
             </td>
@@ -239,13 +242,14 @@
     </v-card>
 
     <!-- table transportation-->
-    <v-card class="mt-4" v-if="tab === 'transportation'">
+    <v-card class="mt-4 !rounded-[8px]" variant="flat" v-if="tab === 'transportation'">
       <v-data-table
         :items="dataTransportation"
         :headers="headerTransportation"
         item-key="id"
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
+        class="border"
       >
         <template v-slot:item="{ item }">
           <tr>
@@ -275,8 +279,8 @@
             </td>
 
             <td class="flex justify-center items-center cursor-pointer">
-              <v-icon @click="() => console.log('download')" size="large">
-                mdi-download-outline
+              <v-icon @click="() => console.log('download')" color="#1A1C1E" size="small">
+                mdi-tray-arrow-down
               </v-icon>
             </td>
           </tr>
@@ -429,10 +433,10 @@ const dataTransportation = [
 
 <style scoped>
 .card {
-  @apply border border-[#EEEDF1] rounded-md p-2 flex space-x-5 justify-center items-center;
+  @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-5 justify-center items-center;
 }
 
 .dashboardCard {
-  @apply border border-[#EEEDF1] rounded-md w-full box-border p-5 flex flex-col justify-between;
+  @apply border border-[#EEEDF1] !rounded-[8px] w-full box-border p-[10px] flex flex-col justify-between;
 }
 </style>

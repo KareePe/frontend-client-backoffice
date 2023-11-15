@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between p-4 sm:ml-64 pt-[15px] items-center">
+  <div class="flex justify-between p-4 md:ml-64 pt-[15px] items-center">
     <h1 class="text-[16px] font-bold text-[#084F93]" v-if="bread.length <= 1">
       <span v-for="(item, index) in bread" :key="index">{{ item }}</span>
     </h1>
