@@ -194,7 +194,7 @@ const menu_list = [
       },
       {
         subtitle: "ประเภทย่อยสินค้า",
-        path: "/",
+        path: "/product-variant",
         disable: false,
       },
       {
