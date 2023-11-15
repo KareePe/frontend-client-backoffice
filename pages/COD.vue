@@ -395,7 +395,7 @@
     <!-- modal upload excel  -->
     <v-dialog
       v-model="dialogState"
-      class="w-full max-w-"
+      class="w-full"
       :style="{ maxWidth: summarizeUpload ? '896px' : '512px' }"
     >
       <v-card v-if="!summarizeUpload">

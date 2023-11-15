@@ -26,7 +26,9 @@ const search = ref("");
 const page = ref(1);
 const itemsPerPage = ref(10);
 const itemSelect = ref<{} | null>(null);
-
+const dialogAddProduct = ref<boolean>(true);
+const dialogSecond1 = ref<string[]>([]);
+const dialogSecond2 = ref<string[]>([]);
 const tableItem = ref<itemTableType[]>([
   {
     primary: "ความงามและของใช้ส่วนตัว",
@@ -111,9 +113,29 @@ const fnSelectItem = (value: itemTableType) => {
 };
 
 const fnGobackEdit = () => {
-  itemSelect.value = null
-}
+  itemSelect.value = null;
+};
 
+const fnShowAddSecond1 = () => {
+  dialogSecond1.value?.push("");
+};
+const fnShowAddSecond2 = () => {
+  dialogSecond2.value?.push("");
+};
+
+const fnDeleteDataDialogSecond1 = (index: number) => {
+  dialogSecond1.value = [
+    ...dialogSecond1.value.slice(0, index),
+    ...dialogSecond1.value.slice(index + 1),
+  ];
+};
+
+const fnDeleteDataDialogSecond2 = (index: number) => {
+  dialogSecond2.value = [
+    ...dialogSecond2.value.slice(0, index),
+    ...dialogSecond2.value.slice(index + 1),
+  ];
+};
 // const props = defineProps(["title", "breadcrumbsText"]);
 </script>
 
@@ -138,6 +160,7 @@ const fnGobackEdit = () => {
         size="x-large"
         rounded="lg"
         prepend-icon="mdi-plus"
+        @click="dialogAddProduct = true"
       >
         เพิ่มหมวดหมู่สินค้าใหม่
       </v-btn>
@@ -252,6 +275,87 @@ const fnGobackEdit = () => {
   <div class="ContainerLayout space-y-5" v-else>
     <EditProduct :tab="tab" @go-back="fnGobackEdit" />
   </div>
+
+  <v-dialog v-model="dialogAddProduct" class="w-full max-w-lg">
+    <v-card>
+      <v-card-text class="flex justify-center items-center relative">
+        <div class="text-[16px] font-[600] text-center opacity-[0.8]">
+          เพิ่มหมวดหมู่สินค้าใหม่
+        </div>
+        <div class="absolute right-5 cursor-pointer">
+          <v-icon @click="dialogAddProduct = false">mdi-close</v-icon>
+        </div>
+      </v-card-text>
+      <v-card-text class="flex flex-col space-y-3">
+        <v-text-field
+          placeholder="ระบุหมวดหมู่สินค้า"
+          variant="outlined"
+          hide-details
+        ></v-text-field>
+        <div class="flex justify-end">
+          <v-btn
+            prepend-icon="mdi-plus"
+            color="#084F93"
+            variant="plain"
+            @click="fnShowAddSecond1"
+          >
+            เพิ่มหมวดหมู่รอง 1
+          </v-btn>
+        </div>
+        <div
+          v-if="dialogSecond1?.length > 0"
+          class="border border-[#EEEDF1] rounded-md p-2 flex justify-start flex-col space-y-2 pr-6"
+        >
+          <div class="text-[16px] font-[400] leading-5 ml-1">หมวดหมู่รอง 1</div>
+          <v-text-field
+            v-for="(item, index) in dialogSecond1"
+            variant="outlined"
+            density="comfortable"
+            class="w-full ml-1"
+            :model-value="item"
+            append-inner-icon="mdi-delete-outline"
+            hide-details
+            @click:append-inner="fnDeleteDataDialogSecond1(index)"
+          ></v-text-field>
+          <div v-if="dialogSecond2.length > 0" class="text-[14px] ml-1">
+            หมวดหมู่รอง 2
+          </div>
+          <div class="flex" v-for="(item, index) in dialogSecond2">
+            <v-icon size="40" color="#084F93">mdi-arrow-right-bottom</v-icon>
+            <v-text-field
+              variant="outlined"
+              density="comfortable"
+              class="w-full"
+              :model-value="item"
+              append-inner-icon="mdi-delete-outline"
+              @click:append-inner="fnDeleteDataDialogSecond2(index)"
+              hide-details
+              @input="
+              (event:any) => {
+                dialogSecond2[index] = event.target.value;
+              }
+            "
+            ></v-text-field>
+          </div>
+          <div class="flex justify-end">
+            <v-btn
+              prepend-icon="mdi-plus"
+              color="#084F93"
+              variant="plain"
+              @click="fnShowAddSecond2"
+            >
+              เพิ่มหมวดหมู่
+            </v-btn>
+          </div>
+        </div>
+      </v-card-text>
+      <v-card-text class="flex justify-between">
+        <v-btn class="w-full" color="#084F93" size="large" variant="flat">
+          เพิ่ม
+        </v-btn>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>
