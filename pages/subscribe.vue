@@ -56,7 +56,17 @@
           </div>
         </div>
       </div>
-      <div class="h-[100px] bg-fuchsia-500 w-full">asdasd</div>
+      <!-- this chart  -->
+      <div class="w-full">
+        <client-only placeholder="Loading..." fallback="Loading comments...">
+          <apexchart
+            type="area"
+            height="350"
+            :options="options"
+            :series="series"
+          ></apexchart>
+        </client-only>
+      </div>
     </div>
 
     <!-- Dashboard Card  -->
@@ -114,11 +124,13 @@
         variant="outlined"
         placeholder="ชื่อผู้ใช้ หรือ เบอร์โทร"
         class="max-w-[600px]"
+        density="compact"
       ></v-text-field>
       <v-text-field
         class="max-w-[400px]"
         prepend-inner-icon="mdi-calendar-month"
         variant="outlined"
+        density="compact"
         label="วันที่"
       ></v-text-field>
     </div>
@@ -160,7 +172,9 @@
               </td>
               <td class="text-table">
                 <div>{{ item.price }} บาท</div>
-                <div class="text-[12px] opacity-[0.6]">({{ item.vat }} บาท)</div>
+                <div class="text-[12px] opacity-[0.6]">
+                  ({{ item.vat }} บาท)
+                </div>
               </td>
             </tr>
           </template>
@@ -191,8 +205,11 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from "vue";
+const ApexCharts = defineAsyncComponent(() => import("vue3-apexcharts"));
+
 definePageMeta({
   middleware: "auth-middleware",
 });
@@ -308,6 +325,67 @@ const fnChangeSelect = (e: any) => {
 const fnChangeTab = (value: tabType) => {
   tab.value = value;
 };
+
+const options = ref({
+  chart: {
+    type: "area",
+    height: 350,
+    zoom: {
+      enabled: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+  },
+  xaxis: {
+    type: "datetime",
+    labels: {
+      format: "MMM",
+      showDuplicates: false,
+    },
+  },
+  tooltip: {
+    enable: "false",
+  },
+  yaxis: {
+    opposite: true,
+    show: false,
+  },
+  legend: {
+    horizontalAlign: "left",
+  },
+});
+
+const series = ref([
+  {
+    name: "จำนวนเงิน",
+    data: [
+      {
+        x: new Date("2023-07-11").getTime(),
+        y: 76,
+      },
+      {
+        x: new Date("2023-08-12").getTime(),
+        y: 50,
+      },
+      {
+        x: new Date("2023-09-13").getTime(),
+        y: 60,
+      },
+      {
+        x: new Date("2023-10-14").getTime(),
+        y: 20,
+      },
+      {
+        x: new Date("2023-11-15").getTime(),
+        y: 80,
+      },
+    ],
+  },
+]);
 </script>
 
 <style scoped>

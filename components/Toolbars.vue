@@ -154,7 +154,7 @@ const menu_list = [
     subMenu: [
       {
         subtitle: "กระเป๋าเงิน",
-        path: "/",
+        path: "/user-wallet",
         disable: false,
       },
       {

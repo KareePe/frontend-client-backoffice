@@ -37,6 +37,9 @@ export default {
   build: {
     transpile: ["vuetify",'@vuepic/vue-datepicker'],
   },
+  plugins: [
+    { src: '~/plugins/apexcharts.ts', mode: 'client' }
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
