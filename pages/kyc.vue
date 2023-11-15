@@ -56,7 +56,7 @@ const loadPdf = () => {
     .createPdf({
       content: [
         {
-          text: "ทดสอบ",
+          text: "ไทยจ้า อิอิ",
           style: { fontSize: 20, bold: true },
           margin: [0, 0, 0, 5],
         },
