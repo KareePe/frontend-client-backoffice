@@ -410,7 +410,6 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
     <!-- button Add Role -->
     <div class="flex w-full justify-end items-center">
       <v-text-field label="ชื่อบทบาท" variant="outlined"></v-text-field>
-      <div>{{ PermissionAll(2) }} hello</div>
     </div>
 
     <!-- content  -->
