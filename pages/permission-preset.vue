@@ -293,6 +293,20 @@ const Permission = ref([
     ]
   }
 ])
+const panelRole = ref([
+  "Dashboard",
+  "ออเดอร์",
+  "คลังสินค้า",
+  "ภาพรวมอย่างละเอียด",
+  "ทีมงาน",
+  "บทบาท",
+  "ร้านค้า",
+  "ตัวแทน",
+  "ช่องทางการขาย",
+  "แชตร้านค้า",
+  "Sale Page",
+  "แพ็กเกจ"
+])
 
 const checkBoxChecking = computed(() => {
   return PermissionAll
@@ -411,60 +425,87 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
     <div class="flex w-full justify-end items-center">
       <v-text-field label="ชื่อบทบาท" variant="outlined"></v-text-field>
     </div>
-
     <!-- content  -->
-    <div class="grid grid-cols-4 gap-4">
-      <div v-for="(item, index) in Permission">
-        <v-expansion-panels>
-          <v-expansion-panel elevation="0">
-            <v-expansion-panel-title
+    <div>
+      <v-expansion-panels
+        v-model="panelRole"
+        multiple
+        class="!grid grid-cols-4 gap-4"
+      >
+        <v-expansion-panel
+          elevation="0"
+          :value="item.name"
+          v-for="(item, index) in Permission"
+          class="!mt-0"
+        >
+          <v-expansion-panel-title>
+            <v-checkbox
+              class="text-checkbox"
+              color="#084F93"
               @click="(e:any ) => checkAllPermission(index, e.target.value)"
+              hide-details
+              :model-value="[checkBoxChecking(index) ? true : false]"
+            >
+              <template v-slot:label>
+                <div class="flex space-x-1 w-full justify-center items-center">
+                  <div>{{ item.name }}</div>
+                  <v-icon>mdi mdi-information-outline</v-icon>
+                </div>
+              </template>
+            </v-checkbox>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text style="background-color: #fff">
+            <div
+              v-for="(PermissionItem, subIndex) in item.permissions"
+              class="border-b py-1"
             >
               <v-checkbox
+                @click="
+                  () => {
+                    Permission[index].permissions[subIndex].value =
+                      !PermissionItem.value
+                  }
+                "
                 class="text-checkbox"
                 color="#084F93"
                 hide-details
-                :model-value="[checkBoxChecking(index) ? true : false]"
+                :model-value="PermissionItem.value"
               >
                 <template v-slot:label>
-                  <div class="flex space-x-1 w-full justify-center items-center">
-                    <div>{{ item.name }}</div>
+                  <div class="flex space-x-1">
+                    <div>
+                      {{ PermissionItem.name }}
+                    </div>
                     <v-icon>mdi mdi-information-outline</v-icon>
                   </div>
                 </template>
               </v-checkbox>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text style="background-color: #fff">
-              <div
-                v-for="(PermissionItem, subIndex) in item.permissions"
-                class="border-b py-1"
-              >
-                <v-checkbox
-                  @click="
-                    () => {
-                      Permission[index].permissions[subIndex].value =
-                        !PermissionItem.value
-                    }
-                  "
-                  class="text-checkbox"
-                  color="#084F93"
-                  hide-details
-                  :model-value="PermissionItem.value"
-                >
-                  <template v-slot:label>
-                    <div class="flex space-x-1">
-                      <div>
-                        {{ PermissionItem.name }}
-                      </div>
-                      <v-icon>mdi mdi-information-outline</v-icon>
-                    </div>
-                  </template>
-                </v-checkbox>
-              </div>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </div>
+            </div>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+
+    <!-- action -->
+    <div class="flex flex-row space-x-3 mr-2">
+      <v-btn
+        class="!px-[200px] w-[50%]"
+        color="#084F93"
+        variant="outlined"
+        size="x-large"
+        rounded="lg"
+      >
+        กลับ
+      </v-btn>
+      <v-btn
+        class="!px-[200px] w-[50%]"
+        color="#084F93"
+        variant="flat"
+        size="x-large"
+        rounded="lg"
+      >
+        บันทึก
+      </v-btn>
     </div>
   </div>
 </template>
@@ -479,7 +520,7 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
   background-color: #eeedf1;
 }
 .v-expansion-panel {
-  background-color: #eeedf1;
+  /* background-color: #eeedf1; */
 }
 .text-checkbox {
   color: #000;
