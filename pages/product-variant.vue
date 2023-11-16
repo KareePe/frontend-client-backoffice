@@ -1,114 +1,138 @@
 <script lang="ts">
-type tabType = "primary" | "secondary1" | "secondary2";
 type itemTableType = {
-  variant: string;
-  category: string;
-  create_date: string;
-  creater: string;
-};
+  variant: string
+  category: string[]
+  create_date: string
+  creater: string
+}
 type headerTableType<T> = {
-  title: string;
-  key: keyof T | "";
-  sortable?: boolean;
-  align?: "center" | "start" | "end";
-}[];
+  title: string
+  key: keyof T | ""
+  sortable?: boolean
+  align?: "center" | "start" | "end"
+}[]
 </script>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed } from "vue"
 definePageMeta({
-  middleware: "auth-middleware",
-});
+  middleware: "auth-middleware"
+})
+const search = ref("")
+const page = ref(1)
+const itemsPerPage = ref(10)
+const itemSelect = ref<itemTableType | null>(null)
+const dialogAddVariant = ref<boolean>(false)
+const confirmDeleteDialog = ref<boolean>(false)
+const toggleSnackbar = ref<boolean>(false)
+const snackbarFocus = ref<string>("")
 
-const tab = ref<tabType>("primary");
-const search = ref("");
-const page = ref(1);
-const itemsPerPage = ref(10);
-const itemSelect = ref<{} | null>(null);
-const dialogAddVariant = ref<boolean>(true);
+const snackbarType = ref<"ลบ" | "เพิ่ม" | "แก้ไข">("เพิ่ม")
 
-const dialogCategoryAddValue = ref<string>("");
-const dialogSubCategoryAddValue = ref<string[]>([""]);
+const dialogCategoryAddValue = ref<string>("")
+const dialogSubCategoryAddValue = ref<string[]>([""])
 
 const tableItem = ref<itemTableType[]>([
   {
     variant: "สี",
-    category: "เขียว , ขาว , ดำ",
+    category: ["เขียว", "ขาว", "ดำ"],
     create_date: "13/12/2000",
-    creater: "jack papho",
+    creater: "jack papho"
   },
   {
     variant: "ขนาด",
-    category: "20x20, 30x30, 40x40",
+    category: ["20x20", "30x30", "40x40"],
     create_date: "13/12/2000",
-    creater: "jack papho",
+    creater: "jack papho"
   },
   {
     variant: "ไซด์",
-    category: "XXS, XS, S, M, L, XL, XXL",
+    category: ["XXS", "XS", "S", "M", "L", "XL", "XXL"],
     create_date: "13/12/2000",
-    creater: "jack papho",
+    creater: "jack papho"
   },
   {
     variant: "ลวดลาย",
-    category: "ลายจุด, ลายทาง, ลายตาราง, ลายขวาง",
+    category: ["ลายจุด", "ลายทาง", "ลายตาราง", "ลายขวาง"],
     create_date: "13/12/2000",
-    creater: "jack papho",
-  },
-]);
+    creater: "jack papho"
+  }
+])
 
 const headersTable = ref<headerTableType<itemTableType>>([
   {
     key: "variant",
     title: "ตัวเลือกสินค้า",
-    align: "center",
+    align: "center"
   },
   {
     key: "category",
     title: "ประเภท",
-    align: "center",
+    align: "center"
   },
   {
     key: "create_date",
     title: "วันที่สร้าง",
-    align: "center",
+    align: "center"
   },
   {
     key: "creater",
     title: "ผู้สร้าง",
-    align: "center",
+    align: "center"
   },
   {
     key: "",
     title: "",
     align: "center",
-    sortable: false,
-  },
-]);
+    sortable: false
+  }
+])
 
 const fnChangeRowPerPages = (e: number) => {
-  itemsPerPage.value = e;
-  console.log(e);
-};
+  itemsPerPage.value = e
+  console.log(e)
+}
 const fnAppendSubCategoryDialogValue = () => {
-  dialogSubCategoryAddValue.value.push("");
-};
+  dialogSubCategoryAddValue.value.push("")
+}
 
 const fnDeleteSubCategoryDialogValue = (index: number) => {
   dialogSubCategoryAddValue.value = [
     ...dialogSubCategoryAddValue.value.slice(0, index),
-    ...dialogSubCategoryAddValue.value.slice(index + 1),
-  ];
-};
-// watch(dialogCategoryAddValue, () => {
-//   if (dialogCategoryAddValue.value.length === 1) {
-//     dialogSubCategoryAddValue.value.push("");
-//   }
-// });
+    ...dialogSubCategoryAddValue.value.slice(index + 1)
+  ]
+}
+
+watch(itemSelect, () => {
+  if (itemSelect) {
+    dialogCategoryAddValue.value = itemSelect?.value?.variant ?? ""
+    dialogSubCategoryAddValue.value = itemSelect.value?.category ?? [""]
+  }
+})
+
+watch(dialogAddVariant, () => {
+  if (dialogAddVariant.value === false) {
+    itemSelect.value = null
+  }
+})
+
+const fnHandleSubmit = () => {
+  dialogAddVariant.value = false
+  if (itemSelect) {
+    toggleSnackbar.value = true
+  } else {
+    toggleSnackbar.value = true
+  }
+}
+
+const fnHandleDeleted = () => {
+  toggleSnackbar.value = true
+  confirmDeleteDialog.value = false
+}
 
 const pageCount = computed(() => {
-  return Math.ceil(tableItem.value.length / itemsPerPage.value);
-});
+  return Math.ceil(tableItem.value.length / itemsPerPage.value)
+})
 
 // const props = defineProps(["title", "breadcrumbsText"]);
 </script>
@@ -126,6 +150,7 @@ const pageCount = computed(() => {
           prepend-inner-icon="mdi-magnify"
           variant="outlined"
           hide-details
+          v-model="search"
         ></v-text-field>
       </div>
       <v-btn
@@ -135,9 +160,10 @@ const pageCount = computed(() => {
         rounded="lg"
         prepend-icon="mdi-plus"
         @click="
-          {
-            dialogAddVariant = true;
-            itemSelect = null;
+          () => {
+            dialogAddVariant = true
+            itemSelect = null
+            snackbarType = 'เพิ่ม'
           }
         "
       >
@@ -174,7 +200,7 @@ const pageCount = computed(() => {
               {{ item.variant }}
             </td>
             <td class="text-table">
-              {{ item.category }}
+              {{ item.category.join(", ") }}
             </td>
             <td class="text-table">
               {{ item.create_date }}
@@ -183,16 +209,26 @@ const pageCount = computed(() => {
               {{ item.creater }}
             </td>
             <td class="text-table space-x-3">
-              <v-icon class="cursor-pointer" color="#DAD9DD">mdi-delete</v-icon>
+              <v-icon
+                class="cursor-pointer"
+                @click="
+                  () => {
+                    confirmDeleteDialog = true
+                    snackbarType = 'ลบ'
+                  }
+                "
+                color="#DAD9DD"
+                >mdi-delete</v-icon
+              >
               <v-icon
                 class="cursor-pointer"
                 color="#DAD9DD"
                 @click="
-                  {
-                    dialogAddVariant = true;
-                    itemSelect = {
-                      test:'sdad'
-                    };
+                  () => {
+                    dialogAddVariant = true
+                    itemSelect = item
+                    snackbarFocus = item.variant
+                    snackbarType = 'แก้ไข'
                   }
                 "
                 >mdi-pencil</v-icon
@@ -224,6 +260,32 @@ const pageCount = computed(() => {
         ></v-select>
       </div>
     </div>
+
+    <v-snackbar
+      v-model="toggleSnackbar"
+      multi-line
+      location="top"
+      timeout="1500"
+      class="[&>div]:bg-[#D1FADF] [&>div]:rounded-md [&>div]:box-border [&>div]:border-l-8 [&>div]:border-[#12B76A]"
+    >
+      <div class="flex items-center space-x-4">
+        <v-icon color="#12B76A">mdi-check-circle</v-icon>
+        <div>
+          <div class="text-black font-bold text-[14px]">
+            {{
+              snackbarType === "ลบ"
+                ? "ลบสำเร็จ"
+                : snackbarType === "เพิ่ม"
+                ? "เพิ่มตัวเลือกของสินค้าสำเร็จ"
+                : "แก้ไขสำเร็จ"
+            }}
+          </div>
+          <div class="text-black text-[14px]">
+            ตัวเลือกของสินค้าประเภท{{ snackbarFocus }}
+          </div>
+        </div>
+      </div>
+    </v-snackbar>
   </div>
 
   <v-dialog v-model="dialogAddVariant" class="w-full max-w-lg">
@@ -246,6 +308,9 @@ const pageCount = computed(() => {
               hide-details
               v-model="dialogCategoryAddValue"
               rounded="lg"
+              @input="(e:any)=>{
+                snackbarFocus = e.target.value
+              }"
             ></v-text-field>
           </div>
           <div v-if="dialogCategoryAddValue.length > 0">
@@ -276,23 +341,67 @@ const pageCount = computed(() => {
                 ></v-text-field>
               </div>
             </div>
-            <div class="flex justify-end mt-2">
+            <div class="flex justify-start mt-2 pl-6">
               <v-btn
                 prepend-icon="mdi-plus"
                 color="#084F93"
-                variant="plain"
+                variant="text"
                 size="small"
                 @click="fnAppendSubCategoryDialogValue"
               >
-                เพิ่มหมวดหมู่รอง 1
+                เพิ่มประเภทย่อย
               </v-btn>
             </div>
           </div>
         </div>
       </v-card-text>
       <v-card-text class="flex justify-between">
-        <v-btn class="w-full" color="#084F93" size="large" variant="flat">
-          สร้าง
+        <v-btn
+          class="w-full"
+          color="#084F93"
+          size="large"
+          variant="flat"
+          @click="fnHandleSubmit"
+        >
+          {{ !!itemSelect ? "บันทึก" : "สร้าง" }}
+        </v-btn>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="confirmDeleteDialog" class="w-full max-w-lg rounded-lg">
+    <v-card>
+      <v-card-text class="flex justify-center items-start relative !pb-0">
+        <div class="text-[16px] font-[600] text-center space-y-1">
+          <div>ยืนยันการลบตัวเลือกของสินค้า</div>
+          <div class="text-[14px] opacity-[0.6]">
+            หากคุณลบยืนยันการลบ ระบบจะไม่สามารถกู้คืนได้
+          </div>
+        </div>
+        <div class="absolute right-5 cursor-pointer">
+          <v-icon @click="confirmDeleteDialog = false">mdi-close</v-icon>
+        </div>
+      </v-card-text>
+      <v-card-text class="flex flex-col space-y-2 !pt-2">
+        <v-btn
+          class="w-full"
+          color="#084F93"
+          size="x-large"
+          variant="flat"
+          rounded="lg"
+          @click="fnHandleDeleted"
+        >
+          ยืนยัน
+        </v-btn>
+        <v-btn
+          class="w-full"
+          color="#084F93"
+          size="large"
+          variant="outlined"
+          rounded="lg"
+          @click="confirmDeleteDialog = false"
+        >
+          ยกเลิก
         </v-btn>
       </v-card-text>
     </v-card>
