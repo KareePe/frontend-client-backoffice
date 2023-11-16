@@ -162,7 +162,7 @@ const fnBackBtn = () => {
             </template>
           </v-checkbox> -->
         </div>
-        <div class="flex justify-end" v-if="tab !== 'primary'" >
+        <div class="flex justify-end" v-if="tab !== 'primary'">
           <v-btn prepend-icon="mdi-plus" color="#084F93" variant="plain">
             เพิ่มหมวดหมู่
           </v-btn>
@@ -197,6 +197,7 @@ const fnBackBtn = () => {
       variant="flat"
       size="x-large"
       rounded="lg"
+      @click="fnBackBtn"
     >
       บันทึก
     </v-btn>

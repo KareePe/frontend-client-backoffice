@@ -62,7 +62,7 @@ const Permission = ref([
       },
       {
         name: "สรุปออเดอร์",
-        value: false,
+        value: true,
       },
       {
         name: "สินค้าขายดีวันนี้",
@@ -70,7 +70,7 @@ const Permission = ref([
       },
       {
         name: "แผนภาพสินค้าขายดี",
-        value: false,
+        value: true,
       },
       {
         name: "ปริมาณการสร้างออเดอร์ (ออเดอร์ต่อวัน)",
@@ -83,15 +83,15 @@ const Permission = ref([
     permissions: [
       {
         name: "เพิ่มสินค้าใหม่",
-        value: false,
+        value: true,
       },
       {
         name: "นำเข้ารายการสินค้า",
-        value: false,
+        value: true,
       },
       {
         name: "แก้ไขสินค้า",
-        value: false,
+        value: true,
       },
       {
         name: "ลบสินค้า",
@@ -124,7 +124,7 @@ const Permission = ref([
     permissions: [
       {
         name: "สร้างออเดอร์ใหม่",
-        value: false,
+        value: true,
       },
       {
         name: "แก้ไขออเดอร์",
@@ -144,11 +144,11 @@ const Permission = ref([
       },
       {
         name: "ส่งออกรายการออเดอร์",
-        value: false,
+        value: true,
       },
       {
         name: "พิมพ์ออเดอร์ทั้งหมด",
-        value: false,
+        value: true,
       },
     ],
   },
@@ -169,7 +169,7 @@ const Permission = ref([
       },
       {
         name: "ยอดโอนเงินค่า COD",
-        value: false,
+        value: true,
       },
       {
         name: "สินค้าที่ส่งในแต่ละวัน",
@@ -308,6 +308,7 @@ const panelRole = ref([
   "Sale Page",
   "แพ็กเกจ",
 ]);
+const toggleSnackbar = ref(false);
 
 const checkBoxChecking = computed(() => {
   return PermissionAll;
@@ -339,20 +340,27 @@ const checkAllPermission = (index: number, value: any) => {
   }
 };
 
+const fnHandleEdit = (data: itemTableType) => {
+  refNavBar.value.push(data.role);
+  roleName.value = data.role;
+  submitFormType.value = "edit";
+};
+
+const fnHandleBack = () => {
+  refNavBar.value.pop();
+  statePage.value = "default";
+  roleName.value = "";
+};
+
 const statePage = ref<statePageType>("default");
-const navBartext = ref(`Platform , Permission preset , ${statePage.value}`);
-const refNavBar = ref(["Platform"]);
+const refNavBar = ref(["Platform", "Permission preset"]);
+const roleName = ref("");
+const submitFormType = ref<"append" | "edit">("append");
 </script>
 
 <template>
   <Toolbars />
   <NavbarDynamic :Breadcrumb="refNavBar" />
-  <!-- <Navbar text="Platform , Permission preset" v-if="statePage === 'default'" /> -->
-  <!-- <Navbar
-    text="Platform , Permission preset , เพิ่มบทบาท"
-    v-else-if="statePage === 'append'"
-  /> -->
-  <!-- <Navbar :text="navBartext" v-else /> -->
 
   <div class="ContainerLayout space-y-4" v-if="statePage === 'default'">
     <!-- button Add Role -->
@@ -368,7 +376,10 @@ const refNavBar = ref(["Platform"]);
         class="px-16"
         @click="
           () => {
-            refNavBar.push('hello');
+            statePage = 'append';
+            refNavBar.push('เพิ่มบทบาท');
+            roleName = '';
+            submitFormType = 'append';
           }
         "
       >
@@ -408,9 +419,19 @@ const refNavBar = ref(["Platform"]);
               </div>
             </td>
             <td class="text-table space-x-4">
-              <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
-                >mdi-square-edit-outline</v-icon
+              <v-icon
+                class="cursor-pointer"
+                size="30"
+                color="#1A1C1E"
+                @click="
+                  () => {
+                    statePage = 'edit';
+                    fnHandleEdit(item);
+                  }
+                "
               >
+                mdi-square-edit-outline
+              </v-icon>
               <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
                 >mdi-delete-outline</v-icon
               >
@@ -429,10 +450,14 @@ const refNavBar = ref(["Platform"]);
     </v-card>
   </div>
 
-  <div class="ContainerLayout space-y-4" v-else-if="statePage === 'append'">
+  <div class="ContainerLayout space-y-4" v-else>
     <!-- button Add Role -->
     <div class="flex w-full justify-end items-center">
-      <v-text-field label="ชื่อบทบาท" variant="outlined"></v-text-field>
+      <v-text-field
+        label="ชื่อบทบาท"
+        variant="outlined"
+        v-model="roleName"
+      ></v-text-field>
     </div>
     <!-- content  -->
     <div>
@@ -503,6 +528,11 @@ const refNavBar = ref(["Platform"]);
         variant="outlined"
         size="x-large"
         rounded="lg"
+        @click="
+          () => {
+            fnHandleBack();
+          }
+        "
       >
         กลับ
       </v-btn>
@@ -512,11 +542,37 @@ const refNavBar = ref(["Platform"]);
         variant="flat"
         size="x-large"
         rounded="lg"
+        @click="
+          () => {
+            refNavBar.pop();
+            statePage = 'default';
+            toggleSnackbar = true;
+            
+          }
+        "
       >
         บันทึก
       </v-btn>
     </div>
   </div>
+
+  <v-snackbar
+    v-model="toggleSnackbar"
+    multi-line
+    location="top"
+    timeout="1500"
+    class="[&>div]:bg-[#D1FADF] [&>div]:rounded-md [&>div]:box-border [&>div]:border-l-8 [&>div]:border-[#12B76A]"
+  >
+    <div class="flex items-center space-x-4">
+      <v-icon color="#12B76A">mdi-check-circle</v-icon>
+      <div>
+        <div class="text-black font-bold text-[14px]">
+          {{ submitFormType === "append" ? "เพิ่ม" : "แก้ไข" }}บทบาทสำเร็จ
+        </div>
+        <div class="text-black text-[14px]">{{ roleName }}</div>
+      </div>
+    </div>
+  </v-snackbar>
 </template>
 
 <style scoped>

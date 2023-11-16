@@ -1,148 +1,159 @@
 <script lang="ts">
-type tabType = "primary" | "secondary1" | "secondary2"
+type tabType = "primary" | "secondary1" | "secondary2";
 type itemTableType = {
-  primary: string
-  secondary1: string
-  secondary2: string
-  choice: string
-  status: "เปิดใช้งาน" | "ปิดใช้งาน"
-}
+  primary: string;
+  secondary1: string;
+  secondary2: string;
+  choice: string;
+  status: "เปิดใช้งาน" | "ปิดใช้งาน";
+};
 type headerTableType<T> = {
-  title: string
-  key: keyof T | ""
-  sortable?: boolean
-  align?: "center" | "start" | "end"
-}[]
+  title: string;
+  key: keyof T | "";
+  sortable?: boolean;
+  align?: "center" | "start" | "end";
+}[];
 </script>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from "vue"
+import { ref, reactive, computed } from "vue";
 definePageMeta({
-  middleware: "auth-middleware"
-})
+  middleware: "auth-middleware",
+});
 
-const tab = ref<tabType>("primary")
-const search = ref("")
-const page = ref(1)
-const itemsPerPage = ref(10)
-const itemSelect = ref<{} | null>(null)
-const dialogAddProduct = ref<boolean>(false)
-const dialogSecond1 = ref<string[]>([])
-const dialogSecond2 = ref<string[]>([])
+const tab = ref<tabType>("primary");
+const search = ref("");
+const page = ref(1);
+const itemsPerPage = ref(10);
+const itemSelect = ref<{} | null>(null);
+const dialogAddProduct = ref<boolean>(false);
+const dialogSecond1 = ref<string[]>([]);
+const dialogSecond2 = ref<string[]>([]);
+const refNavBar = ref(["Product Category"]);
+
 const tableItem = ref<itemTableType[]>([
   {
     primary: "ความงามและของใช้ส่วนตัว",
     secondary1: "2",
     secondary2: "2",
     choice: "2",
-    status: "เปิดใช้งาน"
+    status: "เปิดใช้งาน",
   },
   {
     primary: "กระเป๋า",
     secondary1: "2",
     secondary2: "2",
     choice: "2",
-    status: "ปิดใช้งาน"
+    status: "ปิดใช้งาน",
   },
   {
     primary: "รองเท้า",
     secondary1: "2",
     secondary2: "2",
     choice: "2",
-    status: "เปิดใช้งาน"
+    status: "เปิดใช้งาน",
   },
   {
     primary: "เรืองประดับ",
     secondary1: "2",
     secondary2: "2",
     choice: "2",
-    status: "ปิดใช้งาน"
-  }
-])
+    status: "ปิดใช้งาน",
+  },
+]);
 
 const headersTable = ref<headerTableType<itemTableType>>([
   {
     key: "primary",
     title: "หมวดหมู่หลัก",
-    align: "center"
+    align: "center",
   },
   {
     key: "secondary1",
     title: "หมวดหมู่รอง 1",
-    align: "center"
+    align: "center",
   },
   {
     key: "secondary2",
     title: "หมวดหมู่รอง 2",
-    align: "center"
+    align: "center",
   },
   {
     key: "choice",
     title: "ตัวเลือกสินค้า",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
+    align: "center",
   },
   {
     key: "",
     title: "",
     align: "center",
-    sortable: false
-  }
-])
+    sortable: false,
+  },
+]);
 
 const fnTabChange = (value: tabType) => {
-  tab.value = value
-}
+  tab.value = value;
+};
 
 const fnChangeRowPerPages = (e: number) => {
-  itemsPerPage.value = e
-  console.log(e)
-}
+  itemsPerPage.value = e;
+  console.log(e);
+};
 
 const pageCount = computed(() => {
-  return Math.ceil(tableItem.value.length / itemsPerPage.value)
-})
+  return Math.ceil(tableItem.value.length / itemsPerPage.value);
+});
 
 const fnSelectItem = (value: itemTableType) => {
-  itemSelect.value = value
-  console.log(value)
-}
+  itemSelect.value = value;
+  if (tab.value === "primary") {
+    refNavBar.value = [value.primary];
+  } else if (tab.value === "secondary1") {
+    refNavBar.value = [value.primary, value.secondary1];
+  } else if (tab.value === "secondary2") {
+    refNavBar.value = [value.primary, value.secondary1, value.secondary2];
+  }
+  console.log(value);
+};
 
 const fnGobackEdit = () => {
-  itemSelect.value = null
-}
+  itemSelect.value = null;
+  refNavBar.value = ["Product Category"];
+};
 
 const fnShowAddSecond1 = () => {
-  dialogSecond1.value?.push("")
-}
+  dialogSecond1.value?.push("");
+};
 const fnShowAddSecond2 = () => {
-  dialogSecond2.value?.push("")
-}
+  dialogSecond2.value?.push("");
+};
 
 const fnDeleteDataDialogSecond1 = (index: number) => {
   dialogSecond1.value = [
     ...dialogSecond1.value.slice(0, index),
-    ...dialogSecond1.value.slice(index + 1)
-  ]
-}
+    ...dialogSecond1.value.slice(index + 1),
+  ];
+};
 
 const fnDeleteDataDialogSecond2 = (index: number) => {
   dialogSecond2.value = [
     ...dialogSecond2.value.slice(0, index),
-    ...dialogSecond2.value.slice(index + 1)
-  ]
-}
-
+    ...dialogSecond2.value.slice(index + 1),
+  ];
+};
+// const Navbar = ref(["Product Category" ,'asdaasd']);
 // const props = defineProps(["title", "breadcrumbsText"]);
 </script>
 
 <template>
   <Toolbars />\
-  <Navbar text="Product Category" />
+  <!-- <Navbar text="Product Category" /> -->
+  <NavbarDynamic :Breadcrumb="refNavBar" />
   <div class="ContainerLayout space-y-5" v-if="!itemSelect">
     <!-- header menu -->
     <div class="flex w-full justify-between items-center">
@@ -234,7 +245,7 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
                   class="w-4 h-4 mr-1 rounded-full"
                   v-bind:style="{
                     backgroundColor:
-                      item.status === 'เปิดใช้งาน' ? '#12B76A' : '#BA1A1A'
+                      item.status === 'เปิดใช้งาน' ? '#12B76A' : '#BA1A1A',
                   }"
                 ></div>
                 {{ item.status }}
