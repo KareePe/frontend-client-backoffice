@@ -196,10 +196,10 @@ const menu_list = [
         subtitle: "ประเภทย่อยสินค้า",
         path: "/product-variant",
         disable: false,
-      },
+      },  
       {
         subtitle: "บทบาทผู้ใช้",
-        path: "/",
+        path: "/permission-preset",
         disable: false,
       },
     ],

@@ -205,7 +205,6 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
       class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
     >
       <v-data-table
-        v-if="tableItem.length > 0"
         :items="tableItem"
         :headers="headersTable"
         item-key="id"
@@ -248,11 +247,15 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
             </td>
           </tr>
         </template>
+        <template v-slot:no-data>
+          <div
+            class="h-[240px] flex justify-center items-center flex-col space-y-3"
+          >
+            <div class="opacity-[60%]">ยังไม่มีรายการ</div>
+          </div>
+        </template>
         <template #bottom></template>
       </v-data-table>
-      <div v-else class="h-[260px] flex justify-center items-center">
-        <p>ยังไม่มีรายการ</p>
-      </div>
     </v-card>
 
     <!-- pagination  -->
