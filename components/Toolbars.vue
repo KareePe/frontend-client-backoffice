@@ -258,8 +258,8 @@ const menu_list = [
     haveSubMenu: true,
     subMenu: [
       {
-        subtitle: "ประเภทสินค้า",
-        path: "/",
+        subtitle: "การตั้งค่า",
+        path: "/setting",
         disable: false,
       },
       {
