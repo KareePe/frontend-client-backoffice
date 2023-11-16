@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, computed } from "vue";
+definePageMeta({
+  middleware: "auth-middleware",
+});
+
 type headerTableType<T> = {
   title: string;
   key: keyof T | "";
@@ -8,6 +12,7 @@ type headerTableType<T> = {
 }[];
 type itemTableType = {
   role: string;
+  amount: number;
   status: "active" | "inactive";
 };
 type statePageType = "append" | "default" | "edit";
@@ -15,15 +20,15 @@ type permissionsType = {
   name: string;
   value: boolean;
 };
-
-definePageMeta({
-  middleware: "auth-middleware",
-});
-
 const headersTable: headerTableType<itemTableType> = [
   {
     key: "role",
     title: "บทบาท",
+    align: "center",
+  },
+  {
+    key: "amount",
+    title: "จำนวนผู้ใช้",
     align: "center",
   },
   {
@@ -34,6 +39,7 @@ const headersTable: headerTableType<itemTableType> = [
   {
     key: "",
     title: "",
+    sortable: false,
   },
 ];
 
@@ -41,16 +47,37 @@ const itemsTable: itemTableType[] = [
   {
     role: "Super admin",
     status: "active",
+    amount: 2,
   },
   {
     role: "Admin",
     status: "active",
+    amount: 5,
   },
   {
     role: "Operator",
     status: "inactive",
+    amount: 10,
   },
 ];
+const statePage = ref<statePageType>("append");
+const roleName = ref("");
+const submitFormType = ref<"append" | "edit">("append");
+const toggleSnackbar = ref(false);
+
+const checkBoxChecking = computed(() => {
+  return PermissionAll;
+});
+
+const PermissionAll = (index: number) => {
+  const check = Permission.value[index].permissions.map(
+    (item: permissionsType) => {
+      return item.value;
+    }
+  );
+  const AllCheck = check.every((value) => value === true);
+  return AllCheck;
+};
 
 const Permission = ref([
   {
@@ -308,22 +335,6 @@ const panelRole = ref([
   "Sale Page",
   "แพ็กเกจ",
 ]);
-const toggleSnackbar = ref(false);
-
-const checkBoxChecking = computed(() => {
-  return PermissionAll;
-});
-
-const PermissionAll = (index: number) => {
-  const check = Permission.value[index].permissions.map(
-    (item: permissionsType) => {
-      return item.value;
-    }
-  );
-  const AllCheck = check.every((value) => value === true);
-  return AllCheck;
-};
-
 const checkAllPermission = (index: number, value: any) => {
   if (PermissionAll(index) === false) {
     Permission.value[index].permissions.map(
@@ -340,219 +351,273 @@ const checkAllPermission = (index: number, value: any) => {
   }
 };
 
-const fnHandleEdit = (data: itemTableType) => {
-  refNavBar.value.push(data.role);
-  roleName.value = data.role;
-  submitFormType.value = "edit";
-};
-
 const fnHandleBack = () => {
-  refNavBar.value.pop();
   statePage.value = "default";
   roleName.value = "";
 };
-
-const statePage = ref<statePageType>("default");
-const refNavBar = ref(["Platform", "Permission preset"]);
-const roleName = ref("");
-const submitFormType = ref<"append" | "edit">("append");
 </script>
 
 <template>
   <Toolbars />
-  <NavbarDynamic :Breadcrumb="refNavBar" />
-
+  <NavbarDynamic :Breadcrumb="['Setting Permission']" />
   <div class="ContainerLayout space-y-4" v-if="statePage === 'default'">
-    <!-- button Add Role -->
-    <div class="flex w-full justify-end items-center">
-      <!-- @click="statePage = 'append'" -->
+    <div class="card">
+      <div class="flex w-full justify-start items-center tracking-[0px]">
+        <!-- @click="statePage = 'append'" -->
+        จัดการบทบาท
+      </div>
 
-      <v-btn
-        color="#084F93"
-        variant="flat"
-        size="large"
-        rounded="lg"
-        prepend-icon="mdi-plus"
-        class="px-16"
-        @click="
-          () => {
-            statePage = 'append';
-            refNavBar.push('เพิ่มบทบาท');
-            roleName = '';
-            submitFormType = 'append';
-          }
-        "
-      >
-        เพิ่มบทบาท
-      </v-btn>
-    </div>
-
-    <!-- table  -->
-    <v-card
-      variant="flat"
-      class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
-    >
-      <v-data-table
-        :items="itemsTable"
-        :headers="headersTable"
-        item-key="id"
-        no-data-text="ไม่มีข้อมูล"
-        items-per-page-text="จำนวนแสดงผล"
-      >
-        <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+      <!-- button Add Role -->
+      <div class="flex w-full justify-end items-center mb-4">
+        <!-- @click="statePage = 'append'" -->
+        <v-btn
+          color="#084F93"
+          variant="flat"
+          size="large"
+          rounded="lg"
+          prepend-icon="mdi-plus"
+          class="px-16"
+          @click="
+            () => {
+              statePage = 'append';
+              roleName = '';
+              submitFormType = 'append';
+            }
+          "
         >
-          <tr>
-            <td class="text-table">
-              {{ item.role }}
-            </td>
-            <td class="text-table">
-              <div class="!flex !justify-center !items-center">
-                <div
-                  class="w-4 h-4 mr-1 rounded-full"
-                  v-bind:style="{
-                    backgroundColor:
-                      item.status === 'active' ? '#12B76A' : '#BA1A1A',
-                  }"
-                ></div>
-                {{ item.status === "active" ? "เปิดใช้งาน" : "ปิดใช้งาน" }}
-              </div>
-            </td>
-            <td class="text-table space-x-4">
-              <v-icon
-                class="cursor-pointer"
-                size="30"
-                color="#1A1C1E"
-                @click="
-                  () => {
-                    statePage = 'edit';
-                    fnHandleEdit(item);
-                  }
-                "
-              >
-                mdi-square-edit-outline
-              </v-icon>
-              <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
-                >mdi-delete-outline</v-icon
-              >
-            </td>
-          </tr>
-        </template>
-        <template v-slot:no-data>
-          <div
-            class="h-[240px] flex justify-center items-center flex-col space-y-3"
+          เพิ่มบทบาท
+        </v-btn>
+      </div>
+
+      <!-- table  -->
+      <v-card
+        variant="flat"
+        class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
+      >
+        <v-data-table
+          :items="itemsTable"
+          :headers="headersTable"
+          item-key="id"
+          no-data-text="ไม่มีข้อมูล"
+          items-per-page-text="จำนวนแสดงผล"
+        >
+          <template
+            v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
           >
-            <div class="opacity-[60%]">ยังไม่มีรายการ</div>
-          </div>
-        </template>
-        <template #bottom></template>
-      </v-data-table>
-    </v-card>
+            <tr>
+              <td class="text-table">
+                {{ item.role }}
+              </td>
+              <td class="text-table">
+                {{ item.amount }}
+              </td>
+              <td class="text-table">
+                <div class="!flex !justify-center !items-center">
+                  <div
+                    class="w-4 h-4 mr-1 rounded-full"
+                    v-bind:style="{
+                      backgroundColor:
+                        item.status === 'active' ? '#12B76A' : '#BA1A1A',
+                    }"
+                  ></div>
+                  {{ item.status === "active" ? "เปิดใช้งาน" : "ปิดใช้งาน" }}
+                </div>
+              </td>
+              <td class="text-table">
+                <v-icon class="cursor-pointer" size="30" color="#1A1C1E">
+                  mdi-square-edit-outline
+                </v-icon>
+              </td>
+            </tr>
+          </template>
+          <template v-slot:no-data>
+            <div
+              class="h-[240px] flex justify-center items-center flex-col space-y-3"
+            >
+              <div class="opacity-[60%]">ยังไม่มีรายการ</div>
+            </div>
+          </template>
+          <template #bottom></template>
+        </v-data-table>
+      </v-card>
+    </div>
   </div>
 
   <div class="ContainerLayout space-y-4" v-else>
     <!-- button Add Role -->
-    <div class="flex w-full justify-end items-center">
+    <div class="card">
+      <div class="flex w-full justify-between">
+        <div>แก้ไขบทบาท</div>
+        <div class="flex items-center">
+          <v-switch
+            color="#084F93"
+            hide-details
+            inset
+            label="เปิดใช้งาน"
+          ></v-switch>
+          <v-btn
+            color="#BA1A1A"
+            variant="outlined"
+            size="large"
+            class="ml-5 !px-[80px]"
+            rounded="lg"
+            prepend-icon="mdi-delete-outline"
+            type="submit"
+          >
+            ลบบทบาท
+          </v-btn>
+        </div>
+      </div>
       <v-text-field
+        class="mt-4"
         label="ชื่อบทบาท"
         variant="outlined"
         v-model="roleName"
       ></v-text-field>
-    </div>
-    <!-- content  -->
-    <div>
-      <v-expansion-panels
-        v-model="panelRole"
-        multiple
-        class="!grid grid-cols-4 gap-4"
-      >
-        <v-expansion-panel
-          elevation="0"
-          :value="item.name"
-          v-for="(item, index) in Permission"
-          class="!mt-0"
+
+      <div class="cardWLabel">
+        <div class="flex">
+          <v-checkbox
+            color="#084F93"
+            label="เลือกทั้งหมด"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+            hideDetails
+            class="checkboxTw"
+          ></v-checkbox>
+          <v-checkbox
+            color="#084F93"
+            label="Super Admin"
+            hideDetails
+            class="checkboxTw"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+          ></v-checkbox>
+          <v-checkbox
+            color="#084F93"
+            class="checkboxTw"
+            hideDetails
+            label="Admin"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+          ></v-checkbox>
+        </div>
+        <div class="flex">
+          <v-checkbox
+            color="#084F93"
+            label="Operator"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+            class="checkboxTw"
+          ></v-checkbox>
+          <v-checkbox
+            color="#084F93"
+            label="Viewer"
+            class="checkboxTw"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+          ></v-checkbox>
+          <v-checkbox
+            color="#084F93"
+            class="checkboxTw"
+            label="กำหนดเอง"
+            trueIcon="mdi-circle"
+            falseIcon="mdi-circle-outline"
+          ></v-checkbox>
+        </div>
+      </div>
+
+      <!-- content  -->
+      <div class="mt-4 mb-4">
+        <v-expansion-panels
+          v-model="panelRole"
+          multiple
+          class="!grid grid-cols-4 gap-4"
         >
-          <v-expansion-panel-title>
-            <v-checkbox
-              class="text-checkbox"
-              color="#084F93"
-              @click="(e:any ) => checkAllPermission(index, e.target.value)"
-              hide-details
-              :model-value="[checkBoxChecking(index) ? true : false]"
-            >
-              <template v-slot:label>
-                <div class="flex space-x-1 w-full justify-center items-center">
-                  <div>{{ item.name }}</div>
-                  <v-icon>mdi mdi-information-outline</v-icon>
-                </div>
-              </template>
-            </v-checkbox>
-          </v-expansion-panel-title>
-          <v-expansion-panel-text style="background-color: #fff">
-            <div
-              v-for="(PermissionItem, subIndex) in item.permissions"
-              class="border-b py-1"
-            >
+          <v-expansion-panel
+            elevation="0"
+            :value="item.name"
+            v-for="(item, index) in Permission"
+            class="!mt-0"
+          >
+            <v-expansion-panel-title>
               <v-checkbox
-                @click="
-                  () => {
-                    Permission[index].permissions[subIndex].value =
-                      !PermissionItem.value;
-                  }
-                "
                 class="text-checkbox"
                 color="#084F93"
+                @click="(e:any ) => checkAllPermission(index, e.target.value)"
                 hide-details
-                :model-value="PermissionItem.value"
+                :model-value="[checkBoxChecking(index) ? true : false]"
               >
                 <template v-slot:label>
-                  <div class="flex space-x-1">
-                    <div>
-                      {{ PermissionItem.name }}
-                    </div>
+                  <div
+                    class="flex space-x-1 w-full justify-center items-center"
+                  >
+                    <div>{{ item.name }}</div>
                     <v-icon>mdi mdi-information-outline</v-icon>
                   </div>
                 </template>
               </v-checkbox>
-            </div>
-          </v-expansion-panel-text>
-        </v-expansion-panel>
-      </v-expansion-panels>
-    </div>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text style="background-color: #fff">
+              <div
+                v-for="(PermissionItem, subIndex) in item.permissions"
+                class="border-b py-1"
+              >
+                <v-checkbox
+                  @click="
+                    () => {
+                      Permission[index].permissions[subIndex].value =
+                        !PermissionItem.value;
+                    }
+                  "
+                  class="text-checkbox"
+                  color="#084F93"
+                  hide-details
+                  :model-value="PermissionItem.value"
+                >
+                  <template v-slot:label>
+                    <div class="flex space-x-1">
+                      <div>
+                        {{ PermissionItem.name }}
+                      </div>
+                      <v-icon>mdi mdi-information-outline</v-icon>
+                    </div>
+                  </template>
+                </v-checkbox>
+              </div>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </div>
 
-    <!-- action -->
-    <div class="flex flex-row space-x-3 mr-2">
-      <v-btn
-        class="!px-[200px] w-[50%]"
-        color="#084F93"
-        variant="outlined"
-        size="x-large"
-        rounded="lg"
-        @click="
-          () => {
-            fnHandleBack();
-          }
-        "
-      >
-        กลับ
-      </v-btn>
-      <v-btn
-        class="!px-[200px] w-[50%]"
-        color="#084F93"
-        variant="flat"
-        size="x-large"
-        rounded="lg"
-        @click="
-          () => {
-            refNavBar.pop();
-            statePage = 'default';
-            toggleSnackbar = true;
-            
-          }
-        "
-      >
-        บันทึก
-      </v-btn>
+      <!-- action -->
+      <div class="flex flex-row space-x-3 mr-2">
+        <v-btn
+          class="!px-[200px] w-[50%]"
+          color="#084F93"
+          variant="outlined"
+          size="x-large"
+          rounded="lg"
+          @click="fnHandleBack"
+        >
+          กลับ
+        </v-btn>
+        <v-btn
+          class="!px-[200px] w-[50%]"
+          color="#084F93"
+          variant="flat"
+          size="x-large"
+          rounded="lg"
+          @click="
+            () => {
+              statePage = 'default';
+              toggleSnackbar = true;
+            }
+          "
+        >
+          บันทึก
+        </v-btn>
+      </div>
     </div>
   </div>
 
@@ -576,19 +641,40 @@ const submitFormType = ref<"append" | "edit">("append");
 </template>
 
 <style scoped>
+.card {
+  @apply border border-[#EEEDF1] rounded-md p-4;
+}
+.cardWLabel {
+  @apply border border-[#EEEDF1] rounded-md p-4 relative;
+}
+
+.cardWLabel::before {
+  content: " Preset ";
+  position: absolute;
+  background-color: white;
+  top: -12px;
+  padding: 0px 5px;
+  color: #74777f;
+}
+
 .text-table {
   @apply text-[14px] leading-5 text-center !pr-10;
 }
-
 .v-expansion-panel-title {
   padding: 0px 10px;
   background-color: #FAF9FD;
 }
-.v-expansion-panel {
-  /* background-color: #eeedf1; */
-}
 .text-checkbox {
   color: #000;
   font-weight: bold; /* เปลี่ยนสีตัวหนังสือตามที่คุณต้องการ */
+}
+
+.checkboxTw :deep(.v-selection-control) {
+  flex: none;
+}
+.checkboxTw {
+  flex: none;
+  width: 200px;
+  @apply mr-10;
 }
 </style>

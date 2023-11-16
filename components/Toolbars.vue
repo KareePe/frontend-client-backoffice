@@ -269,7 +269,7 @@ const menu_list = [
       },
       {
         subtitle: "บทบาทผู้ใช้",
-        path: "/",
+        path: "/setting-permission",
         disable: false,
       },
     ],
