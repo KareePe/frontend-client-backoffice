@@ -1,56 +1,55 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed } from "vue"
 type headerTableType<T> = {
-  title: string;
-  key: keyof T | "";
-  sortable?: boolean;
-  align?: "center" | "start" | "end";
-}[];
+  title: string
+  key: keyof T | ""
+  sortable?: boolean
+  align?: "center" | "start" | "end"
+}[]
 type itemTableType = {
-  role: string;
-  status: "active" | "inactive";
-};
-type statePageType = "append" | "default" | "edit";
+  role: string
+  status: "active" | "inactive"
+}
+type statePageType = "append" | "default" | "edit"
 type permissionsType = {
-  name: string;
-  value: boolean;
-};
-
+  name: string
+  value: boolean
+}
 definePageMeta({
-  middleware: "auth-middleware",
-});
+  middleware: "auth-middleware"
+})
 
 const headersTable: headerTableType<itemTableType> = [
   {
     key: "role",
     title: "บทบาท",
-    align: "center",
+    align: "center"
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center",
+    align: "center"
   },
   {
     key: "",
-    title: "",
-  },
-];
+    title: ""
+  }
+]
 
 const itemsTable: itemTableType[] = [
   {
     role: "Super admin",
-    status: "active",
+    status: "active"
   },
   {
     role: "Admin",
-    status: "active",
+    status: "active"
   },
   {
     role: "Operator",
-    status: "inactive",
-  },
-];
+    status: "inactive"
+  }
+]
 
 const Permission = ref([
   {
@@ -58,246 +57,245 @@ const Permission = ref([
     permissions: [
       {
         name: "สรุปยอดการขาย",
-        value: false,
+        value: false
       },
       {
         name: "สรุปออเดอร์",
-        value: true,
+        value: false
       },
       {
         name: "สินค้าขายดีวันนี้",
-        value: false,
+        value: false
       },
       {
         name: "แผนภาพสินค้าขายดี",
-        value: true,
+        value: false
       },
       {
         name: "ปริมาณการสร้างออเดอร์ (ออเดอร์ต่อวัน)",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "คลังสินค้า",
     permissions: [
       {
         name: "เพิ่มสินค้าใหม่",
-        value: true,
+        value: false
       },
       {
         name: "นำเข้ารายการสินค้า",
-        value: true,
+        value: false
       },
       {
         name: "แก้ไขสินค้า",
-        value: true,
+        value: false
       },
       {
         name: "ลบสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "กู้คืนสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "เปลี่ยนแปลงจำนวนสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "สรุปภาพรวมสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "ประวัติสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "รวมสินค้า",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ออเดอร์",
     permissions: [
       {
         name: "สร้างออเดอร์ใหม่",
-        value: true,
+        value: false
       },
       {
         name: "แก้ไขออเดอร์",
-        value: false,
+        value: false
       },
       {
         name: "ลบออเดอร์",
-        value: false,
+        value: false
       },
       {
         name: "กู้คือออเดอร์",
-        value: false,
+        value: false
       },
       {
         name: "สร้างการส่งสินค้า",
-        value: false,
+        value: false
       },
       {
         name: "ส่งออกรายการออเดอร์",
-        value: true,
+        value: false
       },
       {
         name: "พิมพ์ออเดอร์ทั้งหมด",
-        value: true,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ภาพรวมอย่างละเอียด",
     permissions: [
       {
         name: "ยอดขาย",
-        value: false,
+        value: false
       },
       {
         name: "คำสั่งซื้อ",
-        value: false,
+        value: false
       },
       {
         name: "สินค้าขายดี",
-        value: false,
+        value: false
       },
       {
         name: "ยอดโอนเงินค่า COD",
-        value: true,
+        value: false
       },
       {
         name: "สินค้าที่ส่งในแต่ละวัน",
-        value: false,
+        value: false
       },
       {
         name: "ปริมาณการสร้างออเดอร์",
-        value: false,
+        value: false
       },
       {
         name: "ช่องทางการขาย",
-        value: false,
+        value: false
       },
       {
         name: "แผนภาพช่องทางการขาย",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ทีมงาน",
     permissions: [
       {
         name: "เพิ่มทีมงานใหม่",
-        value: false,
+        value: false
       },
       {
         name: "แก้ไขข้อมูลทีมงาน",
-        value: false,
+        value: false
       },
       {
         name: "ลบทีมงาน",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "บทบาท",
     permissions: [
       {
         name: "เพิ่มบทบาทใหม่",
-        value: false,
+        value: false
       },
       {
         name: "แก้ไขข้อมูลบทบาท",
-        value: false,
+        value: false
       },
       {
         name: "ลบบทบาท",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ร้านค้า",
     permissions: [
       {
         name: "แก้ไขข้อมูลร้านค้า",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ตัวแทน",
     permissions: [
       {
         name: "เพิ่มตัวแทน",
-        value: false,
+        value: false
       },
       {
         name: "แก้ไขตัวแทน",
-        value: false,
+        value: false
       },
       {
         name: "ลบตัวแทน",
-        value: false,
+        value: false
       },
       {
         name: "กู้คืนตัวแทน",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "ช่องทางการขาย",
     permissions: [
       {
         name: "เฟซบุ๊กไลฟ์",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "แชตร้านค้า",
     permissions: [
       {
         name: "ช่องทางสนธนา",
-        value: false,
+        value: false
       },
       {
         name: "มอบหมายแอดมิน",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "Sale Page",
     permissions: [
       {
         name: "สร้าง Sale Page",
-        value: false,
-      },
-    ],
+        value: false
+      }
+    ]
   },
   {
     name: "แพ็กเกจ",
     permissions: [
       {
         name: "จัดการแพ็กเกจ",
-        value: false,
-      },
-    ],
-  },
-]);
+        value: false
+      }
+    ]
+  }
+])
 const panelRole = ref([
   "Dashboard",
   "ออเดอร์",
-  "คลังสินค้า",
   "ภาพรวมอย่างละเอียด",
   "ทีมงาน",
   "บทบาท",
@@ -306,67 +304,66 @@ const panelRole = ref([
   "ช่องทางการขาย",
   "แชตร้านค้า",
   "Sale Page",
-  "แพ็กเกจ",
-]);
-const toggleSnackbar = ref(false);
+  "แพ็กเกจ"
+])
 
 const checkBoxChecking = computed(() => {
-  return PermissionAll;
-});
+  return PermissionAll
+})
 
 const PermissionAll = (index: number) => {
   const check = Permission.value[index].permissions.map(
     (item: permissionsType) => {
-      return item.value;
+      return item.value
     }
-  );
-  const AllCheck = check.every((value) => value === true);
-  return AllCheck;
-};
+  )
+  const AllCheck = check.every((value) => value === true)
+  return AllCheck
+}
 
 const checkAllPermission = (index: number, value: any) => {
   if (PermissionAll(index) === false) {
     Permission.value[index].permissions.map(
       (item: permissionsType, subIndex) => {
-        Permission.value[index].permissions[subIndex].value = true;
+        Permission.value[index].permissions[subIndex].value = true
       }
-    );
+    )
   } else {
     Permission.value[index].permissions.map(
       (item: permissionsType, subIndex) => {
-        Permission.value[index].permissions[subIndex].value = false;
+        Permission.value[index].permissions[subIndex].value = false
       }
-    );
+    )
   }
-};
+}
 
-const fnHandleEdit = (data: itemTableType) => {
-  refNavBar.value.push(data.role);
-  roleName.value = data.role;
-  submitFormType.value = "edit";
-};
+const fnHandleCollapse = (name: string) => {
+  const found = panelRole.value.find((element) => element === name)
+  if (found) {
+    console.log("found")
+    const result = panelRole.value.filter((item) => item !== name)
+    panelRole.value = result
+  } else {
+    panelRole.value.push(name)
+  }
+}
 
-const fnHandleBack = () => {
-  refNavBar.value.pop();
-  statePage.value = "default";
-  roleName.value = "";
-};
-
-const statePage = ref<statePageType>("default");
-const refNavBar = ref(["Platform", "Permission preset"]);
-const roleName = ref("");
-const submitFormType = ref<"append" | "edit">("append");
+const statePage = ref<statePageType>("default")
+const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
 </script>
 
 <template>
   <Toolbars />
-  <NavbarDynamic :Breadcrumb="refNavBar" />
+  <Navbar text="Platform , Permission preset" v-if="statePage === 'default'" />
+  <Navbar
+    text="Platform , Permission preset , เพิ่มบทบาท"
+    v-else-if="statePage === 'append'"
+  />
+  <Navbar :text="navBartext" v-else />
 
   <div class="ContainerLayout space-y-4" v-if="statePage === 'default'">
     <!-- button Add Role -->
     <div class="flex w-full justify-end items-center">
-      <!-- @click="statePage = 'append'" -->
-
       <v-btn
         color="#084F93"
         variant="flat"
@@ -374,14 +371,7 @@ const submitFormType = ref<"append" | "edit">("append");
         rounded="lg"
         prepend-icon="mdi-plus"
         class="px-16"
-        @click="
-          () => {
-            statePage = 'append';
-            refNavBar.push('เพิ่มบทบาท');
-            roleName = '';
-            submitFormType = 'append';
-          }
-        "
+        @click="statePage = 'append'"
       >
         เพิ่มบทบาท
       </v-btn>
@@ -400,7 +390,7 @@ const submitFormType = ref<"append" | "edit">("append");
         items-per-page-text="จำนวนแสดงผล"
       >
         <template
-          v-slot:item="{ item }"
+          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
         >
           <tr>
             <td class="text-table">
@@ -412,26 +402,16 @@ const submitFormType = ref<"append" | "edit">("append");
                   class="w-4 h-4 mr-1 rounded-full"
                   v-bind:style="{
                     backgroundColor:
-                      item.status === 'active' ? '#12B76A' : '#BA1A1A',
+                      item.status === 'active' ? '#12B76A' : '#BA1A1A'
                   }"
                 ></div>
                 {{ item.status === "active" ? "เปิดใช้งาน" : "ปิดใช้งาน" }}
               </div>
             </td>
             <td class="text-table space-x-4">
-              <v-icon
-                class="cursor-pointer"
-                size="30"
-                color="#1A1C1E"
-                @click="
-                  () => {
-                    statePage = 'edit';
-                    fnHandleEdit(item);
-                  }
-                "
+              <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
+                >mdi-square-edit-outline</v-icon
               >
-                mdi-square-edit-outline
-              </v-icon>
               <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
                 >mdi-delete-outline</v-icon
               >
@@ -450,14 +430,10 @@ const submitFormType = ref<"append" | "edit">("append");
     </v-card>
   </div>
 
-  <div class="ContainerLayout space-y-4" v-else>
+  <div class="ContainerLayout space-y-4" v-else-if="statePage === 'append'">
     <!-- button Add Role -->
     <div class="flex w-full justify-end items-center">
-      <v-text-field
-        label="ชื่อบทบาท"
-        variant="outlined"
-        v-model="roleName"
-      ></v-text-field>
+      <v-text-field label="ชื่อบทบาท" variant="outlined"></v-text-field>
     </div>
     <!-- content  -->
     <div>
@@ -465,19 +441,19 @@ const submitFormType = ref<"append" | "edit">("append");
         v-model="panelRole"
         multiple
         class="!grid grid-cols-4 gap-4"
+        readonly
       >
         <v-expansion-panel
           elevation="0"
           :value="item.name"
           v-for="(item, index) in Permission"
-          :key="index"
           class="!mt-0"
         >
           <v-expansion-panel-title>
             <v-checkbox
               class="text-checkbox"
               color="#084F93"
-              @click="(e : any) => checkAllPermission(index, e.target.value)"
+              @click="(e:any ) => checkAllPermission(index, e.target.value)"
               hide-details
               :model-value="[checkBoxChecking(index) ? true : false]"
             >
@@ -488,18 +464,24 @@ const submitFormType = ref<"append" | "edit">("append");
                 </div>
               </template>
             </v-checkbox>
+            <template v-slot:actions="{ expanded }">
+              <div class="flex space-x-1 w-full justify-center items-center">
+                <v-icon @click="() => fnHandleCollapse(item.name)">
+                  {{ expanded ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                </v-icon>
+              </div>
+            </template>
           </v-expansion-panel-title>
           <v-expansion-panel-text style="background-color: #fff">
             <div
               v-for="(PermissionItem, subIndex) in item.permissions"
-              :key="subIndex"
               class="border-b py-1"
             >
               <v-checkbox
                 @click="
                   () => {
                     Permission[index].permissions[subIndex].value =
-                      !PermissionItem.value;
+                      !PermissionItem.value
                   }
                 "
                 class="text-checkbox"
@@ -530,11 +512,6 @@ const submitFormType = ref<"append" | "edit">("append");
         variant="outlined"
         size="x-large"
         rounded="lg"
-        @click="
-          () => {
-            fnHandleBack();
-          }
-        "
       >
         กลับ
       </v-btn>
@@ -544,37 +521,11 @@ const submitFormType = ref<"append" | "edit">("append");
         variant="flat"
         size="x-large"
         rounded="lg"
-        @click="
-          () => {
-            refNavBar.pop();
-            statePage = 'default';
-            toggleSnackbar = true;
-            
-          }
-        "
       >
         บันทึก
       </v-btn>
     </div>
   </div>
-
-  <v-snackbar
-    v-model="toggleSnackbar"
-    multi-line
-    location="top"
-    timeout="1500"
-    class="[&>div]:bg-[#D1FADF] [&>div]:rounded-md [&>div]:box-border [&>div]:border-l-8 [&>div]:border-[#12B76A]"
-  >
-    <div class="flex items-center space-x-4">
-      <v-icon color="#12B76A">mdi-check-circle</v-icon>
-      <div>
-        <div class="text-black font-bold text-[14px]">
-          {{ submitFormType === "append" ? "เพิ่ม" : "แก้ไข" }}บทบาทสำเร็จ
-        </div>
-        <div class="text-black text-[14px]">{{ roleName }}</div>
-      </div>
-    </div>
-  </v-snackbar>
 </template>
 
 <style scoped>
@@ -584,17 +535,19 @@ const submitFormType = ref<"append" | "edit">("append");
 
 .v-expansion-panel-title {
   padding: 0px 10px;
-  background-color: #FAF9FD;
+  background-color: #eeedf1;
+  min-height: auto !important;
 }
-.v-expansion-panel {
-  /* background-color: #eeedf1; */
+.v-expansion-panel-title :deep(span):first-child {
+  opacity: 0 !important;
 }
+
 .text-checkbox {
   color: #000;
   font-weight: bold; /* เปลี่ยนสีตัวหนังสือตามที่คุณต้องการ */
 }
 
 .v-expansion-panel:not(:first-child)::after {
-    border: none !important;
+  border: none !important;
 }
 </style>
