@@ -4,7 +4,7 @@
   <div class="ContainerLayout">
     <!-- button Switch -->
     <div class="flex w-full justify-between items-center">
-      <div class="card">
+      <div class="card !justify-start">
         <v-btn
           v-bind:color="tab === 'Order' ? '#084F93' : '#fff'"
           variant="flat"
@@ -92,7 +92,6 @@
         :items="dataTableOrder"
         :headers="headersTableOrder"
         item-key="id"
-        :expanded.sync="expanded"
         show-expand
         no-data-text="ไม่มีข้อมูล"
         hide-default-footer
@@ -247,7 +246,7 @@
         :page="page"
       >
         <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+          v-slot:item="{ item }"
         >
           <tr>
             <td class="text-table">
@@ -326,7 +325,7 @@
         :page="page"
       >
         <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+          v-slot:item="{ item }"
         >
           <tr>
             <td class="text-table">

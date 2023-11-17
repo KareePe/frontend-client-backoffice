@@ -196,7 +196,7 @@ const menu_list = [
         subtitle: "ประเภทย่อยสินค้า",
         path: "/product-variant",
         disable: false,
-      },  
+      },
       {
         subtitle: "บทบาทผู้ใช้",
         path: "/permission-preset",
@@ -208,11 +208,11 @@ const menu_list = [
   },
   {
     title: "สนับสนุนลูกค้า",
-    openExpand: false,
-    haveSubMenu: true,
+    haveSubMenu: false,
     subMenu: [],
     icon: "mdi-comment-text-multiple-outline",
     disable: false,
+    path: "admin-support",
   },
   {
     title: "บทความ",
