@@ -400,7 +400,7 @@ const submitFormType = ref<"append" | "edit">("append");
         items-per-page-text="จำนวนแสดงผล"
       >
         <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+          v-slot:item="{ item }"
         >
           <tr>
             <td class="text-table">
@@ -470,13 +470,14 @@ const submitFormType = ref<"append" | "edit">("append");
           elevation="0"
           :value="item.name"
           v-for="(item, index) in Permission"
+          :key="index"
           class="!mt-0"
         >
           <v-expansion-panel-title>
             <v-checkbox
               class="text-checkbox"
               color="#084F93"
-              @click="(e:any ) => checkAllPermission(index, e.target.value)"
+              @click="(e : any) => checkAllPermission(index, e.target.value)"
               hide-details
               :model-value="[checkBoxChecking(index) ? true : false]"
             >
@@ -491,6 +492,7 @@ const submitFormType = ref<"append" | "edit">("append");
           <v-expansion-panel-text style="background-color: #fff">
             <div
               v-for="(PermissionItem, subIndex) in item.permissions"
+              :key="subIndex"
               class="border-b py-1"
             >
               <v-checkbox
@@ -590,5 +592,9 @@ const submitFormType = ref<"append" | "edit">("append");
 .text-checkbox {
   color: #000;
   font-weight: bold; /* เปลี่ยนสีตัวหนังสือตามที่คุณต้องการ */
+}
+
+.v-expansion-panel:not(:first-child)::after {
+    border: none !important;
 }
 </style>

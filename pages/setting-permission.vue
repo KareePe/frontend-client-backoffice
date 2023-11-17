@@ -60,7 +60,7 @@ const itemsTable: itemTableType[] = [
     amount: 10,
   },
 ];
-const statePage = ref<statePageType>("append");
+const statePage = ref<statePageType>("default");
 const roleName = ref("");
 const submitFormType = ref<"append" | "edit">("append");
 const toggleSnackbar = ref(false);
@@ -402,7 +402,7 @@ const fnHandleBack = () => {
           items-per-page-text="จำนวนแสดงผล"
         >
           <template
-            v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+            v-slot:item="{ item }"
           >
             <tr>
               <td class="text-table">
@@ -449,12 +449,17 @@ const fnHandleBack = () => {
       <div class="flex w-full justify-between">
         <div>แก้ไขบทบาท</div>
         <div class="flex items-center">
-          <v-switch
-            color="#084F93"
-            hide-details
-            inset
-            label="เปิดใช้งาน"
-          ></v-switch>
+          <v-switch color="#084F93" hide-details label="เปิดใช้งาน"></v-switch>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" class="sr-only peer" />
+            <div
+              class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#084F93]"
+            ></div>
+            <span
+              class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+              >Toggle me</span
+            >
+          </label>
           <v-btn
             color="#BA1A1A"
             variant="outlined"
@@ -538,6 +543,7 @@ const fnHandleBack = () => {
             elevation="0"
             :value="item.name"
             v-for="(item, index) in Permission"
+            :key="index"
             class="!mt-0"
           >
             <v-expansion-panel-title>
@@ -561,6 +567,7 @@ const fnHandleBack = () => {
             <v-expansion-panel-text style="background-color: #fff">
               <div
                 v-for="(PermissionItem, subIndex) in item.permissions"
+                :key="subIndex"
                 class="border-b py-1"
               >
                 <v-checkbox
@@ -662,7 +669,7 @@ const fnHandleBack = () => {
 }
 .v-expansion-panel-title {
   padding: 0px 10px;
-  background-color: #FAF9FD;
+  background-color: #faf9fd;
 }
 .text-checkbox {
   color: #000;
