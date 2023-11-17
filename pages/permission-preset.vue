@@ -349,17 +349,39 @@ const fnHandleCollapse = (name: string) => {
 }
 
 const statePage = ref<statePageType>("default")
-const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
+const navBartext = ref([`Platform`, "Permission preset"])
+const roleName = ref("")
+const toggleSnackbar = ref(false)
+const submitFormType = ref<"append" | "edit">("append")
+
+const fnHandleBack = () => {
+  statePage.value = "default"
+  roleName.value = ""
+  navBartext.value.pop()
+}
 </script>
 
 <template>
   <Toolbars />
-  <Navbar text="Platform , Permission preset" v-if="statePage === 'default'" />
-  <Navbar
-    text="Platform , Permission preset , เพิ่มบทบาท"
-    v-else-if="statePage === 'append'"
-  />
-  <Navbar :text="navBartext" v-else />
+  <NavbarDynamic :Breadcrumb="navBartext" />
+
+  <v-snackbar
+    v-model="toggleSnackbar"
+    multi-line
+    location="top"
+    timeout="1500"
+    class="[&>div]:bg-[#D1FADF] [&>div]:rounded-md [&>div]:box-border [&>div]:border-l-8 [&>div]:border-[#12B76A]"
+  >
+    <div class="flex items-center space-x-4">
+      <v-icon color="#12B76A">mdi-check-circle</v-icon>
+      <div>
+        <div class="text-black font-bold text-[14px]">
+          {{ submitFormType === "append" ? "เพิ่ม" : "แก้ไข" }}บทบาทสำเร็จ
+        </div>
+        <div class="text-black text-[14px]">{{ roleName }}</div>
+      </div>
+    </div>
+  </v-snackbar>
 
   <div class="ContainerLayout space-y-4" v-if="statePage === 'default'">
     <!-- button Add Role -->
@@ -371,7 +393,12 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
         rounded="lg"
         prepend-icon="mdi-plus"
         class="px-16"
-        @click="statePage = 'append'"
+        @click="
+          () => {
+            statePage = 'append'
+            navBartext.push('เพิ่มบทบาท')
+          }
+        "
       >
         เพิ่มบทบาท
       </v-btn>
@@ -409,7 +436,18 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
               </div>
             </td>
             <td class="text-table space-x-4">
-              <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
+              <v-icon
+                class="cursor-pointer"
+                size="30"
+                color="#1A1C1E"
+                @click="
+                  () => {
+                    statePage = 'edit'
+                    submitFormType = 'edit'
+                    roleName = item.role
+                    navBartext.push(item.role)
+                  }
+                "
                 >mdi-square-edit-outline</v-icon
               >
               <v-icon class="cursor-pointer" size="30" color="#1A1C1E"
@@ -430,10 +468,14 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
     </v-card>
   </div>
 
-  <div class="ContainerLayout space-y-4" v-else-if="statePage === 'append'">
+  <div class="ContainerLayout space-y-4" v-else>
     <!-- button Add Role -->
     <div class="flex w-full justify-end items-center">
-      <v-text-field label="ชื่อบทบาท" variant="outlined"></v-text-field>
+      <v-text-field
+        v-model="roleName"
+        label="ชื่อบทบาท"
+        variant="outlined"
+      ></v-text-field>
     </div>
     <!-- content  -->
     <div>
@@ -512,6 +554,7 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
         variant="outlined"
         size="x-large"
         rounded="lg"
+        @click="fnHandleBack"
       >
         กลับ
       </v-btn>
@@ -521,6 +564,13 @@ const navBartext = ref(`Platform , Permission preset , ${statePage.value}`)
         variant="flat"
         size="x-large"
         rounded="lg"
+        @click="
+          () => {
+            statePage = 'default'
+            toggleSnackbar = true
+            navBartext.pop()
+          }
+        "
       >
         บันทึก
       </v-btn>
