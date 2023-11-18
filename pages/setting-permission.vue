@@ -60,7 +60,7 @@ const itemsTable: itemTableType[] = [
     amount: 10,
   },
 ];
-const statePage = ref<statePageType>("append");
+const statePage = ref<statePageType>("default");
 const roleName = ref("");
 const submitFormType = ref<"append" | "edit">("append");
 const toggleSnackbar = ref(false);
