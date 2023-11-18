@@ -10,15 +10,15 @@
         variant="outlined"
         hide-details
         density="compact"
-        class="!rounded-[8px]"
       ></v-text-field>
       <div class="pt-2">
-        <v-chip
+        <!-- <v-chip
           v-for="(item, index) in chipData"
           :key="index"
           class="mr-2 text-[14px] !text-[#0BA5EC] !bg-[#EEEDF1]"
           >{{ item }}</v-chip
-        >
+        > -->
+        <Chips v-for="(item, index) in chipData" :text="item" />
       </div>
     </div>
     <div
@@ -36,6 +36,7 @@
         :headers="headersTable"
         item-key="id"
         show-expand
+        id="table-info"
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
         class="!rounded-[0]"
@@ -109,23 +110,23 @@
                   <div class="flex items-center">
                     <div>หมายเลขคำสั่งซื้อ</div>
                   </div>
-                  <div>2 รายการ</div>
+                  <div class="font-bold opacity-[0.6]">2 รายการ</div>
                 </div>
-                <div class="containerItemDetail text-normal space-y-1">
+                <div class="containerItemDetail text-normal space-y-2">
                   <div class="flex items-center w-[70%] justify-between">
                     <div>สายชาร์จไอโฟน</div>
                     <div>x8</div>
                   </div>
                   <div>฿6,320</div>
                 </div>
-                <div class="containerItemDetail text-normal space-y-1">
+                <div class="containerItemDetail text-normal space-y-2">
                   <div class="flex items-center w-[70%] justify-between">
                     <div>โรบอทดูดฝุ่น</div>
                     <div>x1</div>
                   </div>
                   <div>฿15,000</div>
                 </div>
-                <div class="containerItemDetail text-normal mt-1">
+                <div class="containerItemDetail text-normal mt-2">
                   <div class="flex items-center w-full justify-between">
                     <div class="text-[#084F93]">9 ชิ้น</div>
                     <div>
@@ -140,62 +141,62 @@
         <template #bottom></template>
       </v-data-table>
       <div v-else class="h-[260px] flex justify-center items-center">
-          <p>ยังไม่มีรายการ</p>
-        </div>
+        <p>ยังไม่มีรายการ</p>
+      </div>
     </v-card>
   </div>
 </template>
 
 <script setup>
 definePageMeta({
-  middleware: "auth-middleware"
-})
+  middleware: "auth-middleware",
+});
 
-const expanded = []
+const expanded = [];
 
-const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"]
+const chipData = ["ชื่อลุกค้า", "Order No.", "เบอร์โทร"];
 const headersTable = [
   {
     title: "",
     key: "",
-    sortable: false
+    sortable: false,
   },
   {
     title: "เลขที่คำสั่งซื้อ",
     align: "start",
-    key: "id"
+    key: "id",
   },
   {
     title: "ร้านค้า",
     align: "start",
-    key: "market"
+    key: "market",
   },
   {
     title: "ช่องทาง",
     align: "start",
-    key: "apps"
+    key: "apps",
   },
   {
     title: "ยอดทั้งหมด",
     align: "start",
-    key: "totals"
+    key: "totals",
   },
   {
     title: "การเก็บเงิน",
     align: "start",
-    key: "billing"
+    key: "billing",
   },
   {
     title: "สถานะ",
     align: "start",
-    key: "status"
+    key: "status",
   },
   {
     title: "วันที่สร้าง",
     align: "start",
-    key: "create_date"
-  }
-]
+    key: "create_date",
+  },
+];
 
 const tableItem = [
   {
@@ -206,7 +207,7 @@ const tableItem = [
     billing: "COD",
     status: "สำเร็จ",
     create_date: "20/06/2021",
-    buyer: "Alice"
+    buyer: "Alice",
   },
   {
     id: 2454564545,
@@ -216,7 +217,7 @@ const tableItem = [
     billing: "COD",
     status: "กำลังจัดส่ง",
     create_date: "20/06/2021",
-    buyer: "Fonnumnum"
+    buyer: "Fonnumnum",
   },
   {
     id: 3456456456,
@@ -226,15 +227,29 @@ const tableItem = [
     billing: "COD",
     status: "กำลังจัดส่ง",
     create_date: "20/06/2021",
-    buyer: "Peter"
-  }
-]
+    buyer: "Peter",
+  },
+];
 </script>
 
 <style>
 thead tr {
   background-color: #e9e7eb;
 }
+/* thead tr th:last-child {
+  background-color: red;
+} */
+/* .v-table .v-table__wrapper > table > thead > tr > th {
+  background-color: red;
+} */
+#table-info div table thead tr th:last-child {
+  display: none;
+}
+#table-info div table thead tr th div span {
+  color: black;
+  opacity: 87%;
+}
+
 </style>
 
 <style scoped>

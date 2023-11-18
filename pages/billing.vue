@@ -24,7 +24,7 @@
         color="#084F93"
         variant="flat"
         size="large"
-        class="!rounded-[8px]"
+        class="!rounded-[8px] px-5"
         prepend-icon="mdi-tray-arrow-down"
         v-if="tab === 'status'"
       >
@@ -49,7 +49,7 @@
         v-bind:style="[
           active === 'flash'
             ? { border: '1px solid #084F93', color: '#084F93' }
-            : { border: '1px solid #EEEDF1', color: '#000' }
+            : { border: '1px solid #EEEDF1', color: '#000' },
         ]"
         @click="() => fnChangeActive('flash')"
       >
@@ -61,7 +61,7 @@
         v-bind:style="[
           active === 'kerry'
             ? { border: '1px solid #084F93', color: '#084F93' }
-            : { border: '1px solid #EEEDF1', color: '#000' }
+            : { border: '1px solid #EEEDF1', color: '#000' },
         ]"
         @click="() => fnChangeActive('kerry')"
       >
@@ -73,7 +73,7 @@
         v-bind:style="[
           active === 'jandt'
             ? { border: '1px solid #084F93', color: '#084F93' }
-            : { border: '1px solid #EEEDF1', color: '#000' }
+            : { border: '1px solid #EEEDF1', color: '#000' },
         ]"
         @click="() => fnChangeActive('jandt')"
       >
@@ -85,7 +85,7 @@
         v-bind:style="[
           active === 'thai'
             ? { border: '1px solid #084F93', color: '#084F93' }
-            : { border: '1px solid #EEEDF1', color: '#000' }
+            : { border: '1px solid #EEEDF1', color: '#000' },
         ]"
         @click="() => fnChangeActive('thai')"
       >
@@ -196,6 +196,7 @@
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
         class="border"
+        id="table-header-black"
       >
         <template v-slot:item="{ item }">
           <tr>
@@ -227,13 +228,35 @@
             >
               {{ item.import_data }}
             </td>
-            <td class="flex justify-between items-center cursor-pointer">
-              <v-icon @click="() => console.log('download')" color="#1A1C1E" size="small">
+            <td
+              class="flex justify-center space-x-10 items-center cursor-pointer"
+            >
+              <v-btn
+                @click="() => console.log('download')"
+                icon="mdi-tray-arrow-down"
+                variant="text"
+              >
+              </v-btn>
+              <!-- <v-icon
+                @click="() => console.log('download')"
+                color="#1A1C1E"
+                size="small"
+              >
                 mdi-tray-arrow-down
-              </v-icon>
-              <v-icon @click="() => console.log('eye')" color="#1A1C1E" size="small">
+              </v-icon> -->
+              <v-btn
+                @click="() => console.log('download')"
+                icon=" mdi-eye-outline"
+                variant="text"
+              >
+              </v-btn>
+              <!-- <v-icon
+                @click="() => console.log('eye')"
+                color="#1A1C1E"
+                size="small"
+              >
                 mdi-eye-outline
-              </v-icon>
+              </v-icon> -->
             </td>
           </tr>
         </template>
@@ -242,7 +265,11 @@
     </v-card>
 
     <!-- table transportation-->
-    <v-card class="mt-4 !rounded-[8px]" variant="flat" v-if="tab === 'transportation'">
+    <v-card
+      class="mt-4 !rounded-[8px]"
+      variant="flat"
+      v-if="tab === 'transportation'"
+    >
       <v-data-table
         :items="dataTransportation"
         :headers="headerTransportation"
@@ -279,9 +306,19 @@
             </td>
 
             <td class="flex justify-center items-center cursor-pointer">
-              <v-icon @click="() => console.log('download')" color="#1A1C1E" size="small">
+              <!-- <v-icon
+                @click="() => console.log('download')"
+                color="#1A1C1E"
+                size="small"
+              >
                 mdi-tray-arrow-down
-              </v-icon>
+              </v-icon> -->
+              <v-btn
+                @click="() => console.log('mdi-tray-arrow-down')"
+                icon=" mdi-tray-arrow-down"
+                variant="text"
+              >
+              </v-btn>
             </td>
           </tr>
         </template>
@@ -292,19 +329,19 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue"
+import { ref, watch } from "vue";
 definePageMeta({
-  middleware: "auth-middleware"
-})
-const active = ref("flash")
-const tab = ref("status")
+  middleware: "auth-middleware",
+});
+const active = ref("flash");
+const tab = ref("status");
 
 const fnChangeActive = (value) => {
-  active.value = value
-}
+  active.value = value;
+};
 const fnChangeTabs = (value) => {
-  tab.value = value
-}
+  tab.value = value;
+};
 
 const dataTable = [
   {
@@ -313,7 +350,7 @@ const dataTable = [
     amount: "5",
     total: "3,000",
     status: "จ่ายแล้ว",
-    import_data: "13/01/2566 21:00"
+    import_data: "13/01/2566 21:00",
   },
   {
     id: "14141414",
@@ -321,7 +358,7 @@ const dataTable = [
     amount: "5",
     total: "3,000",
     status: "จ่ายแล้ว",
-    import_data: "13/01/2566 21:00"
+    import_data: "13/01/2566 21:00",
   },
   {
     id: "51524354",
@@ -329,76 +366,76 @@ const dataTable = [
     amount: "5",
     total: "3,000",
     status: "จ่ายแล้ว",
-    import_data: "13/01/2566 21:00"
-  }
-]
+    import_data: "13/01/2566 21:00",
+  },
+];
 
 const headersTable = [
   {
     title: "ชื่อลูกค้า",
     align: "start",
-    key: "name"
+    key: "name",
   },
   {
     title: "หมายเลขคำสั่งซื้อ",
     align: "center",
-    key: "id"
+    key: "id",
   },
   {
     title: "จำนวนสินค้า",
     align: "center",
-    key: "amount"
+    key: "amount",
   },
   {
     title: "ยอดรวม",
     align: "center",
-    key: "total"
+    key: "total",
   },
   {
     title: "สถานะ",
     align: "center",
-    key: "status"
+    key: "status",
   },
   {
     title: "วันที่นำเข้า",
     align: "center",
-    key: "import_date"
+    key: "import_date",
   },
   {
     title: "",
     sortable: false,
-    key: ""
-  }
-]
+    key: "",
+  },
+];
 
 const headerTransportation = [
   {
     title: "รูป",
     align: "center",
     key: "image",
-    sortable: false
+    sortable: false,
   },
   {
     title: "ชื่อขนส่ง",
     align: "center",
-    key: "name"
+    key: "name",
   },
   {
     title: "สถานะ",
     align: "center",
-    key: "status"
+    key: "status",
   },
   {
     title: "อัพเดตวันที่",
     align: "center",
-    key: "update_date"
+    key: "update_date",
   },
   {
     title: "ดาวน์โหลด",
     align: "center",
-    key: ""
-  }
-]
+    key: "",
+  },
+];
 
 const dataTransportation = [
   {
@@ -406,29 +443,29 @@ const dataTransportation = [
       "https://www.eksuwankased2001.co.th/wp-content/uploads/2019/10/flash-express-icon.jpg",
     name: "Flash Express",
     status: "เรียกเก็บ",
-    update_date: "13/01/2566 21:00"
+    update_date: "13/01/2566 21:00",
   },
   {
     image:
       "https://www.gadgetzone.in.th/wp-content/uploads/2015/01/icon-kerry-express.png",
     name: "Kerry Express",
     status: "ไม่มีการเรียกเก็บ",
-    update_date: "13/01/2566 21:00"
+    update_date: "13/01/2566 21:00",
   },
   {
     image:
       "https://play-lh.googleusercontent.com/vVGZ4OkxTaKxXUEajlP84odiR1wfCH6eF-YjIPSs89CmxzFZprhyMXfM3Bf-nOTvCVk=w240-h480-rw",
     name: "J&T Express",
     status: "เรียกเก็บ",
-    update_date: "13/01/2566 21:00"
+    update_date: "13/01/2566 21:00",
   },
   {
     image: "https://assets.aftership.com/couriers/svg/thailand-post.svg",
     name: "Thai Post Express",
     status: "ไม่มีการเรียกเก็บ",
-    update_date: "13/01/2566 21:00"
-  }
-]
+    update_date: "13/01/2566 21:00",
+  },
+];
 </script>
 
 <style scoped>

@@ -47,3 +47,8 @@ h6 {
 [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{
   @apply ring-0 !important
 }
+
+#table-header-black div table thead tr th div span {
+  color: black;
+  opacity: 87%;
+}

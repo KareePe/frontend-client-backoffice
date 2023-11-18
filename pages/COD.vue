@@ -37,7 +37,7 @@
         ></v-text-field> -->
         <VueDatePicker
           v-model="dateRange"
-          class="!max-w-[280px] rounded-[8px] "
+          class="!max-w-[280px] rounded-[8px]"
           range
         ></VueDatePicker>
       </div>
@@ -72,13 +72,14 @@
         density="compact"
       ></v-text-field>
       <div class="pt-2">
-        <v-chip
+        <Chips v-for="(item, index) in chipData" :text="item" />
+        <!-- <v-chip
           v-for="(item, index) in chipData"
           color="#0BA5EC"
           :key="index"
           class="mr-2 text-[14px]"
           >{{ item }}</v-chip
-        >
+        > -->
       </div>
     </div>
     <!-- table Order -->
@@ -92,6 +93,7 @@
         :items="dataTableOrder"
         :headers="headersTableOrder"
         item-key="id"
+        id="table-info"
         show-expand
         no-data-text="ไม่มีข้อมูล"
         hide-default-footer
@@ -139,7 +141,7 @@
                   class="w-4 h-4 mr-1 rounded-full"
                   v-bind:style="{
                     backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#BA1A1A'
+                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#BA1A1A',
                   }"
                 ></div>
                 {{ item.status }}
@@ -245,9 +247,7 @@
         :items-per-page="itemsPerPage"
         :page="page"
       >
-        <template
-          v-slot:item="{ item }"
-        >
+        <template v-slot:item="{ item }">
           <tr>
             <td class="text-table">
               {{ item.id }}
@@ -264,7 +264,7 @@
                   class="w-4 h-4 mr-1 rounded-full"
                   v-bind:style="{
                     backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009'
+                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009',
                   }"
                 ></div>
                 {{ item.status }}
@@ -324,9 +324,7 @@
         :items-per-page="itemsPerPage"
         :page="page"
       >
-        <template
-          v-slot:item="{ item }"
-        >
+        <template v-slot:item="{ item }">
           <tr>
             <td class="text-table">
               {{ item.id }}
@@ -343,7 +341,7 @@
                   class="w-4 h-4 mr-1 rounded-full"
                   v-bind:style="{
                     backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009'
+                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009',
                   }"
                 ></div>
                 {{ item.status }}
@@ -543,107 +541,107 @@
 
 <!-- script for modal -->
 <script>
-import VueDatePicker from "@vuepic/vue-datepicker"
-import "@vuepic/vue-datepicker/dist/main.css"
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
-const isDragging = ref(false)
-const dialogState = ref(false)
-const file = ref()
-const fileValue = ref()
-const summarizeUpload = ref(null)
+const isDragging = ref(false);
+const dialogState = ref(false);
+const file = ref();
+const fileValue = ref();
+const summarizeUpload = ref(null);
 const dateRange = ref([
   new Date(),
-  new Date(new Date().setDate(new Date().getDate() + 7))
-])
+  new Date(new Date().setDate(new Date().getDate() + 7)),
+]);
 
 const dragover = (e) => {
-  e.preventDefault()
-  isDragging.value = true
-}
+  e.preventDefault();
+  isDragging.value = true;
+};
 
 const fnGetFileData = () => {
   summarizeUpload.value = {
     totals: "5 รายการ",
     totals_order: "25 คำสั่งซื้อ",
-    totals_all: "85,347.00 บาท"
-  }
-}
+    totals_all: "85,347.00 บาท",
+  };
+};
 
 const dragleave = () => {
-  isDragging.value = false
-}
+  isDragging.value = false;
+};
 
 const fnOnFileDrop = (e) => {
-  e.preventDefault()
-  file.value.files = e.dataTransfer.files
-  fileValue.value = e.dataTransfer.files[0]
-}
+  e.preventDefault();
+  file.value.files = e.dataTransfer.files;
+  fileValue.value = e.dataTransfer.files[0];
+};
 const fnOnClickUpload = (e) => {
-  fileValue.value = e.target.files[0]
-  console.log(e.target.files[0], "onchange")
-}
+  fileValue.value = e.target.files[0];
+  console.log(e.target.files[0], "onchange");
+};
 const fnHandleCloseModal = () => {
-  dialogState.value = false
-  fileValue.value = null
-  summarizeUpload.value = null
-}
+  dialogState.value = false;
+  fileValue.value = null;
+  summarizeUpload.value = null;
+};
 const fnHandleOpenModal = () => {
-  dialogState.value = true
-}
+  dialogState.value = true;
+};
 </script>
 
 <script setup>
-import { ref } from "vue"
+import { ref } from "vue";
 definePageMeta({
-  middleware: "auth-middleware"
-})
+  middleware: "auth-middleware",
+});
 
-let tab = ref("Order")
-let page = ref(1)
-let itemsPerPage = ref(5)
+let tab = ref("Order");
+let page = ref(1);
+let itemsPerPage = ref(5);
 
-const expanded = []
+const expanded = [];
 const headersTableOrder = [
   {
     key: "payment",
     title: "ชื่อลุกค้า",
-    align: "center"
+    align: "center",
   },
   {
     key: "id",
     title: "หมายเลขคำสั่งซื้อ",
-    align: "center"
+    align: "center",
   },
   {
     key: "status_order",
     title: "สถานะคำสั่งซื้อ",
-    align: "center"
+    align: "center",
   },
   {
     key: "create_date",
     title: "วันที่สร้าง",
-    align: "center"
+    align: "center",
   },
   {
     key: "price",
     title: "ราคา",
-    align: "center"
+    align: "center",
   },
   {
     key: "payment",
     title: "รูปแบบชำระเงิน",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
+    align: "center",
   },
   {
     key: "",
-    title: ""
-  }
-]
+    title: "",
+  },
+];
 const dataTableOrder = [
   {
     create_date: "13/12/2000 20:00",
@@ -652,7 +650,7 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "ยืนยันแล้ว",
-    status_order: "ที่ต้องจัดส่ง"
+    status_order: "ที่ต้องจัดส่ง",
   },
   {
     create_date: "13/12/2000 20:00",
@@ -661,7 +659,7 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "ยืนยันแล้ว",
-    status_order: "เสร็จสิ้น"
+    status_order: "เสร็จสิ้น",
   },
   {
     create_date: "13/12/2000 20:00",
@@ -670,7 +668,7 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "รอยืนยัน",
-    status_order: "เสร็จสิ้น"
+    status_order: "เสร็จสิ้น",
   },
   {
     create_date: "13/12/2000 20:00",
@@ -679,7 +677,7 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "รอยืนยัน",
-    status_order: "เสร็จสิ้น"
+    status_order: "เสร็จสิ้น",
   },
   {
     create_date: "13/12/2000 20:00",
@@ -688,7 +686,7 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "รอยืนยัน",
-    status_order: "ที่ต้องจัดส่ง"
+    status_order: "ที่ต้องจัดส่ง",
   },
   {
     create_date: "13/12/2000 20:00",
@@ -697,143 +695,143 @@ const dataTableOrder = [
     payment: "COD",
     price: "2,000",
     status: "รอยืนยัน",
-    status_order: "ที่ต้องจัดส่ง"
-  }
-]
+    status_order: "ที่ต้องจัดส่ง",
+  },
+];
 
 const dataTablePayment = [
   {
     id: "123123dasd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "Casdasda123sd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "12C3asdasd1d",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "1223232d1d",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "ggaasdasd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
-  }
-]
+    status: "รอดำเนินการ",
+  },
+];
 
 const dataTableHistory = [
   {
     id: "123123dasd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "Casdasda123sd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "12C3asdasd1d",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "1223232d1d",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
+    status: "รอดำเนินการ",
   },
   {
     id: "ggaasdasd",
     num_of_order: 23,
     total: "8,975.00",
-    status: "รอดำเนินการ"
-  }
-]
+    status: "รอดำเนินการ",
+  },
+];
 
 const headTablePayment = [
   {
     key: "id",
     title: "CODS ID",
-    align: "center"
+    align: "center",
   },
   {
     key: "num_of_order",
     title: "จำนวนออเดอร์",
-    align: "center"
+    align: "center",
   },
   {
     key: "total",
     title: "ยอดทั้งหมด",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
+    align: "center",
   },
   {
     key: "",
-    title: ""
-  }
-]
+    title: "",
+  },
+];
 const headTableHistory = [
   {
     key: "id",
     title: "CODS ID",
-    align: "center"
+    align: "center",
   },
   {
     key: "num_of_order",
     title: "จำนวนออเดอร์",
-    align: "center"
+    align: "center",
   },
   {
     key: "total",
     title: "ยอดทั้งหมด",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
-  }
-]
+    align: "center",
+  },
+];
 const chipData = [
   "ชื่อลุกค้า",
   "หมายเลขคำสั่งซื้อ",
   "สถานะคำสั่งซื้อ",
   "วิธีชำระเงิน",
-  "สถานะรายได้"
-]
+  "สถานะรายได้",
+];
 const fnChangeTabs = (value) => {
-  tab.value = value
-  page.value = 1
-}
+  tab.value = value;
+  page.value = 1;
+};
 const pageCount = computed(() => {
-  return Math.ceil(eval(`dataTable${tab.value}`).length / itemsPerPage.value)
-})
+  return Math.ceil(eval(`dataTable${tab.value}`).length / itemsPerPage.value);
+});
 
 const fnChangeSelect = (e) => {
-  itemsPerPage.value = e
-  console.log(e)
-}
+  itemsPerPage.value = e;
+  console.log(e);
+};
 </script>
 
 <style scoped>

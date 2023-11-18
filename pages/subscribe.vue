@@ -162,6 +162,8 @@
           :items-per-page="itemsPerPage"
           :page="page"
           :search="search"
+          id="table-header-black"
+
         >
           <template
             v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
@@ -222,7 +224,7 @@ definePageMeta({
   middleware: "auth-middleware"
 })
 
-const tab = ReferenceError(1)
+const tab = ref(1)
 let page = ref(1)
 let itemsPerPage = ref(10)
 const dateRange = ref([

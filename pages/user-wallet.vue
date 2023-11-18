@@ -32,36 +32,36 @@
                 v-bind:color="tab === 1 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(1)"
-                class="!rounded-[4px] !h-[36px] text-[14px]"
+                class="!rounded-[4px] !h-[36px] text-[14px] !p-[8px]"
                 >24 ชม</v-btn
               >
               <v-btn
                 v-bind:color="tab === 7 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(7)"
-                class="!rounded-[4px] !h-[36px] text-[14px]"
+                class="!rounded-[4px] !h-[36px] text-[14px] !p-[8px]"
                 >7 วัน</v-btn
               >
               <v-btn
                 v-bind:color="tab === 30 ? '#084F93' : '#fff'"
                 @click="fnChangeTab(30)"
                 variant="flat"
-                class="!rounded-[4px] !h-[36px] text-[14px]"
+                class="!rounded-[4px] !h-[36px] text-[14px] !p-[8px]"
                 >30 วัน</v-btn
               >
               <v-btn
                 v-bind:color="tab === 365 ? '#084F93' : '#fff'"
                 variant="flat"
                 @click="fnChangeTab(365)"
-                class="!rounded-[4px] !h-[36px] text-[14px]"
+                class="!rounded-[4px] !h-[36px] text-[14px] !p-[8px]"
                 >12 เดือน</v-btn
               >
             </div>
           </div>
         </div>
 
-        <div class="flex flex-row space-x-4 justify-between">
-          <div class="w-full">
+        <div class="flex flex-row space-x-6 justify-between">
+          <div class="w-full mr-10">
             <client-only
               placeholder="Loading..."
               fallback="Loading comments..."
@@ -83,10 +83,12 @@
               <div class="flex">
                 <div class="text-[34px] font-bold">4,206</div>
                 <div>
-                  <div class="flex justify-center text-center">
+                  <div
+                    class="flex justify-center text-center items-center space-x-1 ml-1"
+                  >
                     <v-icon
                       aria-hidden="false"
-                      class="text-[#067647] !text-[16px]"
+                      class="text-[#067647] !text-[16px] items-center pt-1 just checked:"
                     >
                       mdi-trending-up
                     </v-icon>
@@ -103,10 +105,12 @@
               <div class="flex">
                 <div class="text-[34px] font-bold">2,206</div>
                 <div>
-                  <div class="flex justify-center text-center">
+                  <div
+                    class="flex justify-center text-center items-center space-x-1 ml-1"
+                  >
                     <v-icon
                       aria-hidden="false"
-                      class="text-[#067647] !text-[16px]"
+                      class="text-[#067647] !text-[16px] items pt-1"
                     >
                       mdi-trending-up
                     </v-icon>
@@ -123,10 +127,12 @@
               <div class="flex">
                 <div class="text-[34px] font-bold">4,206</div>
                 <div>
-                  <div class="flex justify-center text-center">
+                  <div
+                    class="flex justify-center text-center items-center space-x-1 ml-1"
+                  >
                     <v-icon
                       aria-hidden="false"
-                      class="text-[#067647] !text-[16px]"
+                      class="text-[#067647] !text-[16px] pt-1"
                     >
                       mdi-trending-up
                     </v-icon>
@@ -150,7 +156,7 @@
         class="!max-w-[480px] rounded-[8px] mb-[12px]"
         single-line
         density="compact"
-        hide-details  
+        hide-details
       ></v-text-field>
 
       <!-- <v-text-field
@@ -185,6 +191,7 @@
         hide-default-footer
         items-per-page-text="จำนวนแสดงผล"
         class="mb-[15px]"
+        id="table-header-black"
       >
         <template v-slot:item="{ item }">
           <tr>
@@ -208,66 +215,69 @@
 
 <script setup>
 definePageMeta({
-  middleware: "auth-middleware"
-})
-import { ref, onMounted, computed } from "vue"
-import VueDatePicker from "@vuepic/vue-datepicker"
-import "@vuepic/vue-datepicker/dist/main.css"
+  middleware: "auth-middleware",
+});
+import { ref, onMounted, computed } from "vue";
+import VueDatePicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
 
-const tab = ref(1)
+const tab = ref(1);
 
-let page = ref(1)
-let itemsPerPage = 10
-let itemPerPageSelect = ref(10)
-let search = ref("")
-const dateRange = ref([new Date(), new Date(new Date().setDate(new Date().getDate() + 7))]);
+let page = ref(1);
+let itemsPerPage = 10;
+let itemPerPageSelect = ref(10);
+let search = ref("");
+const dateRange = ref([
+  new Date(),
+  new Date(new Date().setDate(new Date().getDate() + 7)),
+]);
 
 const headersTable = [
   {
     title: "Transaction ID",
     align: "center",
-    value: "transaction_id"
+    value: "transaction_id",
   },
   {
     title: "ชื่อ - นามสกุล",
     align: "center",
-    key: "name"
+    key: "name",
   },
   {
     title: "ช่องทาง",
     align: "center",
-    key: "type"
+    key: "type",
   },
   {
     title: "ยอด",
     align: "center",
-    key: "amount"
-  }
-]
+    key: "amount",
+  },
+];
 
 const tableItem = [
   {
     transaction_id: "767885874",
     name: "นายทดสอบ นามสกุลไม่ยาว",
     type: "QR พร้อมเพย์",
-    amount: "1,500.00฿"
+    amount: "1,500.00฿",
   },
   {
     transaction_id: "988786869",
     name: "นายทดสอบ นามสกุลไม่ยาว",
     type: "โอนผ่านธนาคาร",
-    amount: "11,500.00฿"
+    amount: "11,500.00฿",
   },
   {
     transaction_id: "988786866",
     name: "นายทดสอบ นามสกุลไม่ยาว",
     type: "บัตาเครดิต",
-    amount: "6,000.00฿"
-  }
-]
+    amount: "6,000.00฿",
+  },
+];
 const fnChangeTab = (value) => {
-  tab.value = value
-}
+  tab.value = value;
+};
 
 const filterOnlyCapsText = (value, query, item) => {
   return (
@@ -275,45 +285,45 @@ const filterOnlyCapsText = (value, query, item) => {
     query != null &&
     typeof value === "string" &&
     value.toString().indexOf(query) !== -1
-  )
-}
+  );
+};
 
 const pageCount = computed(() => {
-  return Math.ceil(tableItem.length / itemsPerPage)
-})
+  return Math.ceil(tableItem.length / itemsPerPage);
+});
 
 const options = ref({
   chart: {
     type: "area",
     height: 350,
     zoom: {
-      enabled: false
-    }
+      enabled: false,
+    },
   },
   dataLabels: {
-    enabled: false
+    enabled: false,
   },
   stroke: {
-    curve: "smooth"
+    curve: "smooth",
   },
   xaxis: {
     type: "datetime",
     labels: {
       format: "MMM",
-      showDuplicates: false
-    }
+      showDuplicates: false,
+    },
   },
   tooltip: {
-    enable: "false"
+    enable: "false",
   },
   yaxis: {
     opposite: true,
-    show: false
+    show: false,
   },
   legend: {
-    horizontalAlign: "left"
-  }
-})
+    horizontalAlign: "left",
+  },
+});
 
 const series = ref([
   {
@@ -321,27 +331,27 @@ const series = ref([
     data: [
       {
         x: new Date("2023-07-11").getTime(),
-        y: 76
+        y: 76,
       },
       {
         x: new Date("2023-08-12").getTime(),
-        y: 50
+        y: 50,
       },
       {
         x: new Date("2023-09-13").getTime(),
-        y: 60
+        y: 60,
       },
       {
         x: new Date("2023-10-14").getTime(),
-        y: 20
+        y: 20,
       },
       {
         x: new Date("2023-11-15").getTime(),
-        y: 80
-      }
-    ]
-  }
-])
+        y: 80,
+      },
+    ],
+  },
+]);
 
 watch(dateRange, () => {
   console.log(dateRange);
@@ -352,7 +362,6 @@ watch(dateRange, () => {
 //   const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
 //   date.value = [startDate, endDate];
 // })
-
 </script>
 
 <style scoped>
@@ -390,10 +399,10 @@ thead tr {
   @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-2 justify-center items-center;
 }
 
-.dp__input_wrap{
-  height : 56px !important;
+.dp__input_wrap {
+  height: 56px !important;
 }
-.dp__input_wrap input{
-  height : 56px !important;
+.dp__input_wrap input {
+  height: 56px !important;
 }
 </style>
