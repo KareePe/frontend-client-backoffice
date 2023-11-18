@@ -149,13 +149,26 @@
             </td>
             <td>
               <button @click="toggleExpand(internalItem)">
-                <v-icon aria-hidden="false" class="cursor-pointer">
-                  {{
+                <v-btn
+                  color="#74777F"
+                  icon="mdi-chevron-up"
+                  variant="text"
+                  v-if="isExpanded(internalItem)"
+                ></v-btn>
+                <v-btn
+                  color="#74777F"
+                  icon="mdi-chevron-down"
+                  variant="text"
+                  v-else
+                ></v-btn>
+
+                <!-- <v-icon aria-hidden="false" class="cursor-pointer">
+                   {{
                     isExpanded(internalItem)
                       ? "mdi-chevron-up"
                       : "mdi-chevron-down"
                   }}
-                </v-icon>
+                </v-icon> -->
               </button>
             </td>
           </tr>
@@ -184,12 +197,24 @@
               </div>
               <div class="col-span-2">
                 <div class="h-full justify-end space-x-5 flex">
-                  <v-icon color="#74777F" size="large"
+                  <v-btn
+                    color="#74777F"
+                    icon="mdi-file-document-remove-outline"
+                    variant="text"
+                  >
+                  </v-btn>
+                  <v-btn
+                    color="#74777F"
+                    icon="mdi-file-document-check-outline"
+                    variant="text"
+                  >
+                  </v-btn>
+                  <!-- <v-icon color="#74777F" size="large"
                     >mdi-file-document-remove-outline</v-icon
                   >
                   <v-icon color="#74777F" size="large"
                     >mdi-file-document-check-outline</v-icon
-                  >
+                  > -->
                 </div>
               </div>
             </div>

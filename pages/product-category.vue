@@ -224,6 +224,7 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
         :items-per-page="itemsPerPage"
         :page="page"
         :search="search"
+        id="table-header-black"
       >
         <template
           v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
@@ -252,9 +253,14 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
               </div>
             </td>
             <td class="text-table">
-              <v-icon @click="fnSelectItem(item)" class="cursor-pointer"
+              <!-- <v-icon @click="fnSelectItem(item)" class="cursor-pointer"
                 >mdi-pencil</v-icon
-              >
+              > -->
+              <v-btn
+                @click="fnSelectItem(item)"
+                icon="mdi-pencil"
+                variant="text"
+              ></v-btn>
             </td>
           </tr>
         </template>

@@ -1,52 +1,52 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue"
+import { ref, computed, watch } from "vue";
 type headerTableType<T> = {
-  title: string
-  key: keyof T | ""
-  sortable?: boolean
-  align?: "center" | "start" | "end"
-}[]
+  title: string;
+  key: keyof T | "";
+  sortable?: boolean;
+  align?: "center" | "start" | "end";
+}[];
 type itemTableType = {
-  username: string
-  role: string
-  status: "active" | "inactive"
-  tel?: string
-  email?: string
-}
+  username: string;
+  role: string;
+  status: "active" | "inactive";
+  tel?: string;
+  email?: string;
+};
 type userType = {
-  username: string
-  role: string
-  tel?: string
-  email: string
-}
+  username: string;
+  role: string;
+  tel?: string;
+  email: string;
+};
 
 definePageMeta({
-  middleware: "auth-middleware"
-})
+  middleware: "auth-middleware",
+});
 
-const refNavBar = ref(["Setting"])
+const refNavBar = ref(["Setting"]);
 const headersTable: headerTableType<itemTableType> = [
   {
     key: "username",
     title: "ชื่อผู้ใช้",
-    align: "center"
+    align: "center",
   },
   {
     key: "role",
     title: "บทบาท",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
+    align: "center",
   },
   {
     key: "",
     title: "",
-    sortable: false
-  }
-]
+    sortable: false,
+  },
+];
 
 const itemsTable: itemTableType[] = [
   {
@@ -54,50 +54,50 @@ const itemsTable: itemTableType[] = [
     status: "active",
     username: "กรกนก กันชัย",
     tel: "09882asd7",
-    email: "kornkanok@gmail.com"
+    email: "kornkanok@gmail.com",
   },
   {
     role: "Admin",
     status: "active",
     username: "กนกนก กันชีย",
     tel: "0923237445",
-    email: ""
+    email: "",
   },
   {
     role: "Operator",
     status: "inactive",
     username: "ภานาวี วีเบอร์",
     tel: "098888777",
-    email: "panawee@gmail.com"
-  }
-]
+    email: "panawee@gmail.com",
+  },
+];
 
-const openDialog = ref<boolean>(false)
-const dialogMode = ref<"edit" | "append">("append")
-const openDialogConfirm = ref<boolean>(false)
-const openDialogConfirmDelete = ref<boolean>(false)
-const toggleSnackbar = ref<boolean>(false)
-const toggleSnackbarDelete = ref<boolean>(false)
-const confirmDeleteField = ref("")
-const isLoading = ref(false)
-const url = ref("https://salesx.co/invite?6f1jz9612mq..")
+const openDialog = ref<boolean>(false);
+const dialogMode = ref<"edit" | "append">("append");
+const openDialogConfirm = ref<boolean>(false);
+const openDialogConfirmDelete = ref<boolean>(false);
+const toggleSnackbar = ref<boolean>(false);
+const toggleSnackbarDelete = ref<boolean>(false);
+const confirmDeleteField = ref("");
+const isLoading = ref(false);
+const url = ref("https://salesx.co/invite?6f1jz9612mq..");
 const formValue = ref<itemTableType>({
   username: "",
   status: "inactive",
   role: "Super Admin",
   email: "",
-  tel: ""
-})
+  tel: "",
+});
 const ruleAppend = ref([
   (value: any) => {
-    if (value) return true
+    if (value) return true;
 
-    return "กรุณากรอกข้อมูล"
-  }
-])
+    return "กรุณากรอกข้อมูล";
+  },
+]);
 
 const fnhandleSubmit = async (event: any) => {
-  const results = await event
+  const results = await event;
   // console.log(event.target[0].checked);
   // console.log(event.target[1].value);
   // console.log(event.target[2].value);
@@ -110,69 +110,69 @@ const fnhandleSubmit = async (event: any) => {
         email: event.target[1].value,
         tel: event.target[2].value,
         role: event.target[3].value,
-        status: "active"
-      }
+        status: "active",
+      };
     } else {
       formValue.value = {
         username: event.target[1].value,
         email: event.target[2].value,
         tel: event.target[3].value,
         role: event.target[4].value,
-        status: event.target[0].checked ? "active" : "inactive"
-      }
+        status: event.target[0].checked ? "active" : "inactive",
+      };
     }
-    openDialog.value = false
-    toggleSnackbar.value = true
-    openDialogConfirm.value = true
+    openDialog.value = false;
+    toggleSnackbar.value = true;
+    openDialogConfirm.value = true;
   }
-}
+};
 const fnhandleCloseModal = () => {
-  openDialog.value = false
-}
+  openDialog.value = false;
+};
 
 const fnHandleEditClick = (data: itemTableType) => {
-  dialogMode.value = "edit"
-  openDialog.value = true
-  formValue.value = data
-}
+  dialogMode.value = "edit";
+  openDialog.value = true;
+  formValue.value = data;
+};
 
 const fnHandleAppendClick = () => {
-  openDialog.value = true
-  dialogMode.value = "append"
+  openDialog.value = true;
+  dialogMode.value = "append";
   formValue.value = {
     username: "",
     status: "active",
     role: "Super Admin",
     email: "",
-    tel: ""
-  }
-}
+    tel: "",
+  };
+};
 const ruleConfirmDelete = ref([
   (value: any) => {
-    if (value === "ต้องการลบ") return true
+    if (value === "ต้องการลบ") return true;
 
-    return "กรุณากรอก 'ต้องการลบ' "
-  }
-])
+    return "กรุณากรอก 'ต้องการลบ' ";
+  },
+]);
 
 const fnHandleConfirmDelete = () => {
   if (confirmDeleteField.value === "ต้องการลบ") {
-    toggleSnackbarDelete.value = true
-    openDialogConfirmDelete.value = false
+    toggleSnackbarDelete.value = true;
+    openDialogConfirmDelete.value = false;
   } else {
   }
-}
+};
 
 const fnCopy = () => {
-  isLoading.value = true
-  navigator.clipboard.writeText(url.value)
+  isLoading.value = true;
+  navigator.clipboard.writeText(url.value);
 
   setTimeout(() => {
-    openDialogConfirm.value = false
-    isLoading.value = false
-  }, 1500)
-  navigator.clipboard.writeText(url.value)
-}
+    openDialogConfirm.value = false;
+    isLoading.value = false;
+  }, 1500);
+  navigator.clipboard.writeText(url.value);
+};
 </script>
 
 <template>
@@ -229,21 +229,28 @@ const fnCopy = () => {
                     class="w-4 h-4 mr-2 rounded-full"
                     v-bind:style="{
                       backgroundColor:
-                        item.status === 'active' ? '#12B76A' : '#BA1A1A'
+                        item.status === 'active' ? '#12B76A' : '#BA1A1A',
                     }"
                   ></div>
                   {{ item.status === "active" ? "เปิดใช้งาน" : "ปิดใช้งาน" }}
                 </div>
               </td>
               <td class="text-table">
-                <v-icon
+                <!-- <v-icon
                   class="cursor-pointer"
                   size="30"
                   color="#1A1C1E"
                   @click="fnHandleEditClick(item)"
                 >
                   mdi-play
-                </v-icon>
+                </v-icon> -->
+                <v-btn
+                  color="#1A1C1E"
+                  @click="fnHandleEditClick(item)"
+                  size="large"
+                  icon="mdi-play"
+                  variant="text"
+                ></v-btn>
               </td>
             </tr>
           </template>
@@ -275,7 +282,7 @@ const fnCopy = () => {
           :style="[
             dialogMode === 'edit'
               ? { paddingTop: '0px' }
-              : { paddingTop: '16px' }
+              : { paddingTop: '16px' },
           ]"
         >
           <v-form
@@ -379,8 +386,8 @@ const fnCopy = () => {
                   prepend-icon="mdi-delete-outline"
                   @click="
                     () => {
-                      openDialogConfirmDelete = true
-                      fnhandleCloseModal()
+                      openDialogConfirmDelete = true;
+                      fnhandleCloseModal();
                     }
                   "
                 >
@@ -608,5 +615,4 @@ const fnCopy = () => {
 .text-table {
   @apply text-[14px] leading-5 text-center !pr-10;
 }
-
 </style>

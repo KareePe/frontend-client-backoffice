@@ -1,83 +1,83 @@
 <script setup lang="ts">
-import { ref, watch, computed } from "vue"
+import { ref, watch, computed } from "vue";
 definePageMeta({
-  middleware: "auth-middleware"
-})
+  middleware: "auth-middleware",
+});
 
 type headerTableType<T> = {
-  title: string
-  key: keyof T | ""
-  sortable?: boolean
-  align?: "center" | "start" | "end"
-}[]
+  title: string;
+  key: keyof T | "";
+  sortable?: boolean;
+  align?: "center" | "start" | "end";
+}[];
 type itemTableType = {
-  role: string
-  amount: number
-  status: "active" | "inactive"
-}
-type statePageType = "append" | "default" | "edit"
+  role: string;
+  amount: number;
+  status: "active" | "inactive";
+};
+type statePageType = "append" | "default" | "edit";
 type permissionsType = {
-  name: string
-  value: boolean
-}
+  name: string;
+  value: boolean;
+};
 const headersTable: headerTableType<itemTableType> = [
   {
     key: "role",
     title: "บทบาท",
-    align: "center"
+    align: "center",
   },
   {
     key: "amount",
     title: "จำนวนผู้ใช้",
-    align: "center"
+    align: "center",
   },
   {
     key: "status",
     title: "สถานะ",
-    align: "center"
+    align: "center",
   },
   {
     key: "",
     title: "",
-    sortable: false
-  }
-]
+    sortable: false,
+  },
+];
 
 const itemsTable: itemTableType[] = [
   {
     role: "Super admin",
     status: "active",
-    amount: 2
+    amount: 2,
   },
   {
     role: "Admin",
     status: "active",
-    amount: 5
+    amount: 5,
   },
   {
     role: "Operator",
     status: "inactive",
-    amount: 10
-  }
-]
-const statePage = ref<statePageType>("default")
-const roleName = ref("")
-const submitFormType = ref<"append" | "edit">("append")
-const toggleSnackbar = ref(false)
+    amount: 10,
+  },
+];
+const statePage = ref<statePageType>("default");
+const roleName = ref("");
+const submitFormType = ref<"append" | "edit">("append");
+const toggleSnackbar = ref(false);
 
 const checkBoxChecking = computed(() => {
-  return PermissionAll
-})
+  return PermissionAll;
+});
 
 const PermissionAll = (index: number) => {
   const check = Permission.value[index].permissions.map(
     (item: permissionsType) => {
-      return item.value
+      return item.value;
     }
-  )
-  const AllCheck = check.every((value) => value === true)
-  return AllCheck
-}
+  );
+  const AllCheck = check.every((value) => value === true);
+  return AllCheck;
+};
 
 const Permission = ref([
   {
@@ -85,242 +85,242 @@ const Permission = ref([
     permissions: [
       {
         name: "สรุปยอดการขาย",
-        value: false
+        value: false,
       },
       {
         name: "สรุปออเดอร์",
-        value: true
+        value: true,
       },
       {
         name: "สินค้าขายดีวันนี้",
-        value: false
+        value: false,
       },
       {
         name: "แผนภาพสินค้าขายดี",
-        value: true
+        value: true,
       },
       {
         name: "ปริมาณการสร้างออเดอร์ (ออเดอร์ต่อวัน)",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "คลังสินค้า",
     permissions: [
       {
         name: "เพิ่มสินค้าใหม่",
-        value: true
+        value: true,
       },
       {
         name: "นำเข้ารายการสินค้า",
-        value: true
+        value: true,
       },
       {
         name: "แก้ไขสินค้า",
-        value: true
+        value: true,
       },
       {
         name: "ลบสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "กู้คืนสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "เปลี่ยนแปลงจำนวนสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "สรุปภาพรวมสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "ประวัติสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "รวมสินค้า",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "ออเดอร์",
     permissions: [
       {
         name: "สร้างออเดอร์ใหม่",
-        value: true
+        value: true,
       },
       {
         name: "แก้ไขออเดอร์",
-        value: false
+        value: false,
       },
       {
         name: "ลบออเดอร์",
-        value: false
+        value: false,
       },
       {
         name: "กู้คือออเดอร์",
-        value: false
+        value: false,
       },
       {
         name: "สร้างการส่งสินค้า",
-        value: false
+        value: false,
       },
       {
         name: "ส่งออกรายการออเดอร์",
-        value: true
+        value: true,
       },
       {
         name: "พิมพ์ออเดอร์ทั้งหมด",
-        value: true
-      }
-    ]
+        value: true,
+      },
+    ],
   },
   {
     name: "ภาพรวมอย่างละเอียด",
     permissions: [
       {
         name: "ยอดขาย",
-        value: false
+        value: false,
       },
       {
         name: "คำสั่งซื้อ",
-        value: false
+        value: false,
       },
       {
         name: "สินค้าขายดี",
-        value: false
+        value: false,
       },
       {
         name: "ยอดโอนเงินค่า COD",
-        value: true
+        value: true,
       },
       {
         name: "สินค้าที่ส่งในแต่ละวัน",
-        value: false
+        value: false,
       },
       {
         name: "ปริมาณการสร้างออเดอร์",
-        value: false
+        value: false,
       },
       {
         name: "ช่องทางการขาย",
-        value: false
+        value: false,
       },
       {
         name: "แผนภาพช่องทางการขาย",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "ทีมงาน",
     permissions: [
       {
         name: "เพิ่มทีมงานใหม่",
-        value: false
+        value: false,
       },
       {
         name: "แก้ไขข้อมูลทีมงาน",
-        value: false
+        value: false,
       },
       {
         name: "ลบทีมงาน",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "บทบาท",
     permissions: [
       {
         name: "เพิ่มบทบาทใหม่",
-        value: false
+        value: false,
       },
       {
         name: "แก้ไขข้อมูลบทบาท",
-        value: false
+        value: false,
       },
       {
         name: "ลบบทบาท",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "ร้านค้า",
     permissions: [
       {
         name: "แก้ไขข้อมูลร้านค้า",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "ตัวแทน",
     permissions: [
       {
         name: "เพิ่มตัวแทน",
-        value: false
+        value: false,
       },
       {
         name: "แก้ไขตัวแทน",
-        value: false
+        value: false,
       },
       {
         name: "ลบตัวแทน",
-        value: false
+        value: false,
       },
       {
         name: "กู้คืนตัวแทน",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "ช่องทางการขาย",
     permissions: [
       {
         name: "เฟซบุ๊กไลฟ์",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "แชตร้านค้า",
     permissions: [
       {
         name: "ช่องทางสนธนา",
-        value: false
+        value: false,
       },
       {
         name: "มอบหมายแอดมิน",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "Sale Page",
     permissions: [
       {
         name: "สร้าง Sale Page",
-        value: false
-      }
-    ]
+        value: false,
+      },
+    ],
   },
   {
     name: "แพ็กเกจ",
     permissions: [
       {
         name: "จัดการแพ็กเกจ",
-        value: false
-      }
-    ]
-  }
-])
+        value: false,
+      },
+    ],
+  },
+]);
 const panelRole = ref([
   "Dashboard",
   "ออเดอร์",
@@ -333,41 +333,39 @@ const panelRole = ref([
   "ช่องทางการขาย",
   "แชตร้านค้า",
   "Sale Page",
-  "แพ็กเกจ"
-])
+  "แพ็กเกจ",
+]);
 const checkAllPermission = (index: number, value: any) => {
   if (PermissionAll(index) === false) {
     Permission.value[index].permissions.map(
       (item: permissionsType, subIndex) => {
-        Permission.value[index].permissions[subIndex].value = true
+        Permission.value[index].permissions[subIndex].value = true;
       }
-    )
+    );
   } else {
     Permission.value[index].permissions.map(
       (item: permissionsType, subIndex) => {
-        Permission.value[index].permissions[subIndex].value = false
+        Permission.value[index].permissions[subIndex].value = false;
       }
-    )
+    );
   }
-}
+};
 
 const fnHandleBack = () => {
-  statePage.value = "default"
-  roleName.value = ""
-}
+  statePage.value = "default";
+  roleName.value = "";
+};
 
 const fnHandleCollapse = (name: string) => {
-  const found = panelRole.value.find((element) => element === name)
+  const found = panelRole.value.find((element) => element === name);
   if (found) {
-    console.log("found")
-    const result = panelRole.value.filter((item) => item !== name)
-    panelRole.value = result
+    console.log("found");
+    const result = panelRole.value.filter((item) => item !== name);
+    panelRole.value = result;
   } else {
-    panelRole.value.push(name)
+    panelRole.value.push(name);
   }
-}
-
-
+};
 </script>
 
 <template>
@@ -392,9 +390,9 @@ const fnHandleCollapse = (name: string) => {
           class="px-16"
           @click="
             () => {
-              statePage = 'append'
-              roleName = ''
-              submitFormType = 'append'
+              statePage = 'append';
+              roleName = '';
+              submitFormType = 'append';
             }
           "
         >
@@ -428,16 +426,29 @@ const fnHandleCollapse = (name: string) => {
                     class="w-4 h-4 mr-1 rounded-full"
                     v-bind:style="{
                       backgroundColor:
-                        item.status === 'active' ? '#12B76A' : '#BA1A1A'
+                        item.status === 'active' ? '#12B76A' : '#BA1A1A',
                     }"
                   ></div>
                   {{ item.status === "active" ? "เปิดใช้งาน" : "ปิดใช้งาน" }}
                 </div>
               </td>
               <td class="text-table">
-                <v-icon class="cursor-pointer" size="30" color="#1A1C1E">
+                <v-btn
+                  color="#1A1C1E"
+                  @click="
+                    () => {
+                      statePage = 'edit';
+                      roleName = '';
+                      submitFormType = 'edit';
+                    }
+                  "
+                  size="large"
+                  icon=" mdi-square-edit-outline"
+                  variant="text"
+                ></v-btn>
+                <!-- <v-icon class="cursor-pointer" size="30" color="#1A1C1E">
                   mdi-square-edit-outline
-                </v-icon>
+                </v-icon> -->
               </td>
             </tr>
           </template>
@@ -458,7 +469,7 @@ const fnHandleCollapse = (name: string) => {
     <!-- button Add Role -->
     <div class="card">
       <div class="flex w-full justify-between">
-        <div>แก้ไขบทบาท</div>
+        <div>{{ statePage === "append" ? "เพิ่มบทบาท" : "แก้ไขบทบาท" }}</div>
         <div class="flex items-center">
           <!-- <v-switch color="#084F93" hide-details label="เปิดใช้งาน"></v-switch> -->
           <label class="relative inline-flex items-center cursor-pointer">
@@ -594,7 +605,7 @@ const fnHandleCollapse = (name: string) => {
                   @click="
                     () => {
                       Permission[index].permissions[subIndex].value =
-                        !PermissionItem.value
+                        !PermissionItem.value;
                     }
                   "
                   class="text-checkbox"
@@ -637,8 +648,8 @@ const fnHandleCollapse = (name: string) => {
           rounded="lg"
           @click="
             () => {
-              statePage = 'default'
-              toggleSnackbar = true
+              statePage = 'default';
+              toggleSnackbar = true;
             }
           "
         >
