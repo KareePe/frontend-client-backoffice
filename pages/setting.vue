@@ -206,6 +206,7 @@ const fnCopy = () => {
           :headers="headersTable"
           item-key="id"
           no-data-text="ไม่มีข้อมูล"
+          id="table-header-black"
           items-per-page-text="จำนวนแสดงผล"
         >
           <template
@@ -267,8 +268,8 @@ const fnCopy = () => {
     </v-card>
 
     <!-- modal append and edit  -->
-    <v-dialog v-model="openDialog" class="w-full max-w-sm">
-      <v-card class="rounded-lg">
+    <v-dialog v-model="openDialog" class="w-full">
+      <v-card class="rounded-lg max-w-sm w-[358px] self-center">
         <v-card-text class="flex justify-center items-center flex-col pb-0">
           <div class="text-base font-bold" style="letter-spacing: 0px">
             เพิ่มผู้ใช้งาน
@@ -485,8 +486,19 @@ const fnCopy = () => {
             คำเชิญใช้งานระบบได้ถูกส่งไปยังอีเมล test@gmail.com
             กรุณาตรวจสอบอีเมลหรือเข้าสู่ระบบโดยการใช้ลิงค์ต่อไปนี้
           </p>
-
           <v-text-field
+            class="mt-[15px]"
+            v-model="url"
+            label="URL"
+            variant="outlined"
+            density="compact"
+            :loading="isLoading"
+            @click:append-inner="fnCopy"
+            hide-details
+            readonly
+            append-inner-icon="mdi-content-copy"
+          ></v-text-field>
+          <!-- <v-text-field
             v-model="url"
             :loading="isLoading"
             density="compact"
@@ -496,9 +508,8 @@ const fnCopy = () => {
             single-line
             hide-details
             class="mt-[15px]"
-            prefix="url"
             @click:append-inner="fnCopy"
-          ></v-text-field>
+          ></v-text-field> -->
         </v-card-text>
         <v-card-actions>
           <v-btn
@@ -513,8 +524,8 @@ const fnCopy = () => {
     </v-dialog>
 
     <!-- modal confirm del  -->
-    <v-dialog v-model="openDialogConfirmDelete" class="w-full max-w-md">
-      <v-card class="rounded-lg">
+    <v-dialog v-model="openDialogConfirmDelete" class="w-full">
+      <v-card class="rounded-lg self-center w-[354px]">
         <v-card-text class="flex justify-center items-center flex-col">
           <div class="flex flex-col justify-center items-center">
             <v-icon color="#BA1A1A" class="mb-1" size="70">

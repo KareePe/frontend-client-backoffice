@@ -410,6 +410,7 @@ const fnHandleCollapse = (name: string) => {
           :headers="headersTable"
           item-key="id"
           no-data-text="ไม่มีข้อมูล"
+          id="table-header-black"
           items-per-page-text="จำนวนแสดงผล"
         >
           <template v-slot:item="{ item }">
@@ -503,7 +504,7 @@ const fnHandleCollapse = (name: string) => {
       ></v-text-field>
 
       <div class="cardWLabel">
-        <div class="flex">
+        <div class="flex" id="checkbox-role">
           <v-checkbox
             color="#084F93"
             label="เลือกทั้งหมด"
@@ -529,7 +530,7 @@ const fnHandleCollapse = (name: string) => {
             falseIcon="mdi-circle-outline"
           ></v-checkbox>
         </div>
-        <div class="flex">
+        <div class="flex" id="checkbox-role">
           <v-checkbox
             color="#084F93"
             label="Operator"
@@ -569,12 +570,13 @@ const fnHandleCollapse = (name: string) => {
             :key="index"
             class="!mt-0"
           >
-            <v-expansion-panel-title>
+            <v-expansion-panel-title id="permission-checkbox-title">
               <v-checkbox
                 class="text-checkbox"
                 color="#084F93"
                 @click="(e:any ) => checkAllPermission(index, e.target.value)"
                 hide-details
+                style="font-size: 16px"
                 :model-value="[checkBoxChecking(index) ? true : false]"
               >
                 <template v-slot:label>
@@ -600,6 +602,7 @@ const fnHandleCollapse = (name: string) => {
                 v-for="(PermissionItem, subIndex) in item.permissions"
                 :key="subIndex"
                 class="border-b py-1"
+                id="permission-checkbox-text"
               >
                 <v-checkbox
                   @click="
@@ -608,6 +611,7 @@ const fnHandleCollapse = (name: string) => {
                         !PermissionItem.value;
                     }
                   "
+                  style="font-size: 16px"
                   class="text-checkbox"
                   color="#084F93"
                   hide-details
@@ -703,9 +707,12 @@ const fnHandleCollapse = (name: string) => {
   background-color: #faf9fd;
   min-height: auto !important;
 }
+/* .text-checkbox {
+  font-weight: bold;
+} */
 .text-checkbox {
   color: #000;
-  font-weight: bold; /* เปลี่ยนสีตัวหนังสือตามที่คุณต้องการ */
+  font-weight: bold;
 }
 
 .v-expansion-panel-title :deep(span):first-child {
@@ -723,5 +730,25 @@ const fnHandleCollapse = (name: string) => {
 
 .v-expansion-panel:not(:first-child)::after {
   border: none !important;
+}
+</style>
+
+<style>
+#checkbox-role div div div label {
+  opacity: 1;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#permission-checkbox-title div div div label {
+  opacity: 1;
+  font-size: 12px;
+  color: #1a1c1e;
+}
+
+#permission-checkbox-text div div div label {
+  opacity: 1;
+  font-size: 12px;
+  color: #1a1c1e;
 }
 </style>

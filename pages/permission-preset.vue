@@ -511,7 +511,7 @@ const fnHandleBack = () => {
           v-for="(item, index) in Permission"
           class="!mt-0"
         >
-          <v-expansion-panel-title>
+          <v-expansion-panel-title id="permission-checkbox-title">
             <v-checkbox
               class="text-checkbox"
               color="#084F93"
@@ -538,6 +538,7 @@ const fnHandleBack = () => {
             <div
               v-for="(PermissionItem, subIndex) in item.permissions"
               class="border-b py-1"
+              id="permission-checkbox-text"
             >
               <v-checkbox
                 @click="
