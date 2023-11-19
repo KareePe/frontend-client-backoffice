@@ -98,6 +98,100 @@ const headersTable = ref<headerTableType<itemTableType>>([
 
 const fnTabChange = (value: tabType) => {
   tab.value = value;
+  if (value === "primary") {
+    tableItem.value = [
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "2",
+        secondary2: "2",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "กระเป๋า",
+        secondary1: "2",
+        secondary2: "2",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+      {
+        primary: "รองเท้า",
+        secondary1: "2",
+        secondary2: "2",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "เรืองประดับ",
+        secondary1: "2",
+        secondary2: "2",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+    ];
+  } else if (value === "secondary1") {
+    tableItem.value = [
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "เครื่องใช้ในบ้าน",
+        secondary2: "2",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "กระเป๋า",
+        secondary2: "2",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "รองเท้า",
+        secondary2: "2",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "เครื่องประดับ",
+        secondary2: "2",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+    ];
+  } else {
+    tableItem.value = [
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "ความงามและของใช้ส่วนตัว",
+        secondary2: "เครื่องใช้ในบ้าน",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "ความงามและของใช้ส่วนตัว",
+        secondary2: "กระเป๋า",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "ความงามและของใช้ส่วนตัว",
+        secondary2: "รองเท้า",
+        choice: "2",
+        status: "เปิดใช้งาน",
+      },
+      {
+        primary: "ความงามและของใช้ส่วนตัว",
+        secondary1: "ความงามและของใช้ส่วนตัว",
+        secondary2: "เครื่องประดับ",
+        choice: "2",
+        status: "ปิดใช้งาน",
+      },
+    ];
+  }
 };
 
 const fnChangeRowPerPages = (e: number) => {
@@ -146,8 +240,6 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
     ...dialogSecond2.value.slice(index + 1),
   ];
 };
-// const Navbar = ref(["Product Category" ,'asdaasd']);
-// const props = defineProps(["title", "breadcrumbsText"]);
 </script>
 
 <template>
@@ -230,8 +322,20 @@ const fnDeleteDataDialogSecond2 = (index: number) => {
           v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
         >
           <tr>
-            <td class="text-table">{{ item.primary }}</td>
-            <td class="text-table">
+            <td
+              :class="[
+                tab === 'primary' ? 'text-table' : 'text-table opacity-[0.4]',
+              ]"
+            >
+              {{ item.primary }}
+            </td>
+            <td
+              :class="[
+                tab !== 'secondary2'
+                  ? 'text-table'
+                  : 'text-table opacity-[0.4]',
+              ]"
+            >
               {{ item.secondary1 }}
             </td>
             <td class="text-table">
