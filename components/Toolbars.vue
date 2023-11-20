@@ -212,7 +212,7 @@ const menu_list = [
     subMenu: [],
     icon: "mdi-comment-text-multiple-outline",
     disable: false,
-    path: "admin-support",
+    path: "/admin-support",
   },
   {
     title: "บทความ",
@@ -226,7 +226,7 @@ const menu_list = [
     haveSubMenu: false,
     subMenu: [],
     icon: "mdi-license",
-    path: "/",
+    path: "/package",
   },
   {
     title: "จัดการขนส่ง",

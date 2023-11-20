@@ -24,10 +24,12 @@
     "vuetify": "^3.4.0"
   },
   "dependencies": {
-    
+    "@ckeditor/ckeditor5-build-classic": "^40.1.0",
+    "@ckeditor/ckeditor5-vue": "^5.1.0",
     "@mdi/font": "^7.3.67",
     "@pinia/nuxt": "^0.5.1",
     "@vuepic/vue-datepicker": "^7.2.2",
+    "@vueup/vue-quill": "^1.2.0",
     "apexcharts": "^3.44.0",
     "flowbite": "^2.1.1",
     "pinia": "^2.1.7",

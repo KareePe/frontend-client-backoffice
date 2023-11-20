@@ -35,7 +35,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+pre {
   font-family: "SFThonburi", sans-serif !important;
 }
 
@@ -51,4 +52,18 @@ h6 {
 #table-header-black div table thead tr th div span {
   color: black;
   opacity: 87%;
+}
+
+
+.v-field__field,.v-field--variant-outlined .v-field__outline{
+  /* border : 1px solid #EEEDF1; */
+  border-radius: 8px !important;
+}
+
+.v-field__field{
+  border:none !important;
+}
+
+.v-field{
+  border: none !important;
 }

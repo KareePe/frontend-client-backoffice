@@ -416,9 +416,7 @@ const fnHandleBack = () => {
         no-data-text="ไม่มีข้อมูล"
         items-per-page-text="จำนวนแสดงผล"
       >
-        <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
-        >
+        <template v-slot:item="{ item }">
           <tr>
             <td class="text-table">
               {{ item.role }}
@@ -509,6 +507,7 @@ const fnHandleBack = () => {
           elevation="0"
           :value="item.name"
           v-for="(item, index) in Permission"
+          :key="index"
           class="!mt-0"
         >
           <v-expansion-panel-title id="permission-checkbox-title">
@@ -537,6 +536,7 @@ const fnHandleBack = () => {
           <v-expansion-panel-text style="background-color: #fff">
             <div
               v-for="(PermissionItem, subIndex) in item.permissions"
+              :key="subIndex"
               class="border-b py-1"
               id="permission-checkbox-text"
             >
