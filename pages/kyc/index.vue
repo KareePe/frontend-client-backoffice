@@ -1,16 +1,17 @@
 <template>
   <Toolbars />
-  <Navbar text="Customer mng,KYC" />
+  <Navbar text="จัดการลูกค้า,ยืนยันตัวตน" />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
-  <div class="p-4 sm:ml-64">
+  <div class="pt-2 pb-2 pl-4 pr-4 sm:ml-64">
     <!-- {{ pdfLink }} -->
+    <b class="text-[16px] text-[#084F93]">ข้อมูลธุรกิจ</b>
     <div v-if="items.length > 0">
       <v-data-table
         :headers="headers"
         :items="items"
         no-data-text="ไม่มีข้อมูล"
         hide-default-footer
-        class="mb-[15px] border !rounded-[8px]"
+        class="mt-[15px] mb-[15px] border !rounded-[8px]"
       >
         <template v-slot:item="{ item }">
           <tr>
@@ -72,13 +73,18 @@
               </div>
             </td>
             <td>
-              <v-btn
+              <!-- <v-btn
                 flat
                 @click="dialog = true"
                 :disabled="item.status !== 'รอตรวจสอบ'"
                 class="!bg-[#084F93] text-white !w-[100px] rounded-[8px] py-[8px] px-[16px] text-center"
                 >เปลี่ยน</v-btn
-              >
+              > -->
+              <v-btn
+                icon="mdi-play"
+                flat
+                @click="this.$router.push('/kyc/1234')"
+              ></v-btn>
             </td>
           </tr>
         </template>
@@ -173,7 +179,7 @@ const headers = [
     key: "status",
   },
   {
-    title: "เปลี่ยนสถานะ",
+    title: "",
     align: "center",
     key: "changeStatus",
   },

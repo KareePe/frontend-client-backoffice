@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="Business info,Users account" v-if="detailData.length <= 0" />
+  <Navbar text="จัดการลูกค้า,บัญชีผู้ใช้งาน" v-if="detailData.length <= 0" />
   <Navbar :text="navbar" v-else />
 
   <div class="p-4 sm:ml-64">
@@ -40,41 +40,11 @@
               <td>{{ item.name }}</td>
               <td>{{ item.email }}</td>
               <td>{{ item.phone }}</td>
-              <td>
-                <div class="flex flex-wrap my-[10px]">
-                  <div
-                    v-for="(itemBiz, indexBiz) in item.business"
-                    :key="indexBiz"
-                    class="-ml-[15px]"
-                  >
-                    <img
-                      :src="`/images/${itemBiz.bizImg}`"
-                      class="w-[40px] h-[40px]"
-                      alt=""
-                    />
-                  </div>
-                  <div style="margin-left: -15px;">
-                    <v-btn
-                      icon="mdi-plus"
-                      density="compact"
-                      color="#EEEDF1"
-                      class="!w-[40px] !h-[40px]"
-                      flat
-                    ></v-btn>
-                  </div>
-                </div>
+              <td class="text-center">
+                {{ item.business_number }}
               </td>
               <td>
-                <div class="flex gap-[15px]">
-                  <div
-                    :class="`w-[20px] h-[20px] ${
-                      item.status === 'เปิดใช้งาน'
-                        ? 'bg-[#12B76A]'
-                        : 'bg-[#BA1A1A]'
-                    } rounded-full`"
-                  ></div>
-                  {{ item.status }}
-                </div>
+                {{ item.date_current }}
               </td>
               <td>
                 <v-btn
@@ -93,29 +63,9 @@
       <div class="text-center pt-2">
         <v-pagination v-model="page" :length="pageCount"></v-pagination>
       </div>
-      <!-- <v-text-field
-      :model-value="itemsPerPage"
-      class="pa-2"
-      hide-details
-      label="Items per page"
-      min="-1"
-      max="15"
-      type="number"
-      @update:model-value="itemsPerPage = parseInt($event, 10)"
-    ></v-text-field> -->
     </div>
 
     <div v-else>
-      <div class="flex justify-end w-full">
-        <v-btn
-          color="#084F93"
-          prepend-icon="mdi-arrow-left"
-          flat
-          class="rounded-[8px] !min-w-[230px] !min-h-[48px] mb-[15px]"
-          @click="fn_clearNav"
-          >กลับ</v-btn
-        >
-      </div>
       <div class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[15px]">
         <b class="text-[#000] text-[14px]">ข้อมูลทั่วไป</b>
         <div class="mt-[10px]">
@@ -133,52 +83,42 @@
           </p>
         </div>
       </div>
-      <div class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[15px]">
-        <b class="text-[#000] text-[14px]">ธุรกิจ</b>
-        <v-card
-          variant="flat"
-          class="border border-[#EEEDF1] rounded-[8px] my-[15px] p-[15px]"
+
+      <div class="border border-[#EEEDF1] rounded-[8px] mb-[15px]">
+        <v-data-table
+          :headers="headersBiz"
+          :items="itemsBiz"
+          no-data-text="ไม่มีข้อมูล"
+          hide-default-footer
+          class="mb-[15px]"
         >
-          <v-data-table
-            :headers="headersBiz"
-            :items="itemsBiz"
-            no-data-text="ไม่มีข้อมูล"
-            hide-default-footer
-            class="mb-[15px]"
-          >
-            <template v-slot:item="{ item }">
-              <tr>
-                <td>
-                  <img
-                    :src="`/images/${item.logo}`"
-                    class="w-[40px] h-[40px]"
-                    alt=""
-                  />
-                </td>
-                <td class="text-center">{{ item.bizname }}</td>
-                <td class="text-center">
-                  <div class="flex gap-[15px] justify-center">
-                    <div
-                      :class="`w-[20px] h-[20px] ${
-                        item.status === 'เปิดใช้งาน'
-                          ? 'bg-[#12B76A]'
-                          : 'bg-[#BA1A1A]'
-                      } rounded-full`"
-                    ></div>
-                    {{ item.status }}
-                  </div>
-                </td>
-                <td>
-                  <v-btn
-                    icon="mdi-play"
-                    flat
-                    @click="fn_detailUser(item)"
-                  ></v-btn>
-                </td>
-              </tr>
-            </template>
-          </v-data-table>
-        </v-card>
+          <template v-slot:item="{ item }">
+            <tr>
+              <td>
+                <img
+                  :src="`/images/${item.logo}`"
+                  class="w-[40px] h-[40px]"
+                  alt=""
+                />
+              </td>
+              <td class="text-center">{{ item.bizname }}</td>
+              <td class="text-center">{{ item.bizname2 }}</td>
+              <td class="text-center">{{ item.bizname3 }}</td>
+              <td class="text-center">
+                <div class="flex gap-[15px] justify-center">
+                  <div
+                    :class="`w-[20px] h-[20px] ${
+                      item.status === 'เปิดใช้งาน'
+                        ? 'bg-[#12B76A]'
+                        : 'bg-[#BA1A1A]'
+                    } rounded-full`"
+                  ></div>
+                  {{ item.status }}
+                </div>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
       </div>
     </div>
   </div>
@@ -194,7 +134,7 @@ let itemsPerPage = 10;
 let itemPerPageSelect = ref(10);
 let search = ref("");
 
-let navbar = ref("Business info,Users account");
+let navbar = ref("จัดการลูกค้า,บัญชีผู้ใช้งาน");
 
 let rest = ref("");
 let detailData = ref([]);
@@ -221,14 +161,14 @@ const headers = [
     key: "phone",
   },
   {
-    title: "ธุรกิจ",
+    title: "จำนวนธุรกิจที่เกี่ยวข้อง",
     align: "center",
-    key: "business",
+    key: "business_number",
   },
   {
-    title: "สถานะ",
+    title: "เข้าใช้งานล่าสุด",
     align: "center",
-    key: "status",
+    key: "date_current",
   },
   {
     title: " ",
@@ -242,13 +182,8 @@ let items = [
     name: "นายทดสอบ นามสกุลไม่ยาว",
     email: "test@email.com",
     phone: "087-783-7482",
-    business: [
-      { biz: "mc donald", bizImg: "mc-logo.png" },
-      { biz: "starbucks", bizImg: "starbuck-logo.png" },
-      { biz: "burger king", bizImg: "burger-logo.png" },
-      { biz: "pizza company", bizImg: "pizza-logo.png" },
-    ],
-    status: "เปิดใช้งาน",
+    business_number: "2",
+    date_current: "22/11/2566 (18.32)",
     href: "",
   },
   {
@@ -256,13 +191,8 @@ let items = [
     name: "นายทดสอบ นามสกุลไม่ยาว",
     email: "test@email.com",
     phone: "087-783-7482",
-    business: [
-      { biz: "mc donald", bizImg: "mc-logo.png" },
-      { biz: "starbucks", bizImg: "starbuck-logo.png" },
-      { biz: "burger king", bizImg: "burger-logo.png" },
-      { biz: "pizza company", bizImg: "pizza-logo.png" },
-    ],
-    status: "ระงับการใช้งาน",
+    business_number: "1",
+    date_current: "22/11/2566 (18.32)",
     href: "",
   },
 ];
@@ -279,28 +209,35 @@ const headersBiz = [
     key: "bizname",
   },
   {
+    title: "ธุรกิจ",
+    align: "center",
+    key: "bizname2",
+  },
+  {
+    title: "ธุรกิจ",
+    align: "center",
+    key: "bizname3",
+  },
+  {
     title: "สถานะ",
     align: "center",
     key: "status",
-  },
-  {
-    title: " ",
-    align: "center",
-    key: "href",
   },
 ];
 let itemsBiz = [
   {
     logo: "mc-logo.png",
     bizname: "mc donald",
+    bizname2: "mc donald",
+    bizname3: "mc donald",
     status: "เปิดใช้งาน",
-    href: "",
   },
   {
     logo: "pizza-logo.png",
     bizname: "Pizza company",
+    bizname2: "Pizza company",
+    bizname3: "Pizza company",
     status: "เปิดใช้งาน",
-    href: "",
   },
 ];
 
@@ -325,7 +262,7 @@ const fn_detailUser = (item) => {
   detailData.value = item;
   rest.value = detailData.value.length;
   //   console.log(detailData.value);
-  navbar.value = "Business info,Users account," + item.name + "";
+  navbar.value = "จัดการลูกค้า,บัญชีผู้ใช้งาน," + item.name + "";
 
   console.log(navbar.value);
 };

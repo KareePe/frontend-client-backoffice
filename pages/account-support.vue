@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="Sales support" />
+  <Navbar text="สนับสนุนการขาย" />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <v-alert
     variant="outlined"
@@ -32,7 +32,7 @@
         hide-details
       ></v-text-field>
       <NuxtLink
-      to="/create-account-support"
+        to="/create-account-support"
         flat
         color="#084F93"
         class="flex bg-[#084F93] text-white justify-center gap-[8px] rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
@@ -41,7 +41,7 @@
         เพิ่มบัญชีผู้ใช้งาน
       </NuxtLink>
     </div>
-    <p class="py-[15px] text-[16px]">บัญชีผู้ใช้งานทั้งหมด</p>
+    <!-- <p class="py-[15px] text-[16px]">บัญชีผู้ใช้งานทั้งหมด</p> -->
 
     <v-data-table
       v-if="items.length > 0"
@@ -52,7 +52,7 @@
       no-data-text="ไม่มีข้อมูล"
       hide-default-footer
       items-per-page-text="จำนวนแสดงผล"
-      class="mb-[15px] border !rounded-[8px]"
+      class="mt-[12px] mb-[15px] border !rounded-[8px]"
     >
       <template v-slot:item="{ item }">
         <tr class="!my-[5px]">
@@ -94,10 +94,18 @@
           <td>
             <div class="flex">
               <v-btn density="compact" flat>
-                <v-icon icon="mdi-trash-can-outline" size="x-large" color="#DAD9DD"></v-icon>
+                <v-icon
+                  icon="mdi-trash-can-outline"
+                  size="x-large"
+                  color="#DAD9DD"
+                ></v-icon>
               </v-btn>
               <v-btn density="compact" flat>
-                <v-icon icon="mdi-pencil" size="x-large" color="#DAD9DD"></v-icon>
+                <v-icon
+                  icon="mdi-pencil"
+                  size="x-large"
+                  color="#DAD9DD"
+                ></v-icon>
               </v-btn>
             </div>
           </td>

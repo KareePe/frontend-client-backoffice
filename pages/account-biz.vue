@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="Business info,Business account" v-if="detailData.length <= 0" />
+  <Navbar text="จัดการลูกค้า,บัญชีธุรกิจ" v-if="detailData.length <= 0" />
   <Navbar :text="navbar" v-else />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <div class="p-4 md:ml-64">
@@ -104,51 +104,57 @@
                 <v-tab value="option-1" @click="fn_changeNav('')"
                   >ข้อมูลธุรกิจ</v-tab
                 >
-                <v-tab value="option-2" @click="fn_changeNav('รายงานภาพรวม')"
-                  >รายงานภาพรวม</v-tab
+                <v-tab value="option-2" @click="fn_changeNav('ผู้ใช้งานธุรกิจ')"
+                  >ผู้ใช้งานธุรกิจ</v-tab
                 >
-                <v-tab value="option-3" @click="fn_changeNav('แพ็คเกจ')"
-                  >แพ็คเกจ</v-tab
+                <v-tab value="option-3" @click="fn_changeNav('แพ็คเกจสมาชิก')"
+                  >แพ็คเกจสมาชิก</v-tab
                 >
                 <v-tab value="option-4" @click="fn_changeNav('กระเป๋าเงิน')"
                   >กระเป๋าเงิน</v-tab
                 >
-                <v-tab value="option-5" @click="fn_changeNav('เงิน COD')"
-                  >เงิน COD</v-tab
+                <v-tab value="option-5" @click="fn_changeNav('ธุรกิจย่อย')"
+                  >ธุรกิจย่อย</v-tab
                 >
-                <v-tab value="option-6" @click="fn_changeNav('ผู้ใช้งานธุรกิจ')"
+                <!-- <v-tab value="option-6" @click="fn_changeNav('ผู้ใช้งานธุรกิจ')"
                   >ผู้ใช้งานธุรกิจ</v-tab
-                >
+                > -->
               </v-tabs>
             </div>
           </div>
         </div>
         <v-window v-model="tab" class="mt-[15px]">
           <v-window-item value="option-1">
+            <b class="text-[#000] text-[16px] mt-[12px]">ข้อมูลทั่วไป</b>
             <div
-              class="border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
+              class="border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px] mt-[12px]"
             >
-              <b class="text-[#000] text-[14px]">ข้อมูลทั่วไป</b>
               <div class="mt-[10px]">
                 <p class="text-[14px] mb-[5px]">
-                  ชื่อ-นามสกุล
+                  ชื่อธุรกิจ
                   <span class="mx-[30px]">:</span
-                  ><span class="text-slate-700">ปองพล วิเชียรวิทย์</span>
+                  ><span class="text-slate-700">Starbuck</span>
                 </p>
                 <p class="text-[14px] mb-[5px]">
                   เบอร์โทรติดต่อ <span class="mx-[30px]">:</span>
                   <span class="text-slate-700">088-573-8576</span>
                 </p>
                 <p class="text-[14px] mb-[5px]">
-                  ที่อยู่ <span class="mx-[30px]">:</span>
+                  อีเมล <span class="mx-[30px]">:</span>
                   <span class="text-slate-700"
                     >13/271 ต.ยาวานา อ.เมือง จ.กรุงเทพ 10160</span
+                  >
+                </p>
+                <p class="text-[14px] mb-[5px]">
+                  ที่อยู่ <span class="mx-[30px]">:</span>
+                  <span class="text-slate-700"
+                    >173 ถนนดินสอ แขวงเสาชิงช้า เขตพระนคร กรุงเทพมหานคร</span
                   >
                 </p>
               </div>
             </div>
 
-            <div class="flex lg:flex-wrap flex-nowrap gap-[15px]">
+            <!-- <div class="flex lg:flex-wrap flex-nowrap gap-[15px]">
               <div
                 @click="fn_findDetail('product')"
                 class="cursor-pointer hover:bg-slate-100 transition-all duration-300 basis-full lg:basis-4/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
@@ -178,10 +184,11 @@
                 </div>
                 <p class="text-[20px] text-right">15 คลัง</p>
               </div>
-            </div>
+            </div> -->
           </v-window-item>
           <v-window-item value="option-2">
-            <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
+            <b class="text-[#000] text-[16px] mt-[12px]">รายชื่อผู้ใช้งาน</b>
+            <!-- <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
               <div
                 class="hover:bg-slate-100 transition-all duration-300 basis-full lg:basis-6/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
               >
@@ -234,9 +241,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
-            <v-card
+            <!-- <v-card
               variant="flat"
               class="border border-[#EEEDF1] !rounded-[8px] my-[15px] !p-[15px]"
             >
@@ -283,9 +290,30 @@
               <div v-else class="h-[260px] flex justify-center items-center">
                 <p>ยังไม่มีรายการ</p>
               </div>
-            </v-card>
+            </v-card> -->
 
-            <v-card
+            <v-data-table
+              v-if="itemsPrd.length > 0"
+              :headers="headerBusiness"
+              :items="itemsBusiness"
+              no-data-text="ไม่มีข้อมูล"
+              hide-default-footer
+              class="mb-[15px] border mt-[12px]"
+            >
+              <template v-slot:item="{ item }">
+                <tr>
+                  <td class="text-center">{{ item.user }}</td>
+                  <td class="text-center">{{ item.email }}</td>
+                  <td class="text-center">{{ item.date_create }}</td>
+                </tr>
+              </template>
+              <template v-slot:bottom></template>
+            </v-data-table>
+            <div v-else class="h-[260px] flex justify-center items-center">
+              <p>ยังไม่มีรายการ</p>
+            </div>
+
+            <!-- <v-card
               variant="flat"
               class="border border-[#EEEDF1] !rounded-[8px] my-[15px] !p-[15px]"
             >
@@ -341,31 +369,62 @@
               <div v-else class="h-[260px] flex justify-center items-center">
                 <p>ยังไม่มีรายการ</p>
               </div>
-            </v-card>
+            </v-card> -->
           </v-window-item>
           <v-window-item value="option-3">
-            <b class="text-[14px]">แพ็คเกจ</b>
-
-            <div class="flex gap-[15px]">
+            <b class="text-[#000] text-[16px] mt-[12px]">แพ็คเกจปัจจุบัน</b>
+            <div
+              class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px] mt-[8px]"
+            >
               <div
-                class="flex gap-[15px] p-[15px] items-center !rounded-[8px] min-w-[159px] h-[52px] bg-gradient-to-r from-[#084F93] to-[#00AA84]"
+                class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
               >
-                <img
-                  src="/images/SALESX_TECHNOLOGIES_LOGO_FINAL_ICONIC_VERSION-05.png"
-                  class="w-[26px]"
-                  alt=""
-                />
-                <b class="text-white text-[20px] font-bold">Standard</b>
-              </div>
-              <div class="flex gap-[15px] h-[52px] items-center">
-                <p class="text-[14px] text-[#000]/[0.6]">
-                  สถานะ:<span class="text-[#12B76A] ml-[15px]">กำลังใช้งาน</span
-                  ><span class="text-[12px] ml-[15px]"
-                    >(14 ธันวาคม 2565 - 13 ธันวาคม 2565)</span
+                <!-- <div class="flex gap-[10px] items-center mb-[12px]">
+                  <v-icon icon="mdi-cash" color="#084F93"></v-icon>
+                  <p class="text-[22px] font-bold">ยอดคงเหลือ 100,000.00 ฿</p>
+                </div>
+                <div
+                  class="flex lg:flex-wrap flex-nowrap gap-[4px] justify-start"
+                >
+                  <div class="text-left">
+                    <p class="text-[#000000]/[0.6] text-[14px]">
+                      ยอดที่ถูกจอง 13,000.00 / ยอดที่ใช้งานได้ 87,000.00
+                    </p>
+                  </div>
+                </div> -->
+                <div class="flex gap-[15px]">
+                  <div
+                    class="flex gap-[15px] p-[15px] items-center !rounded-[8px] min-w-[159px] h-[52px] bg-gradient-to-r from-[#084F93] to-[#00AA84]"
                   >
-                </p>
+                    <img
+                      src="/images/SALESX_TECHNOLOGIES_LOGO_FINAL_ICONIC_VERSION-05.png"
+                      class="w-[26px]"
+                      alt=""
+                    />
+                    <b class="text-white text-[20px] font-bold">Standard</b>
+                  </div>
+                </div>
+                <div class="flex gap-[15px] h-[52px] items-center">
+                  <p class="text-[14px] text-[#000]/[0.6]">
+                    ชื่อแพ็คเกจ:<span class="text-[#0BA5EC] ml-[15px] mr-[12px]"
+                      >Standard</span
+                    >
+                    สถานะ:<span class="text-[#12B76A] ml-[15px]"
+                      >กำลังใช้งาน</span
+                    >
+                  </p>
+                </div>
+                <div class="flex gap-[15px] items-center">
+                  <p class="text-[14px] text-[#000]/[0.6]">
+                    การชำระเงินในรอบบิลถัดไป :<span class="text-[#000] ml-[8px]"
+                      >14/09/2023</span
+                    >
+                  </p>
+                </div>
               </div>
             </div>
+
+            <b class="text-[14px]">ประวัติการชำระเงิน</b>
 
             <v-card
               variant="flat"
@@ -376,6 +435,7 @@
                 v-model:page="pagePackage"
                 :headers="headerPackage"
                 :items="itemsPackage"
+                show-select
                 :items-per-page="itemsPerPagePackage"
                 no-data-text="ไม่มีข้อมูล"
                 hide-default-footer
@@ -383,9 +443,27 @@
               >
                 <template v-slot:item="{ item }">
                   <tr class="py-[10px]">
-                    <td class="text-center text-[#0BA5EC]">{{ item.date }}</td>
-                    <td class="text-center">{{ item.invoice }}</td>
-                    <td class="text-center font-bold">{{ item.desc }}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center text-[#0BA5EC]">{{ item.no }}</td>
+                    <td class="text-center">{{ item.bank }}</td>
+                    <td class="text-center">{{ item.payment_method }}</td>
+                    <td class="text-center">{{ item.date }}</td>
+                    <td class="text-center">{{ item.use }}</td>
+                    <td class="text-center">{{ item.pack }}</td>
+                    <td class="text-center">{{ item.amount }}</td>
+                    <td class="truncate">
+                      <div class="flex gap-[15px]">
+                        <div
+                          :class="`w-[20px] h-[20px] ${
+                            item.status === 'เปิดใช้งาน'
+                              ? 'bg-[#12B76A]'
+                              : 'bg-[#BA1A1A]'
+                          } !rounded-full`"
+                        ></div>
+                        {{ item.status }}
+                      </div>
+                    </td>
+                    <!-- <td class="text-center font-bold">{{ item.desc }}</td>
                     <td class="text-center">{{ item.payment }}</td>
                     <td class="text-left">
                       {{ item.amout }} บาท
@@ -397,7 +475,7 @@
                       <v-btn flat>
                         <v-icon icon="mdi-eye-outline"></v-icon>
                       </v-btn>
-                    </td>
+                    </td> -->
                   </tr>
                 </template>
               </v-data-table>
@@ -418,352 +496,85 @@
               <div
                 class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
               >
-                <div class="flex gap-[10px] items-center mb-[25px]">
+                <div class="flex gap-[10px] items-center mb-[12px]">
                   <v-icon icon="mdi-cash" color="#084F93"></v-icon>
-                  <p class="text-[22px] font-bold">ยอดคงเหลือ</p>
+                  <p class="text-[22px] font-bold">ยอดคงเหลือ 100,000.00 ฿</p>
                 </div>
                 <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
+                  class="flex lg:flex-wrap flex-nowrap gap-[4px] justify-start"
                 >
                   <div class="text-left">
-                    <p class="text-[20px] font-bold">100,000.00 ฿</p>
                     <p class="text-[#000000]/[0.6] text-[14px]">
-                      ยอดเงินที่ใช้ได้ 100,000.00 ฿
+                      ยอดที่ถูกจอง 13,000.00 / ยอดที่ใช้งานได้ 87,000.00
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full lg:basis-4/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon
-                    icon="mdi-wallet-bifold-outline"
-                    color="#084F93"
-                  ></v-icon>
-                  <p class="text-[22px] font-bold">กระเป๋าเงิน</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-left">
-                    <p class="text-[20px] font-bold">100,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">ยอดใช้งานได้</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full lg:basis-4/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon
-                    icon="mdi-credit-card-outline"
-                    color="#084F93"
-                  ></v-icon>
-                  <p class="text-[22px] font-bold">เครดิต</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-left">
-                    <p class="text-[20px] font-bold">100,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">
-                      เครดิตที่ใช้งานได้
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full lg:basis-4/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon
-                    icon="mdi-credit-card-multiple-outline"
-                    color="#084F93"
-                  ></v-icon>
-                  <p class="text-[22px] font-bold">กันวงเงิน</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-left">
-                    <p class="text-[20px] font-bold">1,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">
-                      กันยอดสำหรับค่า FIX COST
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <v-card
-              variant="flat"
-              class="border border-[#EEEDF1] !rounded-[8px] !p-[15px]"
+            <b class="text-[#000] text-[16px] mt-[12px]">ประวัติการทำรายการ</b>
+            <v-data-table
+              v-if="itemsPrd.length > 0"
+              :headers="headerWallet"
+              :items="itemsWallet"
+              no-data-text="ไม่มีข้อมูล"
+              hide-default-footer
+              class="mb-[15px] border mt-[12px]"
             >
-              <ol
-                class="relative border-s border-gray-200 dark:border-gray-700"
-              >
-                <li class="mb-10 ms-4">
-                  <div
-                    class="absolute w-3 h-3 bg-[#027A48] !rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
-                  ></div>
-                  <h3
-                    class="text-lg font-semibold text-[#027A48] dark:text-white"
-                  >
-                    - 50,000.00 บาท
-                  </h3>
-                  <div class="flex gap-[10px] items-center mt-[10px]">
-                    <time
-                      class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-                      >19 ต.ค. 2566 (11.23) -</time
-                    >
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      :
-                    </p>
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      Logistic #056741034
-                    </p>
-                  </div>
-                </li>
-                <li class="mb-10 ms-4">
-                  <div
-                    class="absolute w-3 h-3 bg-[#027A48] !rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
-                  ></div>
-                  <h3
-                    class="text-lg font-semibold text-[#027A48] dark:text-white"
-                  >
-                    - 50,000.00 บาท
-                  </h3>
-                  <div class="flex gap-[10px] items-center mt-[10px]">
-                    <time
-                      class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-                      >19 ต.ค. 2566 (11.23) -</time
-                    >
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      :
-                    </p>
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      Logistic #056741034
-                    </p>
-                  </div>
-                </li>
-                <li class="ms-4">
-                  <div
-                    class="absolute w-3 h-3 bg-[#BA1A1A] !rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"
-                  ></div>
-                  <h3
-                    class="text-lg font-semibold text-[#BA1A1A] dark:text-white"
-                  >
-                    - 50,000.00 บาท
-                  </h3>
-                  <div class="flex gap-[10px] items-center mt-[10px]">
-                    <time
-                      class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-                      >19 ต.ค. 2566 (11.23) -</time
-                    >
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      :
-                    </p>
-                    <p
-                      class="text-sm font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      Logistic #056741034
-                    </p>
-                  </div>
-                </li>
-              </ol>
-            </v-card>
+              <template v-slot:item="{ item }">
+                <tr>
+                  <td class="text-center text-[#0BA5EC]">
+                    {{ item.date_time }}
+                  </td>
+                  <td class="text-center">{{ item.order }}</td>
+                  <td class="text-center">{{ item.detail }}</td>
+                  <td class="text-center">{{ item.money }}</td>
+                  <td class="text-center">{{ item.status }}</td>
+                </tr>
+              </template>
+              <template v-slot:bottom></template>
+            </v-data-table>
+            <div v-else class="h-[260px] flex justify-center items-center">
+              <p>ยังไม่มีรายการ</p>
+            </div>
           </v-window-item>
           <v-window-item value="option-5">
-            <VueDatePicker
-              v-model="date"
-              class="max-w-[225px] my-[15px]"
-              range
-            ></VueDatePicker>
-
             <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
               <div
                 class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
               >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon
-                    icon="mdi-credit-card-multiple-outline"
-                    color="#084F93"
-                  ></v-icon>
-                  <p class="text-[22px] font-bold">เงิน COD ทั้งหมด</p>
+                <div class="flex gap-[10px] items-center mb-[12px]">
+                  <v-icon icon="mdi-cash" color="#084F93"></v-icon>
+                  <p class="text-[22px] font-bold">ยอดคงเหลือ 100,000.00 ฿</p>
                 </div>
                 <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start w-full"
+                  class="flex lg:flex-wrap flex-nowrap gap-[4px] justify-start"
                 >
-                  <div class="text-right w-full">
-                    <p class="text-[20px] font-bold">10,064.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">289 ชิ้น</p>
+                  <div class="text-left">
+                    <p class="text-[#000000]/[0.6] text-[14px]">
+                      ยอดที่ถูกจอง 13,000.00 / ยอดที่ใช้งานได้ 87,000.00
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full md:basis-6/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon icon="mdi-cube-send" color="#F79009"></v-icon>
-                  <p class="text-[22px] font-bold">ที่ต้องจัดส่ง</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-right w-full">
-                    <p class="text-[20px] font-bold">1,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">289 ชิ้น</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full md:basis-6/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon icon="mdi-truck" color="#0BA5EC"></v-icon>
-                  <p class="text-[22px] font-bold">กำลังจัดส่ง</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-right w-full">
-                    <p class="text-[20px] font-bold">1,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">289 ชิ้น</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full md:basis-6/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon icon="mdi-check-decagram" color="#039855"></v-icon>
-                  <p class="text-[22px] font-bold">สำเร็จ</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-right w-full">
-                    <p class="text-[20px] font-bold">1,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">289 ชิ้น</p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="hover:bg-slate-100 transition-all duration-300 basis-full md:basis-6/12 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
-              >
-                <div class="flex gap-[10px] items-center mb-[25px]">
-                  <v-icon icon="mdi-information" color="#BA1A1A"></v-icon>
-                  <p class="text-[22px] font-bold">ตีกลับ/ปัญหา/ยกเลิก</p>
-                </div>
-                <div
-                  class="flex lg:flex-wrap flex-nowrap gap-[15px] justify-start"
-                >
-                  <div class="text-right w-full">
-                    <p class="text-[20px] font-bold">1,000.00 ฿</p>
-                    <p class="text-[#000000]/[0.6] text-[14px]">289 ชิ้น</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <v-card
-              variant="flat"
-              class="border border-[#EEEDF1] !rounded-[8px] !p-[15px]"
-            >
-              <p class="text-[16px] text-[#000]/[0.6]">รายการรับ COD</p>
-              <v-data-table
-                v-if="itemsPrd.length > 0"
-                :headers="headerCod"
-                :items="itemsCod"
-                no-data-text="ไม่มีข้อมูล"
-                hide-default-footer
-                class="my-[15px] border"
-              >
-                <template v-slot:item="{ item }">
-                  <tr>
-                    <td class="text-center">{{ item.codId }}</td>
-                    <td class="text-center">{{ item.amount }}</td>
-                    <td class="text-center">{{ item.payloop }}</td>
-                    <td class="text-center truncate">
-                      <div class="flex gap-[15px] justify-center">
-                        <div
-                          :class="`w-[20px] h-[20px] ${
-                            item.status === 'สำเร็จ'
-                              ? 'bg-[#12B76A]'
-                              : 'bg-[#F79009]'
-                          } !rounded-full`"
-                        ></div>
-                        {{ item.status }}
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <div class="flex gap-[15px] justify-center">
-                        <v-btn flat>
-                          <v-icon
-                            icon="mdi-eye-outline"
-                            color="#1A1C1E"
-                          ></v-icon>
-                        </v-btn>
-                        <v-btn flat>
-                          <v-icon
-                            icon="mdi-tray-arrow-down"
-                            color="#1A1C1E"
-                          ></v-icon>
-                        </v-btn>
-                      </div>
-                    </td>
-                  </tr>
-                </template>
-                <template v-slot:bottom></template>
-              </v-data-table>
-              <div v-else class="h-[260px] flex justify-center items-center">
-                <p>ยังไม่มีรายการ</p>
-              </div>
-            </v-card>
-          </v-window-item>
-          <v-window-item value="option-6">
-            <p class="text-[14px] mb-[15px]">จัดการผู้ใช้งาน</p>
+            <b class="text-[#000] text-[16px] mt-[12px]">ประวัติการทำรายการ</b>
             <v-data-table
-              v-if="itemsUser.length > 0"
-              :headers="headerUsers"
-              :items="itemsUser"
+              v-if="itemsPrd.length > 0"
+              :headers="headerWallet"
+              :items="itemsWallet"
               no-data-text="ไม่มีข้อมูล"
               hide-default-footer
-              class="my-[15px] border"
+              class="mb-[15px] border mt-[12px]"
             >
               <template v-slot:item="{ item }">
                 <tr>
-                  <td class="text-center">{{ item.user }}</td>
-                  <td class="text-center">{{ item.role }}</td>
-                  <td class="text-center">{{ item.mail }}</td>
-                  <td class="text-center">{{ item.phone }}</td>
-                  <td class="text-center">
-                    <div class="flex gap-[15px] justify-center">
-                      <div
-                        :class="`w-[20px] h-[20px] ${
-                          item.status === 'เปิดใช้งาน'
-                            ? 'bg-[#12B76A]'
-                            : 'bg-[#BA1A1A]'
-                        } !rounded-full`"
-                      ></div>
-                      {{ item.status }}
-                    </div>
+                  <td class="text-center text-[#0BA5EC]">
+                    {{ item.date_time }}
                   </td>
+                  <td class="text-center">{{ item.order }}</td>
+                  <td class="text-center">{{ item.detail }}</td>
+                  <td class="text-center">{{ item.money }}</td>
+                  <td class="text-center">{{ item.status }}</td>
                 </tr>
               </template>
               <template v-slot:bottom></template>
@@ -939,7 +750,7 @@ let dialog = ref(false);
 let pdfUrl = ref("");
 let pdfUrlBase64 = ref("");
 
-let navbar = ref("Business info,Business account");
+let navbar = ref("จัดการลูกค้า,บัญชีธุรกิจ");
 
 let rest = ref("");
 let detailData = ref([]);
@@ -1112,25 +923,40 @@ const headerCod = [
 ];
 
 const headerPackage = [
+  // {
+  //   title: " ",
+  //   align: "center",
+  //   key: "preview",
+  // },
+  {
+    title: "เลขที่ใบเสร็จ",
+    align: "center",
+    key: "no",
+  },
+  {
+    title: "บัญชีการชำระเงิน",
+    align: "center",
+    key: "bank",
+  },
+  {
+    title: "วิธีการชำระเงิน",
+    align: "center",
+    key: "payment_method",
+  },
   {
     title: "วันที่",
     align: "center",
     key: "date",
   },
   {
-    title: "หมายเลขใบเสร็จ",
+    title: "รอบการใช้งาน",
     align: "center",
-    key: "invoice",
+    key: "use",
   },
   {
-    title: "คำอธิบาย",
+    title: "แพ็คเกจ",
     align: "center",
-    key: "desc",
-  },
-  {
-    title: "วิธีการชำระเงิน",
-    align: "center",
-    key: "payment",
+    key: "pack",
   },
   {
     title: "ยอดรวม",
@@ -1138,9 +964,9 @@ const headerPackage = [
     key: "amount",
   },
   {
-    title: " ",
+    title: "สถานะ",
     align: "center",
-    key: "preview",
+    key: "status",
   },
 ];
 
@@ -1172,6 +998,52 @@ const headerUsers = [
   },
 ];
 
+const headerBusiness = [
+  {
+    title: "ชื่อผู้ใช้งาน",
+    align: "center",
+    key: "user",
+  },
+  {
+    title: "อีเมล",
+    align: "center",
+    key: "email",
+  },
+  {
+    title: "วันที่สมัคร",
+    align: "center",
+    key: "date_create",
+  },
+];
+
+const headerWallet = [
+  {
+    title: "วันที่และเวลา",
+    align: "center",
+    key: "date_time",
+  },
+  {
+    title: "รายการ",
+    align: "center",
+    key: "order",
+  },
+  {
+    title: "รายละเอียด",
+    align: "center",
+    key: "detail",
+  },
+  {
+    title: "ยอด",
+    align: "center",
+    key: "money",
+  },
+  {
+    title: "สถานะ",
+    align: "center",
+    key: "status",
+  },
+];
+
 let itemsCod = [
   {
     codId: "CODS2310126SX000101",
@@ -1184,6 +1056,46 @@ let itemsCod = [
     amount: "98,279.00 บาท",
     payloop: "13/12/2000",
     status: "สำเร็จ",
+  },
+];
+
+let itemsBusiness = [
+  {
+    user: "หม่ำ จ๊กมก",
+    email: "Thisismy@gmail.com",
+    date_create: "12/01/2566",
+  },
+  {
+    user: "หม่ำ จ๊กมก",
+    email: "Thisismy@gmail.com",
+    date_create: "12/01/2566",
+  },
+];
+
+let itemsWallet = [
+  // {
+  //   user: "หม่ำ จ๊กมก",
+  //   email: "Thisismy@gmail.com",
+  //   date_create: "12/01/2566",
+  // },
+  // {
+  //   user: "หม่ำ จ๊กมก",
+  //   email: "Thisismy@gmail.com",
+  //   date_create: "12/01/2566",
+  // },
+  {
+    date_time: "14/09/2023 15:38",
+    order: "เติมเครดิต",
+    detail: "QR Code พร้อมเพย์",
+    money: "+ 1,500 บาท",
+    status: "รอดำเนินการ",
+  },
+  {
+    date_time: "14/09/2023 15:38",
+    order: "เติมเครดิต",
+    detail: "QR Code พร้อมเพย์",
+    money: "+ 1,500 บาท",
+    status: "รอดำเนินการ",
   },
 ];
 
@@ -1253,11 +1165,20 @@ let itemsLogistic = [
 
 let itemsPackage = [
   {
+    // preview: "",
+    no: "SX4832-2845-AC-2844",
+    bank: "6886-0191-7267-3414",
+    payment_method: "VISA *6611",
     date: "14/09/2023",
-    invoice: "SX4832-2845-AC-2844",
-    desc: "Package standard",
-    payment: "Visa *5734",
-    amout: 1500,
+    use: "14/09/2023 - 14/09/2023",
+    pack: "Standard",
+    amount: "1,500.00 บาท",
+    status: "เปิดใช้งาน",
+    // date: "14/09/2023",
+    // invoice: "SX4832-2845-AC-2844",
+    // desc: "Package standard",
+    // payment: "Visa *5734",
+    // amout: 1500,
   },
 ];
 
@@ -1302,7 +1223,7 @@ const pageCountPackage = computed(() => {
 const fn_navDetail = (item) => {
   productName.value = item.bizName;
   detailData.value = item;
-  navbar.value = "Business info,Users account," + productName.value + "";
+  navbar.value = "จัดการลูกค้า,บัญชีธุรกิจ," + productName.value + "";
 };
 
 const fn_changeNav = (text) => {
@@ -1325,9 +1246,7 @@ watch(navbar, () => {
   console.log(navbar);
 });
 
-const downloadPdf = async () => {
-
-};
+const downloadPdf = async () => {};
 
 const fn_genPDF = async () => {
   loading.value = true;

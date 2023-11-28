@@ -1,6 +1,8 @@
 <template>
   <Toolbars />
-  <Navbar text="Create account support" />
+  <Navbar text="สนับสนุนการขาย,สร้างลิงค์สนับสนุน" />
+  <!-- <Navbar :text="navbar" v-else /> -->
+  <!-- <Navbar text="Create account support" /> -->
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
 
   <div class="p-4 md:ml-64">
@@ -101,6 +103,32 @@
               </v-radio-group>
             </div>
           </v-card>
+          <p class="text-[14px] mb-[15px] text-[#74777F]">โค้ดส่วนลด (ถ้ามี)</p>
+          <div
+            class="lg:flex block gap-[15px] items-start lg:ml-[30px] ml-0 lg:mx-[15px] mx-0 my-[15px]"
+          >
+            <v-text-field
+              label="กรอกโค้ดส่วนลด"
+              v-model="newTag"
+              variant="outlined"
+              class="rounded-[8px] !h-[56px] lg:!max-w-[366px] lg:w-[366px] !max-w-full w-full"
+              hide-details
+            />
+            <v-btn
+              color="#084F93"
+              flat
+              class="lg:w-[100px] w-full lg:mt-0 mt-[15px] min-h-[56px] !rounded-[8px]"
+              >ตกลง</v-btn
+            >
+          </div>
+          <!-- <div class="lg:basis-4/12 basis-full">
+            <v-text-field
+              label="กรอกโค้ดส่วนลด"
+              v-model="inputData.name"
+              variant="outlined"
+              class="!min-h-[56px]"
+            ></v-text-field>
+          </div> -->
         </v-card>
         <v-card
           variant="flat"
@@ -165,7 +193,7 @@
                 class="flex justify-between flex-row-reverse my-[15px]"
               >
                 <template v-slot:label>
-                  <p>Standard</p>
+                  <p>1 คน</p>
                 </template>
               </v-radio>
               <v-radio
@@ -175,7 +203,7 @@
                 class="flex justify-between flex-row-reverse my-[15px]"
               >
                 <template v-slot:label>
-                  <p>Business</p>
+                  <p>2 คน - 9 คน</p>
                 </template>
               </v-radio>
               <v-radio
@@ -185,7 +213,17 @@
                 class="flex justify-between flex-row-reverse my-[15px]"
               >
                 <template v-slot:label>
-                  <p>Business +</p>
+                  <p>10 คน - 20 คน</p>
+                </template>
+              </v-radio>
+              <v-radio
+                value="Business +"
+                density="compact"
+                :hide-details="true"
+                class="flex justify-between flex-row-reverse my-[15px]"
+              >
+                <template v-slot:label>
+                  <p>21 คนขึ้นไป</p>
                 </template>
               </v-radio>
             </v-radio-group>
