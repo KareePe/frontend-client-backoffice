@@ -2,6 +2,28 @@
   <Toolbars />
   <Navbar text="กระทบยอด COD" />
   <div class="ContainerLayout">
+    <div class="flex flex-row justify-between">
+      <v-text-field
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        placeholder="ชื่อผู้ใช้ หรือ เบอร์โทร"
+        class="max-w-[600px]"
+        density="compact"
+        v-model="search"
+      ></v-text-field>
+      <!-- <v-text-field
+        class="max-w-[400px]"
+        prepend-inner-icon="mdi-calendar-month"
+        variant="outlined"
+        density="compact"
+        label="วันที่"
+      ></v-text-field> -->
+      <VueDatePicker
+        v-model="dateRange"
+        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
+        range
+      ></VueDatePicker>
+    </div>
     <!-- button Switch -->
     <div class="flex w-full justify-between items-center">
       <div class="card !justify-start">
@@ -10,392 +32,91 @@
           variant="flat"
           @click="() => fnChangeTabs('Order')"
           class="!rounded-[8px] text-[14px]"
-          >คำสั่งซื้อ (926)</v-btn
+          >รายการทั้งหมด (500)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('Payment')"
-          >ทำจ่าย</v-btn
+          >รอชำระ (200)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('History')"
-          >ประวัติ (310)</v-btn
+          >ชำระแล้ว (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'Other' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('Other')"
+          >อื่นๆ (14)</v-btn
         >
       </div>
-      <div style="width: 300px" v-if="tab === 'Order'">
-        <!-- <v-text-field
-          label="วันที่"
-          variant="outlined"
-          density="compact"
-          prepend-inner-icon="mdi-calendar-month"
-          hide-details="auto"
-        ></v-text-field> -->
-        <VueDatePicker
-          v-model="dateRange"
-          class="!max-w-[280px] rounded-[8px]"
-          range
-        ></VueDatePicker>
-      </div>
-      <v-btn
-        color="#084F93"
+    </div>
+
+    <div>
+      <!-- <div
+        class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5"
+      >
+        ข้อมูลคำสั่งซื้อทั้งหมด {{ tableItem.length }} รายการ
+      </div> -->
+      <v-card
         variant="flat"
-        size="large"
-        rounded="lg"
-        prepend-icon="mdi-plus"
-        v-if="tab !== 'Order'"
-        class="px-16"
-        @click="fnHandleOpenModal"
+        class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
       >
-        เพิ่มรายการ
-      </v-btn>
-    </div>
-    <!-- content Order-->
-    <div
-      class="mt-4 p-5 text-[#084F93] rounded-t-md border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5"
-      v-if="tab === 'Order'"
-    >
-      ข้อมูลคำสั่งซื้อทั้งหมด {{ dataTableOrder.length }} รายการ
-    </div>
-    <div
-      v-if="tab === 'Order'"
-      class="bg-[#E9E7EB] p-2 border border-[#E9E7EB]"
-    >
-      <v-text-field
-        placeholder="เพิ่มตัวกรอง"
-        variant="outlined"
-        hide-details="auto"
-        density="compact"
-      ></v-text-field>
-      <div class="pt-2">
-        <Chips v-for="(item, index) in chipData" :text="item" />
-        <!-- <v-chip
-          v-for="(item, index) in chipData"
-          color="#0BA5EC"
-          :key="index"
-          class="mr-2 text-[14px]"
-          >{{ item }}</v-chip
-        > -->
-      </div>
-    </div>
-    <!-- table Order -->
-    <v-card
-      v-if="tab === 'Order'"
-      variant="flat"
-      class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
-    >
-      <v-data-table
-        v-if="dataTableOrder.length > 0"
-        :items="dataTableOrder"
-        :headers="headersTableOrder"
-        item-key="id"
-        id="table-info"
-        show-expand
-        no-data-text="ไม่มีข้อมูล"
-        hide-default-footer
-        items-per-page-text="จำนวนแสดงผล"
-        :page="page"
-        :items-per-page="itemsPerPage"
-      >
-        <template
-          v-slot:item="{ item, toggleExpand, isExpanded, internalItem }"
+        <v-data-table
+          v-if="tableItem.length > 0"
+          :items="tableItem"
+          :headers="headersTable"
+          item-key="id"
+          no-data-text="ไม่มีข้อมูล"
+          items-per-page-text="จำนวนแสดงผล"
+          :items-per-page="itemsPerPage"
+          :page="page"
+          :search="search"
+          id="table-header-black"
         >
-          <tr>
-            <td
-              class="text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.name }}
-            </td>
-            <td
-              class="text-[#084F93] text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.id }}
-            </td>
-            <td
-              class="text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.status_order }}
-            </td>
-            <td
-              class="text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.create_date }}
-            </td>
-            <td
-              class="text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.price }}
-            </td>
-            <td
-              class="text-[16px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.payment }}
-            </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%] pr-10">
-              <div class="flex justify-center items-center">
-                <div
-                  class="w-4 h-4 mr-1 rounded-full"
-                  v-bind:style="{
-                    backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#BA1A1A',
-                  }"
-                ></div>
-                {{ item.status }}
-              </div>
-            </td>
-            <td>
-              <button @click="toggleExpand(internalItem)">
-                <v-btn
-                  color="#74777F"
-                  icon="mdi-chevron-up"
-                  variant="text"
-                  v-if="isExpanded(internalItem)"
-                ></v-btn>
-                <v-btn
-                  color="#74777F"
-                  icon="mdi-chevron-down"
-                  variant="text"
-                  v-else
-                ></v-btn>
-
-                <!-- <v-icon aria-hidden="false" class="cursor-pointer">
-                   {{
-                    isExpanded(internalItem)
-                      ? "mdi-chevron-up"
-                      : "mdi-chevron-down"
-                  }}
-                </v-icon> -->
-              </button>
-            </td>
-          </tr>
-        </template>
-
-        <template v-slot:expanded-row="{ columns, item }">
-          <td :colspan="columns.length">
-            <div
-              class="border-t border-x border-[#EEEDF1] w-full grid grid-cols-12 gap-4 p-2 px-16"
-            >
-              <div class="col-span-2">
-                <div class="opacity-[60%]">ช่องทางการขาย / แพลตพอร์ม</div>
-                <div class="whitespace-nowrap">Social Media - Facebook</div>
-              </div>
-              <div class="col-span-2">
-                <div class="opacity-[60%]">วิธีการชำระเงิน</div>
-                <div>{{ item.payment }}</div>
-              </div>
-              <div class="col-span-2">
-                <div class="opacity-[60%]">น้ำหนัก</div>
-                <div>1.0 กิโลกรัม</div>
-              </div>
-              <div class="col-span-4">
-                <div class="opacity-[60%]">เหตุผลในการยกเลิก</div>
-                <div>-</div>
-              </div>
-              <div class="col-span-2">
-                <div class="h-full justify-end space-x-5 flex">
-                  <v-btn
-                    color="#74777F"
-                    icon="mdi-file-document-remove-outline"
-                    variant="text"
-                  >
-                  </v-btn>
-                  <v-btn
-                    color="#74777F"
-                    icon="mdi-file-document-check-outline"
-                    variant="text"
-                  >
-                  </v-btn>
-                  <!-- <v-icon color="#74777F" size="large"
-                    >mdi-file-document-remove-outline</v-icon
-                  >
-                  <v-icon color="#74777F" size="large"
-                    >mdi-file-document-check-outline</v-icon
-                  > -->
+          <template v-slot:item="{ item }">
+            <tr>
+              <td class="text-center">{{ item.name }}</td>
+              <td class="text-center text-[#0BA5EC]">
+                {{ item.no }}
+              </td>
+              <td class="text-center">
+                {{ item.cod }}
+              </td>
+              <td class="text-center">
+                {{ item.quantity }}
+              </td>
+              <td class="text-center">
+                <div class="flex gap-[15px]">
+                  <div
+                    :class="`w-[20px] h-[20px] ${
+                      item.status === 'เปิดใช้งาน'
+                        ? 'bg-[#12B76A]'
+                        : 'bg-[#BA1A1A]'
+                    } !rounded-full`"
+                  ></div>
+                  {{ item.status }}
                 </div>
-              </div>
-            </div>
-            <div
-              class="border-b border-[#EEEDF1] w-full grid grid-cols-12 gap-4 p-2 px-16"
-            >
-              <div class="col-span-2">
-                <div class="opacity-[60%]">สิ้นค้า</div>
-                <div class="whitespace-nowrap">
-                  <div>รองเท้าแตะ x1</div>
-                  <div>ปาท่องโก๋ x3</div>
-                  <div>
-                    ลิปสติก x5
-                    <span class="text-[#084F93] cursor-pointer"
-                      >ดูเพิ่มเติม</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-span-2">
-                <div class="opacity-[60%]">เบอร์โทร</div>
-                <div>081-234-5678</div>
-              </div>
-              <div class="col-span-2">
-                <div class="opacity-[60%]">ผู้สร้างออเดอร์</div>
-                <div>Admin 1</div>
-              </div>
-              <div class="col-span-6">
-                <div class="opacity-[60%]">ยกเลิกโดย</div>
-                <div>-</div>
-              </div>
-            </div>
-          </td>
-        </template>
-        <template v-slot:bottom></template>
-      </v-data-table>
-      <div v-else class="h-[260px] flex justify-center items-center">
-        <p>ยังไม่มีรายการ</p>
-      </div>
-    </v-card>
+              </td>
+              <td class="text-center">
+                <v-btn icon="mdi-play" @click="fn_navDetail(item)" flat></v-btn>
+              </td>
+            </tr>
+          </template>
+          <template #bottom></template>
+        </v-data-table>
+        <div v-else class="h-[260px] flex justify-center items-center">
+          <p>ยังไม่มีรายการ</p>
+        </div>
+      </v-card>
+    </div>
 
-    <!-- content payment  -->
-    <v-card
-      v-if="tab === 'Payment'"
-      variant="flat"
-      class="border border-[#EEEDF1] rounded-[8px] pb-[15px] mt-4"
-    >
-      <v-data-table
-        :items="dataTablePayment"
-        :headers="headTablePayment"
-        item-key="id"
-        no-data-text="ไม่มีข้อมูล"
-        hide-default-footer
-        items-per-page-text="จำนวนแสดงผล"
-        :items-per-page="itemsPerPage"
-        :page="page"
-      >
-        <template v-slot:item="{ item }">
-          <tr>
-            <td class="text-table">
-              {{ item.id }}
-            </td>
-            <td class="text-table">
-              {{ item.num_of_order }}
-            </td>
-            <td class="text-table">
-              {{ item.total }}
-            </td>
-            <td class="text-table">
-              <div class="!flex !justify-center !items-center">
-                <div
-                  class="w-4 h-4 mr-1 rounded-full"
-                  v-bind:style="{
-                    backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009',
-                  }"
-                ></div>
-                {{ item.status }}
-              </div>
-            </td>
-            <td class="w-[400px]">
-              <div class="flex items-center justify-center">
-                <v-btn
-                  color="#084F93"
-                  variant="outlined"
-                  size="large"
-                  rounded="lg"
-                  prepend-icon="mdi-check"
-                  class="px-16"
-                  >ยืนยันแล้ว</v-btn
-                >
-              </div>
-            </td>
-          </tr>
-        </template>
-
-        <template v-slot:no-data>
-          <div
-            class="h-[600px] flex justify-center items-center flex-col space-y-3"
-          >
-            <div class="opacity-[60%]">ยังไม่มีรายการ</div>
-            <v-btn
-              color="#084F93"
-              variant="outlined"
-              size="x-large"
-              rounded="lg"
-              prepend-icon="mdi-plus"
-              class="px-16"
-              @click="fnHandleOpenModal"
-            >
-              เพิ่มรายการ
-            </v-btn>
-          </div>
-        </template>
-        <template v-slot:bottom></template>
-      </v-data-table>
-    </v-card>
-
-    <!-- content History -->
-    <v-card
-      v-if="tab === 'History'"
-      variant="flat"
-      class="border border-[#EEEDF1] rounded-[8px] pb-[15px] mt-4"
-    >
-      <v-data-table
-        :items="dataTableHistory"
-        :headers="headTableHistory"
-        item-key="id"
-        no-data-text="ไม่มีข้อมูล"
-        hide-default-footer
-        items-per-page-text="จำนวนแสดงผล"
-        :items-per-page="itemsPerPage"
-        :page="page"
-      >
-        <template v-slot:item="{ item }">
-          <tr>
-            <td class="text-table">
-              {{ item.id }}
-            </td>
-            <td class="text-table">
-              {{ item.num_of_order }}
-            </td>
-            <td class="text-table">
-              {{ item.total }}
-            </td>
-            <td class="text-table">
-              <div class="!flex !justify-center !items-center">
-                <div
-                  class="w-4 h-4 mr-1 rounded-full"
-                  v-bind:style="{
-                    backgroundColor:
-                      item.status === 'ยืนยันแล้ว' ? '#12B76A' : '#F79009',
-                  }"
-                ></div>
-                {{ item.status }}
-              </div>
-            </td>
-          </tr>
-        </template>
-
-        <template v-slot:no-data>
-          <div
-            class="h-[600px] flex justify-center items-center flex-col space-y-3"
-          >
-            <div class="opacity-[60%]">ยังไม่มีรายการ</div>
-            <v-btn
-              color="#084F93"
-              variant="outlined"
-              size="x-large"
-              rounded="lg"
-              prepend-icon="mdi-plus"
-              class="px-16"
-              @click="fnHandleOpenModal"
-            >
-              เพิ่มรายการ
-            </v-btn>
-          </div>
-        </template>
-        <template v-slot:bottom></template>
-      </v-data-table>
-    </v-card>
     <!-- pagination  -->
     <div class="text-center pt-2 flex justify-center items-center relative">
       <v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -667,6 +388,50 @@ const headersTableOrder = [
     title: "",
   },
 ];
+
+const headersTable = [
+  {
+    key: "name",
+    title: "ชื่อธุรกิจ",
+    align: "center",
+  },
+  {
+    key: "no",
+    title: "หมายเลขใบสำคัญจ่าย",
+    align: "center",
+  },
+  {
+    key: "cod",
+    title: "ค่า COD",
+    align: "center",
+  },
+  {
+    key: "quantity",
+    title: "จำนวนพัสดุ COD",
+    align: "center",
+  },
+  {
+    key: "status",
+    title: "สถานะบัญชี",
+    align: "center",
+  },
+
+  {
+    key: "",
+    title: "",
+  },
+];
+
+const tableItem = [
+  {
+    name: "Business Name",
+    no: "PA2310126SX000101",
+    cod: "100.00",
+    quantity: "20",
+    status: "เปิดใช้งาน",
+  },
+];
+
 const dataTableOrder = [
   {
     create_date: "13/12/2000 20:00",

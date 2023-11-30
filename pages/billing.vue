@@ -3,7 +3,7 @@
   <Navbar text="บิลจัดส่ง" />
   <div class="p-4 sm:ml-64">
     <!-- button Switch -->
-    <div class="flex w-full justify-between">
+    <!-- <div class="flex w-full justify-between">
       <div class="card">
         <v-btn
           v-bind:color="tab === 'transportation' ? '#084F93' : '#fff'"
@@ -40,9 +40,9 @@
       >
         อัปโหลดบิลจัดส่ง
       </v-btn>
-    </div>
+    </div> -->
     <!-- button zone -->
-    <div class="flex w-full mt-4 space-x-4" v-if="tab === 'status'">
+    <!-- <div class="flex w-full mt-4 space-x-4" v-if="tab === 'status'">
       <v-btn
         variant="outlined"
         class="text-none !rounded-[8px]"
@@ -91,9 +91,9 @@
       >
         Thai Post Express
       </v-btn>
-    </div>
+    </div> -->
     <!-- dashborad card -->
-    <div class="mt-4 grid grid-cols-3 gap-4" v-if="tab === 'status'">
+    <!-- <div class="mt-4 grid grid-cols-3 gap-4" v-if="tab === 'status'">
       <div class="dashboardCard">
         <div class="flex">
           <div class="flex justify-center items-center">
@@ -185,146 +185,11 @@
           <div class="text-[20px]">บาท</div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- table status-->
-    <v-card class="mt-4 !rounded-[8px]" variant="flat" v-if="tab === 'status'">
-      <v-data-table
-        :items="dataTable"
-        :headers="headersTable"
-        item-key="id"
-        no-data-text="ไม่มีข้อมูล"
-        items-per-page-text="จำนวนแสดงผล"
-        class="border"
-        id="table-header-black"
-      >
-        <template v-slot:item="{ item }">
-          <tr>
-            <td class="text-[14px] leading-5 tracking-[-0.23%]">
-              {{ item.name }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.id }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.amount }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.total }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.status }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.import_data }}
-            </td>
-            <td
-              class="flex justify-center space-x-10 items-center cursor-pointer"
-            >
-              <v-btn
-                @click="() => console.log('download')"
-                icon="mdi-tray-arrow-down"
-                variant="text"
-              >
-              </v-btn>
-              <!-- <v-icon
-                @click="() => console.log('download')"
-                color="#1A1C1E"
-                size="small"
-              >
-                mdi-tray-arrow-down
-              </v-icon> -->
-              <v-btn
-                @click="() => console.log('download')"
-                icon=" mdi-eye-outline"
-                variant="text"
-              >
-              </v-btn>
-              <!-- <v-icon
-                @click="() => console.log('eye')"
-                color="#1A1C1E"
-                size="small"
-              >
-                mdi-eye-outline
-              </v-icon> -->
-            </td>
-          </tr>
-        </template>
-        <template v-slot:bottom></template>
-      </v-data-table>
-    </v-card>
 
     <!-- table transportation-->
-    <v-card
-      class="mt-4 !rounded-[8px]"
-      variant="flat"
-      v-if="tab === 'transportation'"
-    >
-      <v-data-table
-        :items="dataTransportation"
-        :headers="headerTransportation"
-        item-key="id"
-        no-data-text="ไม่มีข้อมูล"
-        items-per-page-text="จำนวนแสดงผล"
-        class="border"
-      >
-        <template v-slot:item="{ item }">
-          <tr>
-            <td>
-              <div class="flex items-center w-full justify-center">
-                <img
-                  class="w-9 h-9 rounded-full"
-                  :src="item.image"
-                  alt="user photo"
-                />
-              </div>
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.name }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.status }}
-            </td>
-            <td
-              class="text-[14px] leading-5 tracking-[-0.23%] text-center pr-10"
-            >
-              {{ item.update_date }}
-            </td>
-
-            <td class="flex justify-center items-center cursor-pointer">
-              <!-- <v-icon
-                @click="() => console.log('download')"
-                color="#1A1C1E"
-                size="small"
-              >
-                mdi-tray-arrow-down
-              </v-icon> -->
-              <v-btn
-                @click="() => console.log('mdi-tray-arrow-down')"
-                icon=" mdi-tray-arrow-down"
-                variant="text"
-              >
-              </v-btn>
-            </td>
-          </tr>
-        </template>
-        <template v-slot:bottom></template>
-      </v-data-table>
-    </v-card>
   </div>
 </template>
 

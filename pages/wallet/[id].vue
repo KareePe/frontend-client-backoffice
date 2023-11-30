@@ -1,52 +1,29 @@
 <template>
   <Toolbars />
-  <Navbar text="การเงิน,กระเป๋าเงิน" />
+  <Navbar text="การเงิน,กระเป๋าเงิน,ร้านก้านหอมไทย" />
 
   <div class="p-4 sm:ml-64">
-    <div class="flex flex-row justify-between">
-      <v-text-field
-        v-model="search"
-        variant="outlined"
-        label="ค้นหาบัญชีผู้ใช้ เบอร์โทร"
-        prepend-inner-icon="mdi-magnify"
-        class="!max-w-[480px] rounded-[8px] mb-[12px]"
-        single-line
-        density="compact"
-        hide-details
-      ></v-text-field>
-
-      <!-- <v-text-field
-        variant="outlined"
-        label="วันที่"
-        prepend-inner-icon="mdi-calendar-month"
-        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
-        single-line
-        hide-details
-      /> -->
-      <VueDatePicker
-        v-model="dateRange"
-        class="!max-w-[280px] !min-h-[56px] !rounded-[8px] mb-[15px]"
-        range
-      ></VueDatePicker>
-    </div>
-    <div>
+    <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
       <div
-        class="border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px] mt-[12px]"
+        class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
       >
-        <div class="mt-[10px]">
-          <b class="text-[#000] text-[16px] mt-[12px]">สรุปข้อมูล</b>
-          <p class="text-[14px] mb-[5px]">
-            ยอดเครดิตรวม
-            <span class="mx-[30px]">:</span
-            ><span class="text-slate-700">8,000,000 </span>
-          </p>
-          <p class="text-[14px] mb-[5px]">
-            จำนวนธุรกิจ <span class="mx-[30px]">:</span>
-            <span class="text-slate-700">926 ธุรกิจ</span>
-          </p>
+        <b class="text-[#000] text-[16px] mt-[12px]">กระเป๋าเงิน</b>
+        <div class="flex gap-[10px] items-center mb-[12px]">
+          <v-icon icon="mdi-cash" color="#084F93"></v-icon>
+          <p class="text-[22px] font-bold">ยอดคงเหลือ 100,000.00 ฿</p>
+        </div>
+        <div class="flex lg:flex-wrap flex-nowrap gap-[4px] justify-start">
+          <div class="text-left">
+            <p class="text-[#000000]/[0.6] text-[14px]">
+              ยอดที่ถูกจอง 13,000.00 / ยอดที่ใช้งานได้ 87,000.00
+            </p>
+          </div>
         </div>
       </div>
     </div>
+
+    <b class="text-[#000] text-[16px] mt-[12px]">ประวัติการทำรายการ</b>
+
     <v-card
       variant="flat"
       class="border border-[#EEEDF1] rounded-[8px] mt-[8px]"
@@ -67,10 +44,11 @@
       >
         <template v-slot:item="{ item }">
           <tr>
-            <td class="text-center">{{ item.code }}</td>
-            <td class="text-center">{{ item.name }}</td>
+            <td class="text-center">{{ item.date }}</td>
+            <td class="text-center">{{ item.schedule }}</td>
+            <td class="text-center">{{ item.detail }}</td>
             <td class="text-center">{{ item.qty }}</td>
-            <td class="text-center"></td>
+            <td class="text-center">{{ item.status }}</td>
             <!-- <td class="text-center">{{ item.amount }}</td> -->
           </tr>
         </template>
@@ -107,32 +85,39 @@ const dateRange = ref([
 
 const headersTable = [
   {
-    title: "รหัสร้านค้า",
+    title: "วันที่และเวลา",
     align: "center",
-    value: "code",
+    value: "date",
   },
   {
-    title: "ชื่อธุรกิจ",
+    title: "รายการ",
     align: "center",
-    key: "name",
+    key: "schedule",
   },
   {
-    title: "ยอดคงเหลือกระเป๋าเงินในระบบ",
+    title: "รายละเอียด",
+    align: "center",
+    key: "detail",
+  },
+  {
+    title: "ยอด",
     align: "center",
     key: "qty",
   },
   {
-    title: "",
+    title: "สถานะ",
     align: "center",
-    key: "action",
+    key: "status",
   },
 ];
 
 const tableItem = [
   {
-    code: "767885874",
-    name: "น้ำหอมไทย",
-    qty: "1,500.00 ฿",
+    date: "14/09/2023 15:38",
+    schedule: "เติมเครดิต",
+    detail: "QR Code พร้อมเพย์",
+    qty: "+ 1,500.00 บาท",
+    status: "รอดำเนินการ",
   },
 ];
 const fnChangeTab = (value) => {

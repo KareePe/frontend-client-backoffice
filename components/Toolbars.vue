@@ -160,7 +160,7 @@ const menu_list = [
       },
       {
         subtitle: "ประวัติการจัดส่ง",
-        path: "/",
+        path: "/user-delivery",
         disable: false,
       },
       {
