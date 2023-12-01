@@ -66,9 +66,10 @@
     </div>
 
     <div v-else>
-      <div class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[15px]">
-        <b class="text-[#000] text-[14px]">ข้อมูลทั่วไป</b>
-        <div class="mt-[10px]">
+        <b class="text-[#000] text-[18px]">ข้อมูลทั่วไป</b>
+        <div class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[12px] mt-[12px]">
+       
+        <div>
           <p class="text-[14px] mb-[5px]">
             ชื่อ-นามสกุล: <span class="text-slate-700">ปองพล วิเชียรวิทย์</span>
           </p>
@@ -84,7 +85,9 @@
         </div>
       </div>
 
-      <div class="border border-[#EEEDF1] rounded-[8px] mb-[15px]">
+      <b class="text-[#000] text-[18px] ">รายการธุรกิจที่เกี่ยวข้อง</b>
+
+      <div class="border border-[#EEEDF1] rounded-[8px] mb-[15px] mt-[12px]">
         <v-data-table
           :headers="headersBiz"
           :items="itemsBiz"
@@ -102,8 +105,54 @@
                 />
               </td>
               <td class="text-center">{{ item.bizname }}</td>
-              <td class="text-center">{{ item.bizname2 }}</td>
-              <td class="text-center">{{ item.bizname3 }}</td>
+              <td class="text-table">
+                <div style="display : flex; flex-direction : row; justify-content : center; align-items : center">
+                <div
+                    :class="`w-[20px] h-[20px] ${
+                      item.status === 'เปิดใช้งาน'
+                        ? 'bg-[#12B76A]'
+                        : 'bg-[#BA1A1A]'
+                    } rounded-full`"
+                  ></div>
+                <div style="display : flex; flex-direction : column; justify-content : center; align-items : center; margin-left : 12px">
+                <div class="flex gap-[15px] justify-center">
+                 
+                  {{ item.status }}
+                 
+                </div>
+                <div class="text-[12px] opacity-[0.6]">
+                {{ item.bizname2 }}
+                </div>
+                </div>
+                </div>
+                <!-- <div class="text-[12px] opacity-[0.6]">
+                  
+                </div> -->
+              </td>
+              <td class="text-table">
+                <div style="display : flex; flex-direction : row; justify-content : center; align-items : center">
+                <div
+                    :class="`w-[20px] h-[20px] ${
+                      item.status === 'เปิดใช้งาน'
+                        ? 'bg-[#12B76A]'
+                        : 'bg-[#BA1A1A]'
+                    } rounded-full`"
+                  ></div>
+                <div style="display : flex; flex-direction : column; justify-content : center; align-items : center; margin-left : 12px">
+                <div class="flex gap-[15px] justify-center">
+                 
+                  {{ item.status }}
+                 
+                </div>
+                <div class="text-[12px] opacity-[0.6]">
+                {{ item.bizname3 }}
+                </div>
+                </div>
+                </div>
+                <!-- <div class="text-[12px] opacity-[0.6]">
+                  
+                </div> -->
+              </td>
               <td class="text-center">
                 <div class="flex gap-[15px] justify-center">
                   <div
@@ -118,6 +167,7 @@
               </td>
             </tr>
           </template>
+          <template v-slot:bottom></template>
         </v-data-table>
       </div>
     </div>
@@ -142,7 +192,7 @@ let detailData = ref([]);
 const headers = [
   {
     title: "User ID",
-    align: "start",
+    align: "center",
     key: "id",
   },
   {
@@ -209,12 +259,12 @@ const headersBiz = [
     key: "bizname",
   },
   {
-    title: "ธุรกิจ",
+    title: "บัญชีชำระเงินที่ผูกกับเเพ็คเกจสมาชิก",
     align: "center",
     key: "bizname2",
   },
   {
-    title: "ธุรกิจ",
+    title: "บัญชีชำระเงินที่ผูกกับบริการขนส่ง",
     align: "center",
     key: "bizname3",
   },
@@ -228,15 +278,15 @@ let itemsBiz = [
   {
     logo: "mc-logo.png",
     bizname: "mc donald",
-    bizname2: "mc donald",
-    bizname3: "mc donald",
+    bizname2: "6886-0191-7267-3418",
+    bizname3: "6886-0191-7267-3418",
     status: "เปิดใช้งาน",
   },
   {
     logo: "pizza-logo.png",
     bizname: "Pizza company",
-    bizname2: "Pizza company",
-    bizname3: "Pizza company",
+    bizname2: "6886-0191-7267-3418",
+    bizname3: "6886-0191-7267-3418",
     status: "เปิดใช้งาน",
   },
 ];

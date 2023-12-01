@@ -164,12 +164,12 @@ const menu_list = [
         disable: false,
       },
       {
-        subtitle: "บิลจัดส่ง",
+        subtitle: "ค่าขนส่ง",
         path: "/billing",
         disable: false,
       },
       {
-        subtitle: "การสมัครแพ็คเกจ",
+        subtitle: "ค่าแพ็คเกจ",
         path: "/subscribe",
         disable: false,
       },

@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="Order Info" />
+  <Navbar text="การเงิน,ค่าเเพ็คเกจ" />
 
   <div class="ContainerLayout space-y-4 mb-[200px]">
     <div

@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="บิลจัดส่ง" />
+  <Navbar text="การเงิน,ค่าขนส่ง" />
   <div class="p-4 sm:ml-64">
     <!-- button Switch -->
     <!-- <div class="flex w-full justify-between">
