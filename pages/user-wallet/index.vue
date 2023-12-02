@@ -14,36 +14,33 @@
         density="compact"
         hide-details
       ></v-text-field>
-
-      <!-- <v-text-field
-        variant="outlined"
-        label="วันที่"
-        prepend-inner-icon="mdi-calendar-month"
-        class="!max-w-[280px] min-h-[56px] rounded-[8px] mb-[15px]"
-        single-line
-        hide-details
-      /> -->
       <VueDatePicker
         v-model="dateRange"
         class="!max-w-[280px] !min-h-[56px] !rounded-[8px] mb-[15px]"
         range
       ></VueDatePicker>
     </div>
-    <div>
+    <div class="flex flex-row">
       <div
-        class="border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px] mt-[12px]"
+        class="border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px] mt-[12px] lg:basis-4/12"
+        flat
       >
-        <div class="mt-[10px]">
-          <b class="text-[#000] text-[16px] mt-[12px]">สรุปข้อมูล</b>
-          <p class="text-[14px] mb-[5px]">
-            ยอดเครดิตรวม
-            <span class="mx-[30px]">:</span
-            ><span class="text-slate-700">8,000,000 </span>
-          </p>
-          <p class="text-[14px] mb-[5px]">
-            จำนวนธุรกิจ <span class="mx-[30px]">:</span>
-            <span class="text-slate-700">926 ธุรกิจ</span>
-          </p>
+        <div class="mt-[4px]">
+          <b class="text-[#000] text-[16px]">สรุปข้อมูล</b>
+          <div class="flex flex-row mt-[8px]">
+            <p class="text-[14px] text-black/87 font-normal w-[100px]">
+              ยอดเครดิตรวม
+            </p>
+            <span class="mx-[30px]">:</span>
+            <p class="text-[14px] text-black/60 font-normal">8,000,000</p>
+          </div>
+          <div class="flex flex-row">
+            <p class="text-[14px] text-black/87 font-normal w-[100px]">
+              จำนวนธุรกิจ
+            </p>
+            <span class="mx-[30px]">:</span>
+            <p class="text-[14px] text-black/60 font-normal">926 ธุรกิจ</p>
+          </div>
         </div>
       </div>
     </div>
@@ -67,11 +64,16 @@
       >
         <template v-slot:item="{ item }">
           <tr>
-            <td class="text-center">{{ item.code }}</td>
-            <td class="text-center">{{ item.name }}</td>
-            <td class="text-center">{{ item.qty }}</td>
-            <td class="text-center"></td>
-            <!-- <td class="text-center">{{ item.amount }}</td> -->
+            <td class="text-center text-[14px]">{{ item.code }}</td>
+            <td class="text-center text-[14px]">{{ item.name }}</td>
+            <td class="text-center text-[14px]">{{ item.qty }}</td>
+            <td>
+              <v-btn
+                icon="mdi-eye-outline"
+                flat
+                @click="this.$router.push('/user-wallet/1234')"
+              ></v-btn>
+            </td>
           </tr>
         </template>
         <template v-slot:bottom></template>
@@ -80,8 +82,21 @@
         <p>ยังไม่มีรายการ</p>
       </div>
     </v-card>
-    <div class="text-center pt-2">
+    <div class="text-center pt-2 flex justify-center items-center relative">
       <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      <div class="w-[140px] absolute right-0 mr-4 w-[170px]">
+        <v-select
+          label="จำนวนแสดงผล"
+          variant="outlined"
+          :items="[5, 10, 15, 20, 25, 30]"
+          :item-title="(item) => item + ' รายการ'"
+          :item-value="(item) => item"
+          :model-value="itemsPerPage"
+          density="compact"
+          hide-details="auto"
+          @update:modelValue="fnChangeSelect"
+        ></v-select>
+      </div>
     </div>
   </div>
 </template>

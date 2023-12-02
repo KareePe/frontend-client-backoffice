@@ -3,7 +3,7 @@
   <Navbar text="การเงิน,กระเป๋าเงิน,ร้านก้านหอมไทย" />
 
   <div class="p-4 sm:ml-64">
-    <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
+    <!-- <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
       <div
         class="hover:bg-slate-100 transition-all duration-300 basis-full border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
       >
@@ -16,6 +16,28 @@
           <div class="text-left">
             <p class="text-[#000000]/[0.6] text-[14px]">
               ยอดที่ถูกจอง 13,000.00 / ยอดที่ใช้งานได้ 87,000.00
+            </p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
+      <div
+        class="hover:bg-slate-100 transition-all duration-300 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
+      >
+        <b class="text-[#000] text-[18px] mt-[12px]">กระเป๋าเงิน</b>
+        <div class="flex items-center mb-[12px] mt-[12px]">
+          <v-icon icon="mdi-cash" color="#084F93"></v-icon>
+          <p class="text-[16px] font-bold">ยอดคงเหลือ 100,000.00 ฿</p>
+        </div>
+        <div class="flex lg:flex-wrap flex-nowrap justify-start">
+          <div class="text-left flex flex-row">
+            <p class="text-[#000000]/[0.6] text-[14px]">
+              ยอดที่ถูกจอง 13,000.00 /
+            </p>
+            <p class="text-[#084F93] text-[14px] ml-[4px]">
+              ยอดที่ใช้งานได้ 87,000.00
             </p>
           </div>
         </div>
@@ -44,11 +66,11 @@
       >
         <template v-slot:item="{ item }">
           <tr>
-            <td class="text-center">{{ item.date }}</td>
-            <td class="text-center">{{ item.schedule }}</td>
-            <td class="text-center">{{ item.detail }}</td>
-            <td class="text-center">{{ item.qty }}</td>
-            <td class="text-center">{{ item.status }}</td>
+            <td class="text-center text-[14px]">{{ item.date }}</td>
+            <td class="text-center text-[14px]">{{ item.schedule }}</td>
+            <td class="text-center text-[14px]">{{ item.detail }}</td>
+            <td class="text-center text-[14px]">{{ item.qty }}</td>
+            <td class="text-center text-[14px]">{{ item.status }}</td>
             <!-- <td class="text-center">{{ item.amount }}</td> -->
           </tr>
         </template>
@@ -58,9 +80,25 @@
         <p>ยังไม่มีรายการ</p>
       </div>
     </v-card>
-    <div class="text-center pt-2">
+    <div class="text-center pt-2 flex justify-center items-center relative">
       <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      <div class="w-[140px] absolute right-0 mr-4 w-[170px]">
+        <v-select
+          label="จำนวนแสดงผล"
+          variant="outlined"
+          :items="[5, 10, 15, 20, 25, 30]"
+          :item-title="(item) => item + ' รายการ'"
+          :item-value="(item) => item"
+          :model-value="itemsPerPage"
+          density="compact"
+          hide-details="auto"
+          @update:modelValue="fnChangeSelect"
+        ></v-select>
+      </div>
     </div>
+    <!-- <div class="text-center pt-2">
+      <v-pagination v-model="page" :length="pageCount"></v-pagination>
+    </div> -->
   </div>
 </template>
 

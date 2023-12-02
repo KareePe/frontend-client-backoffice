@@ -88,21 +88,21 @@
                 alt="user photo"
               />
               <div
-                class="whitespace-nowrap ml-2 text-[16px] leading-[22px] tracking-[-0.31%]"
+                class="whitespace-nowrap ml-2 text-[14px] leading-[22px] tracking-[-0.31%]"
               >
                 {{ item.name }}
               </div>
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+            <td class="text-[14px] leading-5 tracking-[-0.23%]">
               {{ item.name_sec }}
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+            <td class="text-[14px] leading-5 tracking-[-0.23%]">
               {{ item.date }}
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%] text-[#0BA5EC]">
+            <td class="text-[14px] leading-5 tracking-[-0.23%] text-[#0BA5EC]">
               {{ item.no }}
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%] text-[#0BA5EC]">
+            <td class="text-[14px] leading-5 tracking-[-0.23%] text-[#0BA5EC]">
               {{ item.no_delivery }}
             </td>
             <td class="text-center">
@@ -114,10 +114,12 @@
                       : 'bg-[#BA1A1A]'
                   } !rounded-full`"
                 ></div>
-                {{ item.status }}
+                <div class="text-[14px]">
+                  {{ item.status }}
+                </div>
               </div>
             </td>
-            <td class="text-[16px] leading-5 tracking-[-0.23%]">
+            <td class="text-[14px] leading-5 tracking-[-0.23%]">
               {{ item.amount }}
             </td>
           </tr>
@@ -129,6 +131,24 @@
         <p>ยังไม่มีรายการ</p>
       </div>
     </v-card>
+
+    <!-- pagination  -->
+    <div class="text-center pt-2 flex justify-center items-center relative">
+      <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      <div class="w-[140px] absolute right-0 mr-4 w-[170px]">
+        <v-select
+          label="จำนวนแสดงผล"
+          variant="outlined"
+          :items="[5, 10, 15, 20, 25, 30]"
+          :item-title="(item) => item + ' รายการ'"
+          :item-value="(item) => item"
+          :model-value="itemsPerPage"
+          density="compact"
+          hide-details="auto"
+          @update:modelValue="fnChangeSelect"
+        ></v-select>
+      </div>
+    </div>
   </div>
 </template>
 

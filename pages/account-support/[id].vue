@@ -104,31 +104,22 @@
             </div>
           </v-card>
           <p class="text-[14px] mb-[15px] text-[#74777F]">โค้ดส่วนลด (ถ้ามี)</p>
-          <div
-            class="lg:flex block gap-[15px] items-start lg:ml-[30px] ml-0 lg:mx-[15px] mx-0 my-[15px]"
-          >
-            <v-text-field
-              label="กรอกโค้ดส่วนลด"
-              v-model="newTag"
-              variant="outlined"
-              class="rounded-[8px] !h-[56px] lg:!max-w-[366px] lg:w-[366px] !max-w-full w-full"
-              hide-details
-            />
-            <v-btn
-              color="#084F93"
-              flat
-              class="lg:w-[100px] w-full lg:mt-0 mt-[15px] min-h-[56px] !rounded-[8px]"
-              >ตกลง</v-btn
-            >
-          </div>
-          <!-- <div class="lg:basis-4/12 basis-full">
-            <v-text-field
-              label="กรอกโค้ดส่วนลด"
-              v-model="inputData.name"
-              variant="outlined"
-              class="!min-h-[56px]"
-            ></v-text-field>
-          </div> -->
+          <v-select
+            label="ระบุโปรโมชั่น"
+            v-model="inputData.bizType"
+            class="!min-h-[56px]"
+            :items="[
+              'California',
+              'Colorado',
+              'Florida',
+              'Georgia',
+              'Texas',
+              'Wyoming',
+            ]"
+            variant="outlined"
+            clearable
+            :rules="[(v) => !!v || 'กรุณากรอกเลือกโปรโมชั่น']"
+          ></v-select>
         </v-card>
         <v-card
           variant="flat"
@@ -283,19 +274,21 @@
   <v-dialog v-model="dialog" width="386px" class="rounded-[8px]">
     <v-card class="!p-[5px] !rounded-[8px]">
       <v-card-text class="relative !p-[10px] text-center">
+        <p
+          class="text-[16px] font-bold text-[#000]/[0.6] text-center mb-[10px]"
+        >
+          สำเร็จ
+        </p>
         <v-icon
           icon="mdi-check-circle"
           size="x-large"
           color="#12B76A"
           class="mb-[20px]"
         ></v-icon>
-        <p
-          class="text-[16px] font-bold text-[#000]/[0.6] text-center mb-[10px]"
-        >
-          สร้างผู้ใช้งานเรียบร้อย
-        </p>
+
         <p class="text-[14px] text-[#000]/[0.6]">
-          สามารถนำ Url นี้ส่งต่อให้ลูกค้าเพื่อเข้าสู่ระบบ
+          การสร้างลิงค์สนับสนุนลูกค้าสำเร็จแล้ว<br />คุณสามารถนำ Url
+          นี้ส่งต่อให้ลูกค้าเพื่อเข้าสู่ระบบ
         </p>
 
         <v-text-field
@@ -308,7 +301,7 @@
           single-line
           hide-details
           class="mt-[15px]"
-          prefix="url"
+          prefix="URL"
           @click:append-inner="fn_copyUrl"
         ></v-text-field>
       </v-card-text>

@@ -4,7 +4,43 @@
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <div class="pt-2 pb-2 pl-4 pr-4 sm:ml-64">
     <!-- {{ pdfLink }} -->
-    <b class="text-[16px] text-[#084F93]">ข้อมูลธุรกิจ</b>
+
+    <b class="text-[18px]">ข้อมูลธุรกิจ</b>
+    <div
+      class="lg:flex block lg:flex-wrap flex-nowarp justify-between items-start mt-[12px]"
+    >
+      <div class="card !justify-start">
+        <v-btn
+          v-bind:color="tab === 'Order' ? '#084F93' : '#fff'"
+          variant="flat"
+          @click="() => fnChangeTabs('Order')"
+          class="!rounded-[8px] text-[14px]"
+          >ทั้งหมด (500)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('Payment')"
+          >รอตรวจสอบ (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('History')"
+          >ยื่นเอกสารใหม่ (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'Approve' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('Approve')"
+          >ยืนยันแล้ว (200)</v-btn
+        >
+      </div>
+    </div>
+
     <div v-if="items.length > 0">
       <v-data-table
         :headers="headers"
@@ -146,7 +182,7 @@ definePageMeta({
   middleware: "auth-middleware",
 });
 import { ref, onMounted, computed } from "vue";
-
+let tab = ref("Order");
 const headers = [
   {
     title: "รูป",
@@ -214,6 +250,10 @@ let items = [
 
 let dialog = ref(false);
 let radios = ref("");
+const fnChangeTabs = (value) => {
+  tab.value = value;
+  page.value = 1;
+};
 </script>
 <style>
 .v-pagination__next .v-btn,
@@ -249,5 +289,9 @@ thead tr {
 }
 .v-tab__slider {
   height: 0 !important;
+}
+
+.card {
+  @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-2 justify-center items-center;
 }
 </style>

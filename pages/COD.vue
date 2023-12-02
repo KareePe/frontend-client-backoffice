@@ -32,41 +32,59 @@
           variant="flat"
           @click="() => fnChangeTabs('Order')"
           class="!rounded-[8px] text-[14px]"
-          >รายการทั้งหมด (500)</v-btn
+          >ทั้งหมด (500)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('Payment')"
-          >รอชำระ (200)</v-btn
+          >รอระบบดำเนินการ (200)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('History')"
-          >ชำระแล้ว (200)</v-btn
+          >ที่ต้องจัดส่ง (200)</v-btn
         >
         <v-btn
-          v-bind:color="tab === 'Other' ? '#084F93' : '#fff'"
+          v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
-          @click="() => fnChangeTabs('Other')"
-          >อื่นๆ (14)</v-btn
+          @click="() => fnChangeTabs('History')"
+          >กำลังจัดส่ง (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('History')"
+          >เสร็จสิ้น (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('History')"
+          >ยกเลิก (200)</v-btn
         >
       </div>
+      <NuxtLink
+        to=""
+        flat
+        color="#084F93"
+        class="flex bg-[#084F93] text-white justify-center gap-[8px] rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
+      >
+        <v-icon icon="mdi-upload" color="#fff"></v-icon>
+        อัพโหลดบิล
+      </NuxtLink>
     </div>
 
     <div>
-      <!-- <div
-        class="p-5 text-[#084F93] border border-[#E9E7EB] bg-[#E9E7EB] text-[14px] leading-5"
-      >
-        ข้อมูลคำสั่งซื้อทั้งหมด {{ tableItem.length }} รายการ
-      </div> -->
       <v-card
         variant="flat"
-        class="border border-[#EEEDF1] rounded-[8px] pb-[15px]"
+        class="border border-[#EEEDF1] rounded-[8px] pb-[15px] mt-[12px]"
       >
         <v-data-table
           v-if="tableItem.length > 0"
@@ -82,17 +100,21 @@
         >
           <template v-slot:item="{ item }">
             <tr>
-              <td class="text-center">{{ item.name }}</td>
-              <td class="text-center text-[#0BA5EC]">
+              <td class="text-center text-[14px]">{{ item.name }}</td>
+              <td class="text-center text-[#0BA5EC] text-[14px]">
                 {{ item.no }}
               </td>
-              <td class="text-center">
+              <td class="text-center text-[14px]">
                 {{ item.cod }}
               </td>
-              <td class="text-center">
+              <td class="text-center text-[14px]">
+                {{ item.bank }}
+              </td>
+              <td class="text-center text-[14px]">
                 {{ item.quantity }}
               </td>
-              <td class="text-center">
+
+              <td class="text-center text-[14px]">
                 <div class="flex gap-[15px]">
                   <div
                     :class="`w-[20px] h-[20px] ${
@@ -101,11 +123,15 @@
                         : 'bg-[#BA1A1A]'
                     } !rounded-full`"
                   ></div>
-                  {{ item.status }}
+                  <div class="text-[14px]">
+                    {{ item.status }}
+                  </div>
                 </div>
               </td>
               <td class="text-center">
-                <v-btn icon="mdi-play" @click="fn_navDetail(item)" flat></v-btn>
+                <!-- <v-btn icon="mdi-play" @click="fn_navDetail(item)" flat></v-btn> -->
+                <v-btn icon="mdi-tray-arrow-down" flat></v-btn>
+                <v-btn icon="mdi-update" flat @click="fn_href"></v-btn>
               </td>
             </tr>
           </template>
@@ -282,6 +308,109 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="dialog" width="458px" class="rounded-[8px]">
+      <v-card class="!p-[5px] !rounded-[8px]">
+        <v-card-text class="relative !p-[10px] text-center">
+          <b
+            class="text-[20px] font-bold text-[#000]/[0.6] text-center mb-[10px]"
+          >
+            อัพโหลดบิล
+          </b>
+
+          <div
+            class="text-[16px] text-[#000]/[0.6] text-start mb-[10px] mt-[10px]"
+          >
+            ข้อมูลที่จะดาวน์โหลด
+          </div>
+
+          <div
+            class="border border-[#EEEDF1] rounded-[8px] p-[15px] mb-[12px] mt-[12px]"
+          >
+            <div
+              class="text-[16px] text-[#000]/[0.87] text-start mb-[10px] mt-[10px]"
+            >
+              หมายเลขใบสำคัญจ่าย
+            </div>
+            <div
+              class="text-[16px] text-[#000]/[0.6] text-start mb-[10px] mt-[10px]"
+            >
+              PA2310126SX000101
+            </div>
+            <div
+              class="text-[16px] text-[#000]/[0.87] text-start mb-[10px] mt-[10px]"
+            >
+              ค่า COD
+            </div>
+            <div
+              class="text-[16px] text-[#000]/[0.6] text-start mb-[10px] mt-[10px]"
+            >
+              100.00 ฿
+            </div>
+            <div
+              class="text-[16px] text-[#000]/[0.87] text-start mb-[10px] mt-[10px]"
+            >
+              จำนวนคำสั่งซื้อ
+            </div>
+            <div
+              class="text-[16px] text-[#000]/[0.6] text-start mb-[10px] mt-[10px]"
+            >
+              582 รายการ
+            </div>
+          </div>
+
+          <!-- <div class="flex flex-col mt-[12px] !w-full">
+            <v-select
+              label="ชื่อขนส่ง"
+              :items="[
+                'California',
+                'Colorado',
+                'Florida',
+                'Georgia',
+                'Texas',
+                'Wyoming',
+              ]"
+              variant="outlined"
+              clearable
+              class="mt-[12px]"
+            ></v-select>
+            <v-text-field
+              label="วาง URL ไฟล์ของคุณ"
+              variant="outlined"
+              class="!min-h-[56px]"
+              :rules="[(v) => !!v || 'กรุณากรอกชื่อลูกค้า']"
+            ></v-text-field>
+          </div> -->
+        </v-card-text>
+        <v-card-actions>
+          <!-- <v-btn
+          flat
+          :loading="loading"
+          class="!bg-[#084F93] text-white !rounded-[8px] !w-full !h-[48px] pb-[8px] px-[16px] text-center"
+          @click="dialog = false"
+          >ตกลง</v-btn
+        > -->
+          <div
+            class="lg:flex block gap-[15px] lg:justify-center justify-between"
+          >
+            <NuxtLink
+              to="/account-biz"
+              style="border: 1px solid #084f93 !important"
+              class="border !border-[#084F93] text-[#084F93] flex items-center justify-center !rounded-[8px] h-[56px] lg:w-[208px] mb-[15px]"
+            >
+              ยกเลิก
+            </NuxtLink>
+            <v-btn
+              @click="fn_submit('confirm')"
+              flat
+              class="!bg-[#084F93] text-white flex items-center justify-center !rounded-[8px] !h-[56px] lg:w-[208px] w-full mb-[15px]"
+            >
+              บันทึก
+            </v-btn>
+          </div>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -292,6 +421,7 @@ import "@vuepic/vue-datepicker/dist/main.css";
 
 const isDragging = ref(false);
 const dialogState = ref(false);
+const dialog = ref(true);
 const file = ref();
 const fileValue = ref();
 const summarizeUpload = ref(null);
@@ -397,17 +527,22 @@ const headersTable = [
   },
   {
     key: "no",
-    title: "หมายเลขใบสำคัญจ่าย",
+    title: "หมายเลขชุดข้อมูล",
     align: "center",
   },
   {
     key: "cod",
-    title: "ค่า COD",
+    title: "ค่า COD รวม",
+    align: "center",
+  },
+  {
+    key: "bank",
+    title: "จำนวนบัญชีธนาคารที่ต้องโอน",
     align: "center",
   },
   {
     key: "quantity",
-    title: "จำนวนพัสดุ COD",
+    title: "จำนวนธุรกิจ",
     align: "center",
   },
   {
@@ -428,6 +563,7 @@ const tableItem = [
     no: "PA2310126SX000101",
     cod: "100.00",
     quantity: "20",
+    bank: "20",
     status: "เปิดใช้งาน",
   },
 ];

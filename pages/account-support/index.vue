@@ -22,17 +22,31 @@
     <div
       class="lg:flex block lg:flex-wrap flex-nowarp justify-between items-start"
     >
-      <v-text-field
-        v-model="search"
-        variant="outlined"
-        label="ค้นหาธุรกิจ"
-        prepend-inner-icon="mdi-magnify"
-        class="lg:!max-w-[480px] max-w-full min-h-[56px] rounded-[8px] mb-[15px]"
-        single-line
-        hide-details
-      ></v-text-field>
+      <div class="card !justify-start">
+        <v-btn
+          v-bind:color="tab === 'Order' ? '#084F93' : '#fff'"
+          variant="flat"
+          @click="() => fnChangeTabs('Order')"
+          class="!rounded-[8px] text-[14px]"
+          >ทั้งหมด (500)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('Payment')"
+          >รอเข้าใช้งาน (200)</v-btn
+        >
+        <v-btn
+          v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('History')"
+          >เปิดใช้งานแล้ว (200)</v-btn
+        >
+      </div>
       <NuxtLink
-        to="/create-account-support"
+        to="/account-support/create"
         flat
         color="#084F93"
         class="flex bg-[#084F93] text-white justify-center gap-[8px] rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
@@ -41,8 +55,6 @@
         เพิ่มบัญชีผู้ใช้งาน
       </NuxtLink>
     </div>
-    <!-- <p class="py-[15px] text-[16px]">บัญชีผู้ใช้งานทั้งหมด</p> -->
-
     <v-data-table
       v-if="items.length > 0"
       :custom-filter="filterOnlyCapsText"
@@ -73,38 +85,30 @@
               </v-btn>
             </div>
           </td>
-          <td class="truncate !py-[15px]">
-            <div
-              :class="`flex gap-[15px] p-[16px] rounded-[8px] ${
-                item.status === 'รอเข้าสู่ระบบ'
-                  ? 'bg-[#FFFAEB] text-[#DC6803]'
-                  : 'bg-[#ECFDF3] text-[#039855]'
-              }`"
-            >
-              <v-icon
-                :icon="
-                  item.status === 'รอเข้าสู่ระบบ'
-                    ? 'mdi-clock-outline'
-                    : 'mdi-check-circle-outline'
-                "
-              ></v-icon>
-              <p>{{ item.status }}</p>
+          <td class="text-center text-[14px]">
+            <div class="flex gap-[15px] justify-center">
+              <div
+                :class="`w-[16px] h-[16px] ${
+                  item.status === 'เปิดใช้งาน' ? 'bg-[#12B76A]' : 'bg-[#BA1A1A]'
+                } !rounded-full`"
+              ></div>
+              {{ item.status }}
             </div>
           </td>
           <td>
             <div class="flex">
               <v-btn density="compact" flat>
                 <v-icon
-                  icon="mdi-trash-can-outline"
+                  icon="mdi-delete-outline"
                   size="x-large"
-                  color="#DAD9DD"
+                  color="#1A1C1E"
                 ></v-icon>
               </v-btn>
               <v-btn density="compact" flat>
                 <v-icon
-                  icon="mdi-pencil"
+                  icon="mdi-square-edit-outline"
                   size="x-large"
-                  color="#DAD9DD"
+                  color="#1A1C1E"
                 ></v-icon>
               </v-btn>
             </div>
@@ -127,6 +131,7 @@ import { ref, onMounted, computed } from "vue";
 let search = ref("");
 let loading = ref(false);
 let alert = ref(false);
+let tab = ref("Order");
 
 const headers = [
   {
@@ -167,14 +172,14 @@ let items = [
     bizName: "This is company co., ltd.",
     package: "Business +",
     url: "www.salex.com/3257345",
-    status: "รอเข้าสู่ระบบ",
+    status: "รอเข้าใช้งาน",
   },
   {
     userName: "หม่ำ จ๊กมก",
     bizName: "This is company co., ltd.",
     package: "Business +",
     url: "www.salex.com/3257345",
-    status: "เข้าสู่ระบบแล้ว",
+    status: "รอเข้าใช้งาน",
   },
 ];
 
@@ -186,6 +191,11 @@ const fn_copyUrl = (url) => {
   setTimeout(() => {
     alert.value = false;
   }, 3000);
+};
+
+const fnChangeTabs = (value) => {
+  tab.value = value;
+  page.value = 1;
 };
 </script>
 <style>
@@ -222,5 +232,9 @@ thead tr {
 }
 .v-tab__slider {
   height: 0 !important;
+}
+
+.card {
+  @apply border border-[#EEEDF1] !rounded-[8px] p-2 flex space-x-2 justify-center items-center;
 }
 </style>
