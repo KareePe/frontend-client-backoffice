@@ -534,71 +534,75 @@
             >
             <v-card
               variant="flat"
-              class="!p-[10px] lg:basis-4/12 basis-full mb-[15px] border border-[#EEEDF1] !rounded-[8px]"
+              class="!p-[10px] lg:basis-4/12 basis-full mb-[15px] border border-[#EEEDF1] !rounded-[8px] mt-[8px]"
             >
-              <p class="text-[16px]">ข้อมูลขนส่ง</p>
-              <div
-                class="mt-[15px] !w-full justify-between flex-row-reverse flex flex-nowrap gap-[15px] border border-[#EEEDF1] rounded-[8px] py-[8px] px-[16px]"
-              >
-                <v-radio-group
-                  :hide-details="true"
-                  class="justify-between flex"
-                >
-                  <v-radio
-                    value="Standard"
-                    density="compact"
-                    :hide-details="true"
-                    class="flex my-[15px]"
+              <div class="flex flex-row">
+                <div class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px]">
+                  <div
+                    class="hover:bg-slate-100 transition-all duration-300 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
                   >
-                    <template v-slot:label>
-                      <p class="ml-[8px] text-[#000]">
-                        เน้นความรวดเร็ว ก่อนความคุ้มราคา
-                      </p>
-                    </template>
-                  </v-radio>
-                  <v-radio
-                    value="Business"
-                    density="compact"
-                    :hide-details="true"
-                    class="flex my-[15px]"
-                  >
-                    <template v-slot:label>
-                      <p class="ml-[8px] text-[#000]">
-                        เน้นความคุ้มราคา ก่อนความรวดเร็ว
-                      </p>
-                    </template>
-                  </v-radio>
-                  <v-radio
-                    value="Business +"
-                    density="compact"
-                    :hide-details="true"
-                    class="flex my-[15px]"
-                  >
-                    <template v-slot:label>
-                      <div
-                        class="flex gap-[4px] flex-row justify-center align-center w-[400px]"
+                    <b class="text-[16px]">ข้อมูลขนส่ง</b>
+
+                    <div class="flex flex-row mt-[8px]">
+                      <p
+                        class="text-[14px] text-black/87 font-normal w-[100px]"
                       >
-                        <p class="ml-[8px] text-[#000]">กำหนดเอง</p>
-                        <v-select
-                          label="ตามเกณฑ์น้ำหนัก"
-                          class="!min-h-[56px] ml-[12px]"
-                          :items="[
-                            'California',
-                            'Colorado',
-                            'Florida',
-                            'Georgia',
-                            'Texas',
-                            'Wyoming',
-                          ]"
-                          variant="outlined"
-                          clearable
-                          :rules="[(v) => !!v || 'กรุณากรอกเลือกเกณฑ์น้ำหนัก']"
-                        ></v-select>
-                      </div>
-                    </template>
-                  </v-radio>
-                </v-radio-group>
+                        รูปแบบการจัดส่ง
+                      </p>
+                      <span class="mx-[30px]">:</span>
+                      <p class="text-[14px] text-black/60 font-normal">
+                        ส่งกับ SalesX
+                      </p>
+                    </div>
+                    <div class="flex flex-row mt-[4px]">
+                      <p
+                        class="text-[14px] text-black/87 font-normal w-[100px]"
+                      >
+                        ตั้งค่าเลือกขนส่ง
+                      </p>
+                      <span class="mx-[30px]">:</span>
+                      <p class="text-[14px] text-black/60 font-normal">
+                        กำหนดเอง ตามเกณฑ์น้ำหนัก
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="lg:flex block lg:flex-wrap flex-nowrap gap-[15px] ml-[24px]"
+                >
+                  <div
+                    class="hover:bg-slate-100 transition-all duration-300 border border-[#EEEDF1] !rounded-[8px] p-[15px] mb-[15px]"
+                  >
+                    <b class="text-[16px]">วงเงินเครดิต</b>
+
+                    <div class="flex flex-row mt-[8px]">
+                      <p
+                        class="text-[14px] text-black/87 font-normal w-[100px] mt-[16px]"
+                      >
+                        วงเงินเครดิตรวม
+                      </p>
+                      <span class="mx-[30px] mt-[16px]">:</span>
+                      <v-select
+                        label="ระบุเงิน"
+                        class="!min-h-[56px] w-[200px]"
+                        :items="[
+                          'California',
+                          'Colorado',
+                          'Florida',
+                          'Georgia',
+                          'Texas',
+                          'Wyoming',
+                        ]"
+                        variant="outlined"
+                        clearable
+                        :rules="[(v) => !!v || 'กรุณากรอกเลือกเงิน']"
+                      ></v-select>
+                    </div>
+                  </div>
+                </div>
               </div>
+
               <v-data-table
                 v-if="itemsExpress.length > 0"
                 :headers="headerExpress"
@@ -610,28 +614,10 @@
                 <template v-slot:item="{ item }">
                   <tr>
                     <td class="text-center text-[14px]">
-                      <div>{{ item.weight }}</div>
+                      {{ item.weight }}
                     </td>
 
-                    <td class="text-center text-[14px]">
-                      <div
-                        class="flex gap-[4px] flex-row justify-center align-center mt-[12px]"
-                      >
-                        <v-select
-                          label="Flash Express"
-                          :items="[
-                            'California',
-                            'Colorado',
-                            'Florida',
-                            'Georgia',
-                            'Texas',
-                            'Wyoming',
-                          ]"
-                          variant="outlined"
-                          clearable
-                        ></v-select>
-                      </div>
-                    </td>
+                    <td class="text-center text-[14px]">{{ item.express }}</td>
                   </tr>
                 </template>
                 <template v-slot:bottom></template>
@@ -640,6 +626,49 @@
                 <p>ยังไม่มีรายการ</p>
               </div>
             </v-card>
+
+            <b class="text-[#000] text-[18px] mt-[12px]"
+              >ประวัติการชำระค่าขนส่ง</b
+            >
+            <v-data-table
+              v-if="itemsHistory.length > 0"
+              :headers="headerHistory"
+              :items="itemsHistory"
+              no-data-text="ไม่มีข้อมูล"
+              hide-default-footer
+              class="mb-[15px] border mt-[12px]"
+            >
+              <template v-slot:item="{ item }">
+                <tr>
+                  <td class="text-center text-[14px]">
+                    {{ item.date_time }}
+                  </td>
+                  <td class="text-center text-[14px]">
+                    {{ item.no }}
+                  </td>
+                  <td>
+                    <div class="flex gap-[8px] justify-center">
+                      <div
+                        :class="`w-[16px] h-[16px] ${
+                          item.status === 'เปิดใช้งาน'
+                            ? 'bg-[#12B76A]'
+                            : 'bg-[#BA1A1A]'
+                        } !rounded-full`"
+                      ></div>
+                      <div class="text-[14px]">
+                        {{ item.status }}
+                      </div>
+                    </div>
+                  </td>
+
+                  <td class="text-center text-[14px]">{{ item.amount }}</td>
+                </tr>
+              </template>
+              <template v-slot:bottom></template>
+            </v-data-table>
+            <div v-else class="h-[260px] flex justify-center items-center">
+              <p>ยังไม่มีรายการ</p>
+            </div>
           </div>
         </v-window-item>
       </v-window>
@@ -1287,14 +1316,46 @@ const headerExpress = [
   },
 ];
 
+const headerHistory = [
+  {
+    title: "วันที่และเวลา",
+    align: "center",
+    key: "date_time",
+  },
+  {
+    title: "หมายเลขบิลค่าขนส่ง",
+    align: "center",
+    key: "no",
+  },
+  {
+    title: "สถานะ",
+    align: "center",
+    key: "status",
+  },
+  {
+    title: "ยอดทั้งหมด",
+    align: "center",
+    key: "amount",
+  },
+];
+
+let itemsHistory = [
+  {
+    date_time: "14/09/2023 15:38",
+    no: "LINV231026SX0001A",
+    status: "รอดำเนินการ",
+    amount: "98,279.00 บาท",
+  },
+];
+
 let itemsExpress = [
   {
     weight: "0-1 กิโลกรัม",
-    express: "",
+    express: "Flash express",
   },
   {
     weight: "1-2 กิโลกรัม",
-    express: "",
+    express: "Flash express",
   },
 ];
 

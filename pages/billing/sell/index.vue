@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="สนับสนุนการขาย" />
+  <Navbar text="การเงิน,ค่าขนส่ง,ชุดข้อมูลราคาขาย" />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <v-alert
     variant="outlined"
@@ -35,24 +35,24 @@
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('Payment')"
-          >รอเข้าใช้งาน (200)</v-btn
+          >เปิดใช้งาน (3)</v-btn
         >
         <v-btn
           v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
           class="!rounded-[8px] text-[14px]"
           @click="() => fnChangeTabs('History')"
-          >เปิดใช้งานแล้ว (200)</v-btn
+          >ปิดใช้งาน (7)</v-btn
         >
       </div>
       <NuxtLink
-        to="/account-support/create"
+        to="/billing/sell/create"
         flat
         color="#084F93"
         class="flex bg-[#084F93] text-white justify-center gap-[8px] rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
       >
         <v-icon icon="mdi-plus" color="#fff"></v-icon>
-        เพิ่มบัญชีผู้ใช้งาน
+        เพิ่มรายการราคาขาย
       </NuxtLink>
     </div>
     <v-data-table
@@ -68,22 +68,23 @@
     >
       <template v-slot:item="{ item }">
         <tr class="!my-[5px]">
-          <td class="truncate">{{ item.userName }}</td>
-          <td class="truncate">{{ item.bizName }}</td>
-          <td class="truncate">{{ item.package }}</td>
-          <td class="truncate">
-            <div class="flex">
-              {{ item.url }}
-              <v-btn
-                @click="fn_copyUrl(item.url)"
-                :loading="loading"
-                flat
-                density="compact"
-                class="!w-[10px]"
-              >
-                <v-icon icon="mdi-content-copy" color="#084F93"></v-icon>
-              </v-btn>
-            </div>
+          <td
+            class="text-start text-[14px] flex gap-[4px] justify-start items-center"
+          >
+            <img
+              :src="`/images/pizza-logo.png`"
+              class="w-[36px] h-[36px]"
+              alt=""
+            />
+            <div>{{ item.express }}</div>
+          </td>
+          <td class="text-start">{{ item.code }}</td>
+          <td class="text-start">{{ item.reason }}</td>
+          <td class="text-start">
+            {{ item.date }}
+          </td>
+          <td class="text-start">
+            {{ item.date_end }}
           </td>
           <td class="text-center text-[14px]">
             <div class="flex gap-[15px] justify-center">
@@ -96,22 +97,11 @@
             </div>
           </td>
           <td>
-            <div class="flex">
-              <v-btn density="compact" flat>
-                <v-icon
-                  icon="mdi-delete-outline"
-                  size="x-large"
-                  color="#1A1C1E"
-                ></v-icon>
-              </v-btn>
-              <v-btn density="compact" flat>
-                <v-icon
-                  icon="mdi-square-edit-outline"
-                  size="x-large"
-                  color="#1A1C1E"
-                ></v-icon>
-              </v-btn>
-            </div>
+            <v-btn
+              icon="mdi-play"
+              @click="this.$router.push('/account-biz/1234')"
+              flat
+            ></v-btn>
           </td>
         </tr>
       </template>
@@ -151,24 +141,29 @@ let tab = ref("Order");
 
 const headers = [
   {
-    title: "ชื่อลูกค้า",
+    title: "ขนส่ง",
     align: "start",
-    key: "userName",
+    key: "express",
   },
   {
-    title: "ชื่อธุรกิจ",
-    align: "center",
-    key: "bizName",
+    title: "รหัสรายการ",
+    align: "start",
+    key: "code",
   },
   {
-    title: "ข้อมูลแพ็คเกจ",
-    align: "center",
-    key: "package",
+    title: "หมายเหตุ",
+    align: "start",
+    key: "reason",
   },
   {
-    title: "URL",
-    align: "center",
-    key: "url",
+    title: "วันที่มีผล",
+    align: "start",
+    key: "date",
+  },
+  {
+    title: "วันที่หมดอายุ",
+    align: "start",
+    key: "date_end",
   },
   {
     title: "สถานะ",
@@ -176,7 +171,7 @@ const headers = [
     key: "status",
   },
   {
-    title: "ดำเนินการ",
+    title: "",
     align: "center",
     key: "edit",
   },
@@ -184,17 +179,11 @@ const headers = [
 
 let items = [
   {
-    userName: "หม่ำ จ๊กมก",
-    bizName: "This is company co., ltd.",
-    package: "Business +",
-    url: "www.salex.com/3257345",
-    status: "รอเข้าใช้งาน",
-  },
-  {
-    userName: "หม่ำ จ๊กมก",
-    bizName: "This is company co., ltd.",
-    package: "Business +",
-    url: "www.salex.com/3257345",
+    express: "SCG Express",
+    code: "560416510620",
+    reason: "-",
+    date: "14/09/2023",
+    date_end: "14/09/2023",
     status: "รอเข้าใช้งาน",
   },
 ];

@@ -1,6 +1,6 @@
 <template>
   <Toolbars />
-  <Navbar text="สนับสนุนการขาย" />
+  <Navbar text="โค้ดส่วนลด" />
   <!-- <Navbar :text="navbar" v-if="viewProduct === true" /> -->
   <v-alert
     variant="outlined"
@@ -18,9 +18,28 @@
     <b class="text-black">คัดลอกสำเร็จ</b>
     <p class="text-black">คัดลอง url สำเร็จ</p>
   </v-alert>
-  <div class="p-4 md:ml-64">
+  <div class="p-4 sm:ml-64">
+    <div class="flex flex-row justify-between align-center">
+      <v-text-field
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        placeholder="ชื่อผู้ใช้ หรือ เบอร์โทร"
+        class="max-w-[600px]"
+        density="compact"
+        v-model="search"
+      ></v-text-field>
+      <NuxtLink
+        to="/promotion/1"
+        flat
+        color="#084F93"
+        class="flex bg-[#084F93] text-white justify-center rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
+      >
+        <v-icon icon="mdi-plus" color="#fff"></v-icon>
+        สร้างโค้ดส่วนลด
+      </NuxtLink>
+    </div>
     <div
-      class="lg:flex block lg:flex-wrap flex-nowarp justify-between items-start"
+      class="lg:flex block lg:flex-wrap flex-nowarp justify-between items-start mt-[8px]"
     >
       <div class="card !justify-start">
         <v-btn
@@ -30,13 +49,7 @@
           class="!rounded-[8px] text-[14px]"
           >ทั้งหมด (500)</v-btn
         >
-        <v-btn
-          v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
-          variant="flat"
-          class="!rounded-[8px] text-[14px]"
-          @click="() => fnChangeTabs('Payment')"
-          >รอเข้าใช้งาน (200)</v-btn
-        >
+
         <v-btn
           v-bind:color="tab === 'History' ? '#084F93' : '#fff'"
           variant="flat"
@@ -44,16 +57,14 @@
           @click="() => fnChangeTabs('History')"
           >เปิดใช้งานแล้ว (200)</v-btn
         >
+        <v-btn
+          v-bind:color="tab === 'Payment' ? '#084F93' : '#fff'"
+          variant="flat"
+          class="!rounded-[8px] text-[14px]"
+          @click="() => fnChangeTabs('Payment')"
+          >ปิดใช้งานแล้ว (200)</v-btn
+        >
       </div>
-      <NuxtLink
-        to="/account-support/create"
-        flat
-        color="#084F93"
-        class="flex bg-[#084F93] text-white justify-center gap-[8px] rounded-[8px] items-center lg:!w-[200px] w-full !h-[56px]"
-      >
-        <v-icon icon="mdi-plus" color="#fff"></v-icon>
-        เพิ่มบัญชีผู้ใช้งาน
-      </NuxtLink>
     </div>
     <v-data-table
       v-if="items.length > 0"
@@ -64,26 +75,21 @@
       no-data-text="ไม่มีข้อมูล"
       hide-default-footer
       items-per-page-text="จำนวนแสดงผล"
-      class="mt-[12px] mb-[15px] border !rounded-[8px]"
+      class="mt-[18px] mb-[15px] border !rounded-[8px]"
     >
       <template v-slot:item="{ item }">
         <tr class="!my-[5px]">
-          <td class="truncate">{{ item.userName }}</td>
-          <td class="truncate">{{ item.bizName }}</td>
-          <td class="truncate">{{ item.package }}</td>
-          <td class="truncate">
-            <div class="flex">
-              {{ item.url }}
-              <v-btn
-                @click="fn_copyUrl(item.url)"
-                :loading="loading"
-                flat
-                density="compact"
-                class="!w-[10px]"
-              >
-                <v-icon icon="mdi-content-copy" color="#084F93"></v-icon>
-              </v-btn>
-            </div>
+          <td class="text-start text-[14px]">{{ item.campaign_date }}</td>
+          <td class="text-start text-[14px]">{{ item.name }}</td>
+          <td class="text-start text-[14px]">{{ item.code }}</td>
+          <td class="text-start text-[14px]">
+            {{ item.qty }}
+          </td>
+          <td class="text-start text-[14px]">
+            {{ item.use }}
+          </td>
+          <td class="text-start text-[14px]">
+            {{ item.period }}
           </td>
           <td class="text-center text-[14px]">
             <div class="flex gap-[15px] justify-center">
@@ -93,24 +99,6 @@
                 } !rounded-full`"
               ></div>
               {{ item.status }}
-            </div>
-          </td>
-          <td>
-            <div class="flex">
-              <v-btn density="compact" flat>
-                <v-icon
-                  icon="mdi-delete-outline"
-                  size="x-large"
-                  color="#1A1C1E"
-                ></v-icon>
-              </v-btn>
-              <v-btn density="compact" flat>
-                <v-icon
-                  icon="mdi-square-edit-outline"
-                  size="x-large"
-                  color="#1A1C1E"
-                ></v-icon>
-              </v-btn>
             </div>
           </td>
         </tr>
@@ -151,51 +139,51 @@ let tab = ref("Order");
 
 const headers = [
   {
-    title: "ชื่อลูกค้า",
+    title: "วันที่สร้างแคมเปญ",
     align: "start",
-    key: "userName",
+    key: "campaign_date",
   },
   {
-    title: "ชื่อธุรกิจ",
-    align: "center",
-    key: "bizName",
+    title: "ชื่อโค้ด",
+    align: "start",
+    key: "name",
   },
   {
-    title: "ข้อมูลแพ็คเกจ",
-    align: "center",
-    key: "package",
+    title: "โค้ดส่วนลด",
+    align: "start",
+    key: "code",
   },
   {
-    title: "URL",
-    align: "center",
-    key: "url",
+    title: "จำนวนโค้ดทั้งหมด",
+    align: "start",
+    key: "qty",
+  },
+  {
+    title: "โค้ดที่ถูกใช้",
+    align: "start",
+    key: "use",
+  },
+  {
+    title: "ระยะเวลาที่ใช้โค้ดได้",
+    align: "start",
+    key: "period",
   },
   {
     title: "สถานะ",
     align: "center",
     key: "status",
   },
-  {
-    title: "ดำเนินการ",
-    align: "center",
-    key: "edit",
-  },
 ];
 
 let items = [
   {
-    userName: "หม่ำ จ๊กมก",
-    bizName: "This is company co., ltd.",
-    package: "Business +",
-    url: "www.salex.com/3257345",
-    status: "รอเข้าใช้งาน",
-  },
-  {
-    userName: "หม่ำ จ๊กมก",
-    bizName: "This is company co., ltd.",
-    package: "Business +",
-    url: "www.salex.com/3257345",
-    status: "รอเข้าใช้งาน",
+    campaign_date: "27/11/2023 (14:04)",
+    name: "ลดส่งท้ายปี 12.12",
+    code: "salex1212",
+    qty: "100",
+    use: "30",
+    period: "27/11/2023 14:04 - 27/11/2023 15:04",
+    status: "เปิดใช้งาน",
   },
 ];
 

@@ -124,11 +124,27 @@
             </td>
           </tr>
         </template>
-        <template v-slot:bottom></template>
+        <template #bottom></template>
       </v-data-table>
     </div>
     <div v-else class="h-[260px] flex justify-center items-center">
       <p>ยังไม่มีรายการ</p>
+    </div>
+    <div class="text-center pt-2 flex justify-center items-center relative">
+      <v-pagination v-model="page" :length="pageCount"></v-pagination>
+      <div class="w-[170px] absolute right-0 mr-4">
+        <v-select
+          label="จำนวนแสดงผล"
+          variant="outlined"
+          :items="[5, 10, 15, 20, 25, 30]"
+          :item-title="(item) => item + ' รายการ'"
+          :item-value="(item) => item"
+          :model-value="itemsPerPage"
+          density="compact"
+          hide-details="auto"
+          @update:modelValue="fnChangeRowPerPages"
+        ></v-select>
+      </div>
     </div>
   </div>
 

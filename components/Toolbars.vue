@@ -159,22 +159,27 @@ const menu_list = [
         disable: false,
       },
       {
-        subtitle: "ประวัติการจัดส่ง",
+        subtitle: "การเติมเครดิต",
+        path: "/credit",
+        disable: false,
+      },
+      {
+        subtitle: "ประวัติการออกบิล บริการจัดส่ง",
         path: "/user-delivery",
         disable: false,
       },
       {
-        subtitle: "ค่าขนส่ง",
+        subtitle: "จัดการบริการจัดส่ง",
         path: "/billing",
         disable: false,
       },
       {
-        subtitle: "ค่าแพ็คเกจ",
+        subtitle: "จัดการบริการ แพ็คเกจสมาชิก",
         path: "/subscribe",
         disable: false,
       },
       {
-        subtitle: "กระทบยอด COD",
+        subtitle: "การกระทบยอด เก็บเงินปลายทาง",
         path: "/COD",
         disable: false,
       },
@@ -213,6 +218,14 @@ const menu_list = [
     icon: "mdi-comment-text-multiple-outline",
     disable: false,
     path: "/admin-support",
+  },
+  {
+    title: "โปรโมชั่น",
+    haveSubMenu: false,
+    subMenu: [],
+    icon: "mdi-clipboard-check",
+    disable: false,
+    path: "/promotion",
   },
   {
     title: "บทความ",
